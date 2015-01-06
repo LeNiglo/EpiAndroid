@@ -13,6 +13,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -305,7 +306,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 JSONObject json = null;
                 try {
                     json = new JSONObject(responseString);
-                    notes1 = json.getString("ip");
+                    if (!json.isNull("ip")) {
+                        notes1 = json.getString("ip");
+                    } else {
+                        notes1 = "Not connected.";
+                        Toast.makeText(ctx, "Invalid login / password", Toast.LENGTH_LONG).show();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
