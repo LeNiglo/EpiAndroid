@@ -26,15 +26,16 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="login"
+            android:hint="Login"
             android:ems="10"
-            android:id="@+id/login" />
+            android:id="@+id/login"
+            android:inputType="text" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="mot de passe"
+            android:hint="Password"
             android:ems="10"
             android:id="@+id/mdp" />
 
