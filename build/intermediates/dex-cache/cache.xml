@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/julien/Downloads/EpiAndroid/app/build/intermediates/pre-dexed/debug/classes-6b3c4b65c2a0519b6e4dbd81fa5146cb437f39b8.jar"
+        jar="/Users/julien/Downloads/EpiAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3"/>
+    <item
+        dex="/Users/julien/Downloads/EpiAndroid/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-e965d389783da2df475e2993528f7a5e9b48af52.jar"
+        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.2/support-annotations-21.0.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6"/>
+    <item
+        dex="/Users/julien/Downloads/EpiAndroid/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-ff637ed3a5c5739b644b464e1806fbc55b9a8111.jar"
+        jar="/Users/julien/Downloads/EpiAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.2/libs/internal_impl-21.0.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="9346da9fb778af9e451211bbc3541daced174ba7"/>
+    <item
+        dex="/Users/julien/Downloads/EpiAndroid/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-b2ae2e543f2c043d38afbaef1b464113b648b9b2.jar"
+        jar="/Users/julien/Downloads/EpiAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/libs/internal_impl-21.0.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f"/>
+    <item
+        dex="/Users/julien/Downloads/EpiAndroid/app/build/intermediates/pre-dexed/debug/classes-9c481e42141e40b7c272cd32e45b69a13bfa673c.jar"
+        jar="/Users/julien/Downloads/EpiAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="61965ae058916e6a57950dd61b0164dc866af19a"/>
+
+</pre-dex-items>
