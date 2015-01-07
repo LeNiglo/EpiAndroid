@@ -23,11 +23,11 @@
         <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-221abc39fd72c30fae6e4b4bb55366f6f1d6f5e4.jar" />
     </item>
     <item
-        jar="C:\Users\Styve\EpiAndroid\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.0\classes.jar"
+        jar="C:\Users\Styve\EpiAndroid\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="efeda77c808750cb670ee9c48d8a1835d89dbcb2">
-        <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\classes-c61cb945c4d4d7d40513552b614068eba4e9a05b.jar" />
+        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
+        <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\classes-661c1b172c52c98ff6c2cc5f174d397a0de37064.jar" />
     </item>
     <item
         jar="C:\Users\Styve\EpiAndroid\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
@@ -35,6 +35,13 @@
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
         <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\classes-5be78e5ad837a031f5573fbc4f1133a11ab02770.jar" />
+    </item>
+    <item
+        jar="C:\Users\Styve\EpiAndroid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\classes-937db90c6e709d20c330ba9264e2779de36964c1.jar" />
     </item>
 
 </items>

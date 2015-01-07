@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class LoginActivity extends Activity {
      */
     private Context     sContext;
     private LoginTask   mLoginTask;
+    private View        mProgressView;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,7 @@ public class LoginActivity extends Activity {
                     Toast.makeText(sContext, "Login or password is missing", Toast.LENGTH_SHORT).show();
                 else {
                     ((TextView)(findViewById(R.id.notes))).setText("Connecting...");
+                    (findViewById(R.id.progressBar)).setVisibility(View.VISIBLE);
                     mLoginTask = new LoginTask(login.getText().toString(), mdp.getText().toString(), sContext.getApplicationContext());
                     mLoginTask.execute((Void) null);
                 }
@@ -131,6 +134,7 @@ public class LoginActivity extends Activity {
 
             Log.w("response", responseString);
             text.setText(token);
+            (findViewById(R.id.progressBar)).setVisibility(View.GONE);
 
             // TODO : remettre les ifs pour la prod
             if (!err) {
