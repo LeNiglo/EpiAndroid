@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import epitech.epiandroid.R;
 
+
 public class LoginActivity extends Activity {
 
     /**
@@ -133,7 +134,7 @@ public class LoginActivity extends Activity {
 
             // TODO : remettre les ifs pour la prod
             if (!err) {
-                Intent i = new Intent(getApplicationContext(), SwipeActivity.class);
+                Intent i = new Intent(getApplicationContext(), DrawerActivity.class);
                 i.putExtra("token", token);
                 i.putExtra("login", login);
                 i.putExtra("pass", pass);
