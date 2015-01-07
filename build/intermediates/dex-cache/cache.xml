@@ -1,40 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
+<pre-dex-items>
 
     <item
-        jar="C:\Users\Styve\EpiAndroid\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.2\classes.jar"
+        dex="/Users/julien/Workspace/EpiAndroid/app/build/intermediates/pre-dexed/debug/classes-87827cdc9d0bb71929608e9980eff4b7d12e049a.jar"
+        jar="/Users/julien/Workspace/EpiAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/classes.jar"
         jumboMode="false"
         revision="21.1.1"
-        sha1="61965ae058916e6a57950dd61b0164dc866af19a">
-        <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\classes-977aa4f0707c35e568f6f35f03d33e54529daa04.jar" />
-    </item>
+        sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3"/>
     <item
-        jar="C:\Users\Styve\EpiAndroid\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.2\libs\internal_impl-21.0.2.jar"
+        dex="/Users/julien/Workspace/EpiAndroid/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-e965d389783da2df475e2993528f7a5e9b48af52.jar"
+        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.2/support-annotations-21.0.2.jar"
         jumboMode="false"
         revision="21.1.1"
-        sha1="9346da9fb778af9e451211bbc3541daced174ba7">
-        <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.2-679d5546a6dae9e29e8ad1789ad236a64ddcece0.jar" />
-    </item>
+        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6"/>
     <item
-        jar="C:\Users\Styve\EpiAndroid\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.2\libs\internal_impl-21.0.2.jar"
+        dex="/Users/julien/Workspace/EpiAndroid/app/build/intermediates/pre-dexed/debug/classes-50a084d7e5f8de993d01539e4c6fa1633c921aec.jar"
+        jar="/Users/julien/Workspace/EpiAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.2/classes.jar"
         jumboMode="false"
         revision="21.1.1"
-        sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f">
-        <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.2-bc06e8158929a2c7000676dd087e2050f3ac11c1.jar" />
-    </item>
+        sha1="61965ae058916e6a57950dd61b0164dc866af19a"/>
     <item
-        jar="C:\Users\Styve\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.2\support-annotations-21.0.2.jar"
+        dex="/Users/julien/Workspace/EpiAndroid/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-9a7d280b510ff8137bdd80d744218e2faa031953.jar"
+        jar="/Users/julien/Workspace/EpiAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/libs/internal_impl-21.0.2.jar"
         jumboMode="false"
         revision="21.1.1"
-        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6">
-        <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.2-d040d900584f68dfd68db2bb3748f1ff296d5af8.jar" />
-    </item>
+        sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f"/>
     <item
-        jar="C:\Users\Styve\EpiAndroid\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.2\classes.jar"
+        dex="/Users/julien/Workspace/EpiAndroid/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-b4d8c48ac538b779964962b8fd6fcf0e7f8474f3.jar"
+        jar="/Users/julien/Workspace/EpiAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.2/libs/internal_impl-21.0.2.jar"
         jumboMode="false"
         revision="21.1.1"
-        sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3">
-        <dex dex="C:\Users\Styve\EpiAndroid\app\build\intermediates\pre-dexed\debug\classes-3d778adb8bbce082019e2b66b5bbe8d58a5051e9.jar" />
-    </item>
+        sha1="9346da9fb778af9e451211bbc3541daced174ba7"/>
 
-</items>
+</pre-dex-items>

@@ -1,13 +1,14 @@
-package epitech.epiandroid;
+package epitech.epiandroid.Activity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -28,8 +29,10 @@ import org.apache.http.params.CoreProtocolPNames;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import epitech.epiandroid.R;
 
-public class MainActivity extends FragmentActivity {
+
+public class MainActivity extends Activity {
 
     /**
      * The {@link ViewPager} that will display the three primary sections of the app, one at a
@@ -41,7 +44,7 @@ public class MainActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.sContext = getApplicationContext();
-        setContentView(R.layout.fragment_section_launchpad);
+        setContentView(R.layout.activity_login);
 
         findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +101,10 @@ public class MainActivity extends FragmentActivity {
                         out.close();
                         responseString = out.toString();
                     }  else if (statusLine.getStatusCode()  == HttpStatus.SC_GATEWAY_TIMEOUT || statusLine.getStatusCode()  == HttpStatus.SC_REQUEST_TIMEOUT) {
+                        responseString = "null";
                         Toast.makeText(ctx, " Delai d'attente dépassé", Toast.LENGTH_SHORT).show();
                     } else if (statusLine.getStatusCode() == HttpStatus.SC_FORBIDDEN){
+                        responseString = "null";
                         mLoginTask.cancel(true);
                         response.getEntity().getContent().close();
                         throw new IOException(statusLine.getReasonPhrase());
@@ -128,22 +133,48 @@ public class MainActivity extends FragmentActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             super.onPostExecute(success);
-            String notes1 = "null";
-            JSONObject json;
+            String token = "null";
+            Boolean err = false;
+
+            JSONObject json = null;
+
+
+
+            // check si le retour est bien du json
             try {
                 json = new JSONObject(responseString);
-                if (!json.isNull("ip")) {
-                    notes1 = json.getString("ip");
-                    Toast.makeText(ctx, "Connected !", Toast.LENGTH_LONG).show();
-                } else {
-                    notes1 = "Not connected.";
-                    Toast.makeText(ctx, "Invalid login / password", Toast.LENGTH_LONG).show();
-                }
+                Toast.makeText(ctx, "Connected !", Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
+                err = true;
+                token = "Internal server error";
+                Toast.makeText(ctx, "Internal server error", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
+
+            Log.w("response", responseString);
+
+            // check si il y a bien un token
+            if (json != null) {
+                try {
+                    token = json.getString("token");
+                } catch (JSONException e) {
+                    Toast.makeText(ctx, "Invalid login/password combinaison", Toast.LENGTH_LONG).show();
+                    token = "Invalid login/password combinaison";
+                    e.printStackTrace();
+                }
+            }
+
             TextView text = (TextView) findViewById(R.id.notes);
-            text.setText(notes1);
+            text.setText(token);
+
+
+            // TODO : remettre les ifs pour la prod
+            //if (!err) {
+                Intent i = new Intent(getApplicationContext(), SwipeActivity.class);
+                i.putExtra("token",token);
+                i.putExtra("login",login);
+                startActivity(i);
+            //}
 
             this.cancel(true);
             mLoginTask = null;
