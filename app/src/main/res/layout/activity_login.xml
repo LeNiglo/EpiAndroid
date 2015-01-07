@@ -26,7 +26,7 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Login"
+            android:hint="@string/loginText"
             android:ems="10"
             android:id="@+id/login"
             android:inputType="text" />
@@ -35,7 +35,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="Password"
+            android:hint="@string/passwordText"
             android:ems="10"
             android:id="@+id/mdp" />
 
@@ -43,13 +43,13 @@
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_marginBottom="16dp"
-            android:text="login"
+            android:text="@string/loginButton"
             android:layout_gravity="center"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="note"
+            android:text="@string/loginStateText"
             android:id="@+id/notes"
             android:layout_gravity="center_horizontal" />
 
