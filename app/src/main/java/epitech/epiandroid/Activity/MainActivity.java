@@ -63,7 +63,6 @@ public class MainActivity extends Activity {
         });
     }
 
-
     public class LoginTask extends AsyncTask<Void, Void, Boolean> {
         private String login;
         private String pass;
@@ -74,7 +73,6 @@ public class MainActivity extends Activity {
             this.login = login;
             this.pass = password;
             this.ctx = ctx;
-
         }
 
         @Override
@@ -96,6 +94,12 @@ public class MainActivity extends Activity {
                     StatusLine statusLine = response.getStatusLine();
                     if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                         Log.v(TAG, "connexion ok");
+                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+                        response.getEntity().writeTo(out);
+                        out.close();
+                        responseString = out.toString();
+                    } else if (statusLine.getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
+                        Log.v(TAG, "connexion failed");
                         ByteArrayOutputStream out = new ByteArrayOutputStream();
                         response.getEntity().writeTo(out);
                         out.close();
@@ -134,18 +138,25 @@ public class MainActivity extends Activity {
         protected void onPostExecute(final Boolean success) {
             super.onPostExecute(success);
             String token = "null";
-            Boolean err = false;
-
-            JSONObject json = null;
-
-
+            Boolean err = true;
+            JSONObject json;
 
             // check si le retour est bien du json
             try {
                 json = new JSONObject(responseString);
-                Toast.makeText(ctx, "Connected !", Toast.LENGTH_LONG).show();
+                // check si il y a bien un token
+                if (json.has("token") || json.has("ip")) {
+                    if (json.has("token"))
+                        token = json.getString("token");
+                    else if (json.has("ip"))
+                        token = json.getString("ip");
+                    Toast.makeText(ctx, "Connected !", Toast.LENGTH_LONG).show();
+                    err = false;
+                } else {
+                    token = "Invalid login/password combinaison";
+                    Toast.makeText(ctx, "Invalid login/password combinaison", Toast.LENGTH_LONG).show();
+                }
             } catch (JSONException e) {
-                err = true;
                 token = "Internal server error";
                 Toast.makeText(ctx, "Internal server error", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -153,28 +164,17 @@ public class MainActivity extends Activity {
 
             Log.w("response", responseString);
 
-            // check si il y a bien un token
-            if (json != null) {
-                try {
-                    token = json.getString("token");
-                } catch (JSONException e) {
-                    Toast.makeText(ctx, "Invalid login/password combinaison", Toast.LENGTH_LONG).show();
-                    token = "Invalid login/password combinaison";
-                    e.printStackTrace();
-                }
-            }
-
             TextView text = (TextView) findViewById(R.id.notes);
             text.setText(token);
 
-
             // TODO : remettre les ifs pour la prod
-            //if (!err) {
+            if (!err) {
                 Intent i = new Intent(getApplicationContext(), SwipeActivity.class);
-                i.putExtra("token",token);
-                i.putExtra("login",login);
+                i.putExtra("token", token);
+                i.putExtra("login", login);
+                i.putExtra("pass", pass);
                 startActivity(i);
-            //}
+            }
 
             this.cancel(true);
             mLoginTask = null;
