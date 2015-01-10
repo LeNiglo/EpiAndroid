@@ -49,38 +49,40 @@ public class DrawerNavigationAdapter extends RecyclerView.Adapter<DrawerNavigati
 
     @Override
     public void onBindViewHolder(DrawerNavigationAdapter.ViewHolder viewHolder, final int i) {
-        viewHolder.textView.setText(mData.get(i).getText());
-        viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getDrawable(), null, null, null);
+        if (i != 0) {
+            viewHolder.textView.setText(mData.get(i).getText());
+            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getDrawable(), null, null, null);
 
-        viewHolder.itemView.setOnTouchListener(new View.OnTouchListener() {
-                                                   @Override
-                                                   public boolean onTouch(View v, MotionEvent event) {
+            viewHolder.itemView.setOnTouchListener(new View.OnTouchListener() {
+                                                       @Override
+                                                       public boolean onTouch(View v, MotionEvent event) {
 
-                                                       switch (event.getAction()) {
-                                                           case MotionEvent.ACTION_DOWN:
-                                                               touchPosition(i);
-                                                               return false;
-                                                           case MotionEvent.ACTION_CANCEL:
-                                                               touchPosition(-1);
-                                                               return false;
-                                                           case MotionEvent.ACTION_MOVE:
-                                                               return false;
-                                                           case MotionEvent.ACTION_UP:
-                                                               touchPosition(-1);
-                                                               return false;
+                                                           switch (event.getAction()) {
+                                                               case MotionEvent.ACTION_DOWN:
+                                                                   touchPosition(i);
+                                                                   return false;
+                                                               case MotionEvent.ACTION_CANCEL:
+                                                                   touchPosition(-1);
+                                                                   return false;
+                                                               case MotionEvent.ACTION_MOVE:
+                                                                   return false;
+                                                               case MotionEvent.ACTION_UP:
+                                                                   touchPosition(-1);
+                                                                   return false;
+                                                           }
+                                                           return true;
                                                        }
-                                                       return true;
                                                    }
-                                               }
-        );
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                                                   @Override
-                                                   public void onClick(View v) {
-                                                       if (mNavigationDrawerCallbacks != null)
-                                                           mNavigationDrawerCallbacks.onNavigationDrawerItemSelected(i);
+            );
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                                                       @Override
+                                                       public void onClick(View v) {
+                                                           if (mNavigationDrawerCallbacks != null)
+                                                               mNavigationDrawerCallbacks.onNavigationDrawerItemSelected(i);
+                                                       }
                                                    }
-                                               }
-        );
+            );
+        }
 
         //TODO: selected menu position, change layout accordingly
         if (mSelectedPosition == i || mTouchedPosition == i) {
