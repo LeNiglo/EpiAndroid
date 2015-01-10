@@ -9,7 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Toast;
 
+import epitech.epiandroid.Fragment.ModulesFragment;
+import epitech.epiandroid.Fragment.NotesFragment;
+import epitech.epiandroid.Fragment.PlanningFragment;
 import epitech.epiandroid.Fragment.ProfilFragment;
+import epitech.epiandroid.Fragment.ProjetsFragment;
+import epitech.epiandroid.Fragment.SusieFragment;
+import epitech.epiandroid.Fragment.TrombiFragment;
 import epitech.epiandroid.R;
 
 /**
@@ -42,7 +48,38 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
     public void onNavigationDrawerItemSelected(int position) {
         Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
         // Create a new fragment and specify the planet to show based on position
-        Fragment fragment = new ProfilFragment();
+        Fragment fragment = null;
+
+		switch (position) {
+			case 1:
+				fragment = new ProfilFragment();
+				break;
+			case 2:
+				fragment = new ProjetsFragment();
+				break;
+			case 3:
+				fragment = new PlanningFragment();
+				break;
+			case 4:
+				fragment = new SusieFragment();
+				break;
+			case 5:
+				fragment = new ModulesFragment();
+				break;
+			case 6:
+				fragment = new NotesFragment();
+				break;
+			case 7:
+				fragment = new TrombiFragment();
+				break;
+			default:
+				break;
+		}
+
+		if (fragment == null) {
+			System.out.println("ERROR not in the switch !");
+			fragment = new ProfilFragment();
+		}
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();

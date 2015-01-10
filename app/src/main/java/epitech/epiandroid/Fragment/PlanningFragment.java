@@ -1,5 +1,6 @@
 package epitech.epiandroid.Fragment;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,7 @@ import android.view.ViewGroup;
 import epitech.epiandroid.R;
 
 
-public class PlanningFragment extends android.support.v4.app.Fragment {
+public class PlanningFragment extends Fragment {
 
     View rootView;
 
