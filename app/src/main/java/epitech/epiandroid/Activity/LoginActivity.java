@@ -114,11 +114,8 @@ public class LoginActivity extends Activity {
             try {
                 json = new JSONObject(responseString);
                 // check si il y a bien un token
-                if (json.has("token") || json.has("ip")) {
-                    if (json.has("token"))
-                        token = json.getString("token");
-                    else if (json.has("ip"))
-                        token = json.getString("ip");
+                if (json.has("token")) {
+                    token = json.getString("token");
                     err = false;
                 } else if (json.has("error")) {
                     token = ((JSONObject)json.get("error")).getString("message");
@@ -140,8 +137,6 @@ public class LoginActivity extends Activity {
             if (!err) {
                 Intent i = new Intent(getApplicationContext(), DrawerActivity.class);
                 i.putExtra("token", token);
-                i.putExtra("login", login);
-                i.putExtra("pass", pass);
                 startActivity(i);
             }
 
