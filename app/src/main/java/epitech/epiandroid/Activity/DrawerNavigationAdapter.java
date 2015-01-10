@@ -22,6 +22,7 @@ public class DrawerNavigationAdapter extends RecyclerView.Adapter<DrawerNavigati
     private DrawerNavigationCallbacks mNavigationDrawerCallbacks;
     private int mSelectedPosition;
     private int mTouchedPosition = -1;
+    private static int pos = 0;
 
     public DrawerNavigationAdapter(List<DrawerItem> data) {
         mData = data;
@@ -37,8 +38,13 @@ public class DrawerNavigationAdapter extends RecyclerView.Adapter<DrawerNavigati
 
     @Override
     public DrawerNavigationAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.drawer_row, viewGroup, false);
-        return new ViewHolder(v);
+        if (++pos == 1) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.drawer_row_first, viewGroup, false);
+            return new ViewHolder(v);
+        } else {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.drawer_row, viewGroup, false);
+            return new ViewHolder(v);
+        }
     }
 
     @Override

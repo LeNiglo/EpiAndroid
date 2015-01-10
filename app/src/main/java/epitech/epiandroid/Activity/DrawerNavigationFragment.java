@@ -139,9 +139,13 @@ public class DrawerNavigationFragment extends Fragment implements DrawerNavigati
     public List<DrawerItem> getMenu() {
         List<DrawerItem> items = new ArrayList<>();
         items.add(new DrawerItem("login_x", null));
-        items.add(new DrawerItem("item 1", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new DrawerItem("item 2", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new DrawerItem("item 3", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem("Profil", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem("Projets", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem("Planning", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem("Susies", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem("Modules", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem("Notes", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem("Trombi", getResources().getDrawable(R.drawable.ic_menu_check)));
         return items;
     }
 

@@ -19,11 +19,11 @@ public class ProfilFragment extends Fragment {
 
 
 
-        TextView text = (TextView) rootView.findViewById(R.id.login);
-        text.setText("login : " + getArguments().getString("login") + " !!");
+        //TextView text = (TextView) rootView.findViewById(R.id.login);
+        //text.setText("login : " + getArguments().getString("login") + " !!");
 
-        TextView token = (TextView) rootView.findViewById(R.id.token);
-        token.setText(getArguments().getString("token"));
+        //TextView token = (TextView) rootView.findViewById(R.id.token);
+        //token.setText(getArguments().getString("token"));
 
         return rootView;
     }

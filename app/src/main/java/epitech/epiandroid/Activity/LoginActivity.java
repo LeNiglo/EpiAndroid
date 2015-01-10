@@ -134,11 +134,11 @@ public class LoginActivity extends Activity {
             (findViewById(R.id.progressBar)).setVisibility(View.GONE);
 
             // TODO : remettre les ifs pour la prod
-            if (!err) {
+            //if (!err) {
                 Intent i = new Intent(getApplicationContext(), DrawerActivity.class);
                 i.putExtra("token", token);
                 startActivity(i);
-            }
+            //}
 
             this.cancel(true);
             mLoginTask = null;
