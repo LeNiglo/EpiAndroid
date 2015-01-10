@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import epitech.epiandroid.R;
 
@@ -137,6 +138,7 @@ public class DrawerNavigationFragment extends Fragment implements DrawerNavigati
 
     public List<DrawerItem> getMenu() {
         List<DrawerItem> items = new ArrayList<>();
+        items.add(new DrawerItem("login_x", null));
         items.add(new DrawerItem("item 1", getResources().getDrawable(R.drawable.ic_menu_check)));
         items.add(new DrawerItem("item 2", getResources().getDrawable(R.drawable.ic_menu_check)));
         items.add(new DrawerItem("item 3", getResources().getDrawable(R.drawable.ic_menu_check)));
