@@ -82,12 +82,13 @@ public class SwipeActivity extends FragmentActivity implements ActionBar.TabList
 
             switch (i) {
                 case 0:
-                    fragment = new ProfilFragment();
+                    //fragment = new ProfilFragment();
                     args = new Bundle();
                     args.putString("login", mLogin);
                     args.putString("token", mToken);
-                    fragment.setArguments(args);
-                    return fragment;
+                    //fragment.setArguments(args);
+                    //return fragment;
+                    return new PlanningFragment();
                 case 1 :
                     return new PlanningFragment();
                 case 2 :
