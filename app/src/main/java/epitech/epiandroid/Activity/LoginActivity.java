@@ -106,7 +106,7 @@ public class LoginActivity extends Activity {
         protected void onPostExecute(final Boolean success) {
             super.onPostExecute(success);
             TextView text = (TextView) findViewById(R.id.notes);
-            String token = "null";
+            String token;
             Boolean err = true;
             JSONObject json;
 
