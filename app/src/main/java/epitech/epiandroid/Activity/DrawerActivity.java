@@ -46,7 +46,7 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
         // Create a new fragment and specify the planet to show based on position
         Fragment fragment = null;
 

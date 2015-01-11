@@ -38,11 +38,14 @@ public class LoginActivity extends Activity {
         this.sContext = getApplicationContext();
         setContentView(R.layout.activity_login);
 
+        final EditText login = (EditText) findViewById(R.id.login);
+        final EditText mdp = (EditText) findViewById(R.id.mdp);
+
+        login.setText("genoud_j");
+        mdp.setText("v");
         findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText login = (EditText) findViewById(R.id.login);
-                EditText mdp = (EditText) findViewById(R.id.mdp);
 
                 if (login.getText().toString().equals("") || mdp.getText().toString().equals(""))
                     Toast.makeText(sContext, "Login or password is missing", Toast.LENGTH_SHORT).show();
