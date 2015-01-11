@@ -30,7 +30,7 @@ public class MyRequest {
     public static MyRequest     getInstance() {
         return ourInstance;
     }
-    private static ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+    private static ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
     private static void InitHttpClient() {
         try {
