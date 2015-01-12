@@ -21,6 +21,8 @@
 
 
     <string name="semester">Semestre</string>
+    <string name="login_empty">Login or password is missing</string>
+    <string name="login_quit">Push a second time to quit the application</string>
 
     <string name="drawer_open">Menu opened</string>
     <string name="drawer_close">Menu closed</string>

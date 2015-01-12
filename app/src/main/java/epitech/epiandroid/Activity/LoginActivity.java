@@ -21,12 +21,13 @@ public class LoginActivity extends Activity {
      */
     private Context     sContext;
     private LoginTask   mLoginTask;
-    private View        mProgressView;
+    private boolean     pushed;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.sContext = getApplicationContext();
         setContentView(R.layout.activity_login);
+        pushed = false;
 
         final EditText login = (EditText) findViewById(R.id.login);
         final EditText mdp = (EditText) findViewById(R.id.mdp);
@@ -38,7 +39,7 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
 
                 if (login.getText().toString().equals("") || mdp.getText().toString().equals(""))
-                    Toast.makeText(sContext, "Login or password is missing", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(sContext, getString(R.string.login_empty), Toast.LENGTH_SHORT).show();
                 else {
                     ((TextView)(findViewById(R.id.notes))).setText("Connecting...");
                     (findViewById(R.id.progressBar)).setVisibility(View.VISIBLE);
@@ -52,6 +53,16 @@ public class LoginActivity extends Activity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (pushed == false) {
+            Toast.makeText(sContext, getString(R.string.login_quit), Toast.LENGTH_SHORT).show();
+            pushed = true;
+        }
+        else
+            super.onBackPressed();
     }
 
 }

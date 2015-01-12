@@ -28,16 +28,11 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
     private Toolbar mToolbar;
     private List<Fragment> fragments = new ArrayList<>();
     private DrawerNavigationFragment mNavigationDrawerFragment;
-    private Fragment fragment;
+    private boolean mIsUserInitiatedNavItemSelection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            System.out.println("Restored from Activity");
-             fragment = getFragmentManager().getFragment(savedInstanceState, "mContent");
-        }
-        fragments.add(new ProfilFragment());
         fragments.add(new ProfilFragment());
         fragments.add(new ProjetsFragment());
         fragments.add(new PlanningFragment());
@@ -45,6 +40,23 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
         fragments.add(new ModulesFragment());
         fragments.add(new NotesFragment());
         fragments.add(new TrombiFragment());
+
+        Fragment existingFragment = getFragmentManager().findFragmentById(R.id.container);
+        if (existingFragment == null || !existingFragment.getClass().equals(ProfilFragment.class))
+        {
+            // Display the fragment as the main content.
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container, new ProfilFragment())
+                    .commit();
+        }
+
+
+        if (savedInstanceState == null)
+        {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragments.get(0))
+                    .commit();
+        }
         setContentView(R.layout.activity_main_topdrawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
@@ -64,21 +76,27 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
     public void onNavigationDrawerItemSelected(int position) {
 //        Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
         // Create a new fragment and specify the planet to show based on position
+        Fragment fragment;
         if (position == 0)
             fragment = fragments.get(0);
         else
             fragment = fragments.get(position - 1);
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
+        // is this the automatic (non-user initiated) call to onNavigationItemSelected()
+        // that occurs when the activity is created/re-created?
+        if (!mIsUserInitiatedNavItemSelection)
+        {
+            // all subsequent calls to onNavigationItemSelected() won't be automatic
+            mIsUserInitiatedNavItemSelection = true;
 
-        // Highlight the selected item, update the title, and close the drawer
-        /*mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);*/
+            // has the same fragment already replaced the container and assumed its id?
+            Fragment existingFragment = getFragmentManager().findFragmentById(R.id.container);
+            if (existingFragment != null && existingFragment.getClass().equals(fragment.getClass())) {
+                return;
+            }
+        }
+
+        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
     @Override
@@ -94,7 +112,7 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
         super.onSaveInstanceState(outState);
 
         System.out.println("Saved from Activity");
-        getFragmentManager().putFragment(outState, "fragment", fragment);
+        //getFragmentManager().putFragment(outState, "fragment", fragment);
 
 
     }

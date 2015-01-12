@@ -16,12 +16,14 @@ public class ProfilFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView  = inflater.inflate(R.layout.fragment_section_profil, container, false);
+        rootView = inflater.inflate(R.layout.fragment_section_profil, container, false);
         super.onCreate(savedInstanceState);
         Context sContext = getActivity().getApplicationContext();
         Bundle extras = getActivity().getIntent().getExtras();
         String token = extras.getString("token");
+        setRetainInstance(true);
 
+        rootView.findViewById(R.id.progress_picture).setVisibility(View.VISIBLE);
         new InfosTask(token, sContext, ProfilFragment.this).execute((Void) null);
 
 

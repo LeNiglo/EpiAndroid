@@ -36,7 +36,7 @@ public class DrawerNavigationFragment extends Fragment implements DrawerNavigati
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
-    private int mCurrentSelectedPosition;
+    private int mCurrentSelectedPosition = 1;
 
 
     @Nullable
