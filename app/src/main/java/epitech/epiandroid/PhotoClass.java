@@ -3,7 +3,9 @@ package epitech.epiandroid;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,10 +48,11 @@ public class PhotoClass extends AsyncTask<Object, Void, Boolean> {
     }
 
     protected void onPostExecute(final Boolean success) {
-        if (bitmap != null)
-            mImageView.setImageBitmap(bitmap);
-
-        else
-            mImageView.setImageResource(android.R.color.transparent);
+        if (mImageView != null) {
+            if (bitmap != null)
+                mImageView.setImageBitmap(bitmap);
+            else
+                mImageView.setImageResource(android.R.color.transparent);
+        }
     }
 }

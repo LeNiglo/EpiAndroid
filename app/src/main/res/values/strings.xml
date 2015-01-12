@@ -20,6 +20,8 @@
     <string name="action_example">Example action</string>
 
 
+    <string name="semester">Semestre</string>
+
     <string name="drawer_open">Menu opened</string>
     <string name="drawer_close">Menu closed</string>
     <string name="action_settings">Settings</string>

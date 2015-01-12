@@ -7,7 +7,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import epitech.epiandroid.Fragment.ModulesFragment;
 import epitech.epiandroid.Fragment.NotesFragment;
@@ -24,11 +26,25 @@ import epitech.epiandroid.R;
 public class DrawerActivity extends ActionBarActivity implements DrawerNavigationCallbacks {
 
     private Toolbar mToolbar;
+    private List<Fragment> fragments = new ArrayList<>();
     private DrawerNavigationFragment mNavigationDrawerFragment;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            System.out.println("Restored from Activity");
+             fragment = getFragmentManager().getFragment(savedInstanceState, "mContent");
+        }
+        fragments.add(new ProfilFragment());
+        fragments.add(new ProfilFragment());
+        fragments.add(new ProjetsFragment());
+        fragments.add(new PlanningFragment());
+        fragments.add(new SusieFragment());
+        fragments.add(new ModulesFragment());
+        fragments.add(new NotesFragment());
+        fragments.add(new TrombiFragment());
         setContentView(R.layout.activity_main_topdrawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
@@ -48,38 +64,10 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
     public void onNavigationDrawerItemSelected(int position) {
 //        Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
         // Create a new fragment and specify the planet to show based on position
-        Fragment fragment = null;
-
-		switch (position) {
-			case 1:
-				fragment = new ProfilFragment();
-				break;
-			case 2:
-				fragment = new ProjetsFragment();
-				break;
-			case 3:
-				fragment = new PlanningFragment();
-				break;
-			case 4:
-				fragment = new SusieFragment();
-				break;
-			case 5:
-				fragment = new ModulesFragment();
-				break;
-			case 6:
-				fragment = new NotesFragment();
-				break;
-			case 7:
-				fragment = new TrombiFragment();
-				break;
-			default:
-				break;
-		}
-
-		if (fragment == null) {
-			System.out.println("ERROR not in the switch !");
-			fragment = new ProfilFragment();
-		}
+        if (position == 0)
+            fragment = fragments.get(0);
+        else
+            fragment = fragments.get(position - 1);
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
@@ -99,6 +87,16 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
             mNavigationDrawerFragment.closeDrawer();
         else
             super.onBackPressed();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        System.out.println("Saved from Activity");
+        getFragmentManager().putFragment(outState, "fragment", fragment);
+
+
     }
 }
 
