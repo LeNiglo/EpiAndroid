@@ -22,12 +22,18 @@ public class LoginActivity extends Activity {
     private Context     sContext;
     private LoginTask   mLoginTask;
     private boolean     pushed;
+    private boolean     canLogin;
+
+    public void setCanLogin(boolean v) {
+        canLogin = v;
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.sContext = getApplicationContext();
         setContentView(R.layout.activity_login);
         pushed = false;
+        canLogin = true;
 
         final EditText login = (EditText) findViewById(R.id.login);
         final EditText mdp = (EditText) findViewById(R.id.mdp);
@@ -38,18 +44,19 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                if (login.getText().toString().equals("") || mdp.getText().toString().equals(""))
+                if ((login.getText().toString().equals("") || mdp.getText().toString().equals("")) && canLogin)
                     Toast.makeText(sContext, getString(R.string.login_empty), Toast.LENGTH_SHORT).show();
                 else {
                     ((TextView)(findViewById(R.id.notes))).setText("Connecting...");
                     (findViewById(R.id.progressBar)).setVisibility(View.VISIBLE);
+                    canLogin = false;
                     /*
                     ** Le LoginTask est dans le package Tasks car c'est plus simple de faire un fichier
                     ** pour chaque tache de fond, donc pour chaque appel à l'API. Tu peux changer ça pour
                     ** le mettre dans le MyRequest mais ça risque d'être un peu compliqué après.
                     */
                     mLoginTask = new LoginTask(login.getText().toString(), mdp.getText().toString(), sContext.getApplicationContext(), LoginActivity.this);
-                    mLoginTask.execute((Void) null);
+                    mLoginTask.execute();
                 }
             }
         });
@@ -57,12 +64,18 @@ public class LoginActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (pushed == false) {
+        if (!pushed) {
             Toast.makeText(sContext, getString(R.string.login_quit), Toast.LENGTH_SHORT).show();
             pushed = true;
         }
         else
             super.onBackPressed();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pushed = false;
     }
 
 }

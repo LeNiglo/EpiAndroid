@@ -3,10 +3,12 @@ package epitech.epiandroid.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
     private List<Fragment> fragments = new ArrayList<>();
     private DrawerNavigationFragment mNavigationDrawerFragment;
     private boolean mIsUserInitiatedNavItemSelection;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +44,16 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
         fragments.add(new NotesFragment());
         fragments.add(new TrombiFragment());
 
-        Fragment existingFragment = getFragmentManager().findFragmentById(R.id.container);
-        if (existingFragment == null || !existingFragment.getClass().equals(ProfilFragment.class))
-        {
-            // Display the fragment as the main content.
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.container, new ProfilFragment())
-                    .commit();
-        }
-
-
         if (savedInstanceState == null)
         {
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.container, fragments.get(0))
-                    .commit();
+            getFragmentManager().beginTransaction().replace(R.id.container, fragments.get(0)).commit();
+        }
+        else
+        {
+            System.out.println("RESTORE drawerActivity");
+            fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
+            if (fragment != null)
+                getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
         setContentView(R.layout.activity_main_topdrawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
@@ -74,9 +72,6 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-//        Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
-        // Create a new fragment and specify the planet to show based on position
-        Fragment fragment;
         if (position == 0)
             fragment = fragments.get(0);
         else
@@ -111,10 +106,8 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        System.out.println("Saved from Activity");
-        //getFragmentManager().putFragment(outState, "fragment", fragment);
-
-
+        System.out.println("SAVE drawerActivity");
+        getFragmentManager().putFragment(outState, "fragment", getFragmentManager().findFragmentById(R.id.container));
     }
 }
 

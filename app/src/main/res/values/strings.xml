@@ -11,6 +11,16 @@
     <string name="loginButton">LogIn</string>
     <string name="loginStateText">Welcome</string>
 
+    <array name="nav_drawer_items">
+        <item>Profile</item>
+        <item>Projects</item>
+        <item>Planning</item>
+        <item>Susies</item>
+        <item>Modules</item>
+        <item>Marks</item>
+        <item>Trombi</item>
+    </array>
+
     <string name="dummy_section_text">Section %1d is just a dummy section.</string>
     <string name="demo_external_activity">Demo External Activity</string>
     <string name="demo_collection">Demo Collection</string>

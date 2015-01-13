@@ -19,6 +19,7 @@ import java.io.IOException;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.PhotoClass;
 import epitech.epiandroid.R;
+import epitech.epiandroid.Utils;
 
 /**
  * Created by Styve on 12/01/2015.
@@ -76,8 +77,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
             TextView user_surname = (TextView) fragment.getActivity().findViewById(R.id.user_surname);
             TextView user_login = (TextView) fragment.getActivity().findViewById(R.id.user_login);
             TextView user_logtime = (TextView) fragment.getActivity().findViewById(R.id.user_logtime);
-            ImageView user_picture = (ImageView) fragment.getActivity().findViewById(R.id.userPic);
-            ImageView user_picture2 = (ImageView) fragment.getActivity().findViewById(R.id.user_picture);
+            ImageView user_picture = (ImageView) fragment.getActivity().findViewById(R.id.user_picture);
             TextView user_semester = (TextView) fragment.getActivity().findViewById(R.id.user_semester);
             ProgressBar progress = (ProgressBar) fragment.getActivity().findViewById(R.id.progress_picture);
             JSONObject json;
@@ -115,8 +115,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
 
                     user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));
 
-                    new PhotoClass("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"), user_picture).execute((Void) null);
-                    new PhotoClass("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"), user_picture2).execute((Void) null);
+                    new PhotoClass(ctx, "https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"), user_picture).execute();
                 } else if (json.has("error")) {
                     token = ((JSONObject)json.get("error")).getString("message");
                     Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package epitech.epiandroid;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -19,40 +20,26 @@ public class PhotoClass extends AsyncTask<Object, Void, Boolean> {
 
     ImageView mImageView;
     String mUrl;
-    Bitmap bitmap;
+    Context ctx;
 
 
-    public PhotoClass(String url, ImageView _imageView) {
+    public PhotoClass(Context _ctx, String url, ImageView _imageView) {
         mImageView = _imageView;
         mUrl = url;
+        ctx = _ctx;
     }
 
 
     protected Boolean doInBackground(Object... params) {
 
         if (mUrl.equals("null")) {
-            bitmap = null;
             return null;
         }
-        try {
-            bitmap = BitmapFactory.decodeStream((InputStream) new URL(mUrl).getContent());
-
-        } catch (MalformedURLException e) {
-            return null;
-        } catch (IOException e) {
-            return null;
-        } catch (Exception e) {
-            return null;
-        }
+        Utils.writeToCacheImg(ctx, "profil.bmp", mUrl);
         return true;
     }
 
     protected void onPostExecute(final Boolean success) {
-        if (mImageView != null) {
-            if (bitmap != null)
-                mImageView.setImageBitmap(bitmap);
-            else
-                mImageView.setImageResource(android.R.color.transparent);
-        }
+        Utils.getImgFromCache(ctx, "profil.bmp", mImageView);
     }
 }

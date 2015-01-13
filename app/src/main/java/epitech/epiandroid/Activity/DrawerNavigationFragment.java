@@ -37,6 +37,7 @@ public class DrawerNavigationFragment extends Fragment implements DrawerNavigati
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
     private int mCurrentSelectedPosition = 1;
+    private String[] navMenuTitles;
 
 
     @Nullable
@@ -60,6 +61,7 @@ public class DrawerNavigationFragment extends Fragment implements DrawerNavigati
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
         mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(getActivity(), PREF_USER_LEARNED_DRAWER, "false"));
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -138,14 +140,15 @@ public class DrawerNavigationFragment extends Fragment implements DrawerNavigati
 
     public List<DrawerItem> getMenu() {
         List<DrawerItem> items = new ArrayList<DrawerItem>();
+        System.out.println("Je crée une fois le menu");
         items.add(new DrawerItem("login_x", null));
-        items.add(new DrawerItem("Profil", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new DrawerItem("Projets", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new DrawerItem("Planning", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new DrawerItem("Susies", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new DrawerItem("Modules", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new DrawerItem("Notes", getResources().getDrawable(R.drawable.ic_menu_check)));
-        items.add(new DrawerItem("Trombi", getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem(navMenuTitles[0], getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem(navMenuTitles[1], getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem(navMenuTitles[2], getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem(navMenuTitles[3], getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem(navMenuTitles[4], getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem(navMenuTitles[5], getResources().getDrawable(R.drawable.ic_menu_check)));
+        items.add(new DrawerItem(navMenuTitles[6], getResources().getDrawable(R.drawable.ic_menu_check)));
         return items;
     }
 

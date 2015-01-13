@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import epitech.epiandroid.Activity.DrawerActivity;
+import epitech.epiandroid.Activity.LoginActivity;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
 
@@ -66,6 +67,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             return false;
         }
         Log.v(TAG, "index=" + responseString);
+        ((LoginActivity) activity).setCanLogin(true);
         return true;
     }
 
