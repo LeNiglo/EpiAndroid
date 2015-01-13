@@ -16,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import epitech.epiandroid.R;
+import epitech.epiandroid.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class DrawerNavigationFragment extends Fragment implements DrawerNavigati
     private DrawerNavigationCallbacks mCallbacks;
     private RecyclerView mDrawerList;
     private View mFragmentContainerView;
+    private View view;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private boolean mUserLearnedDrawer;
@@ -43,7 +46,7 @@ public class DrawerNavigationFragment extends Fragment implements DrawerNavigati
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         mDrawerList = (RecyclerView) view.findViewById(R.id.drawerList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

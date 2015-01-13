@@ -78,6 +78,8 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
             TextView user_login = (TextView) fragment.getActivity().findViewById(R.id.user_login);
             TextView user_logtime = (TextView) fragment.getActivity().findViewById(R.id.user_logtime);
             ImageView user_picture = (ImageView) fragment.getActivity().findViewById(R.id.user_picture);
+            TextView side_user_login = (TextView) fragment.getActivity().findViewById(R.id.side_user_login);
+            ImageView side_user_picture = (ImageView) fragment.getActivity().findViewById(R.id.side_user_picture);
             TextView user_semester = (TextView) fragment.getActivity().findViewById(R.id.user_semester);
             ProgressBar progress = (ProgressBar) fragment.getActivity().findViewById(R.id.progress_picture);
             JSONObject json;
@@ -96,6 +98,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     user_name.setText(infos.getString("lastname").toUpperCase());
                     user_surname.setText(infos.getString("firstname"));
                     user_login.setText(infos.getString("login"));
+                    side_user_login.setText(infos.getString("login"));
 
                     active_log = Double.valueOf(current.getString("active_log"));
                     nslog_min = Double.valueOf(current.getString("nslog_min"));
@@ -115,7 +118,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
 
                     user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));
 
-                    new PhotoClass(ctx, "https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"), user_picture).execute();
+                    new PhotoClass(ctx, "https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"), user_picture, side_user_picture).execute();
                 } else if (json.has("error")) {
                     token = ((JSONObject)json.get("error")).getString("message");
                     Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();

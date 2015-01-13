@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import epitech.epiandroid.Fragment.ProjetsFragment;
 import epitech.epiandroid.Fragment.SusieFragment;
 import epitech.epiandroid.Fragment.TrombiFragment;
 import epitech.epiandroid.R;
+import epitech.epiandroid.Utils;
 
 /**
  * Created by Styve on 07/01/2015.
@@ -36,6 +39,7 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         fragments.add(new ProfilFragment());
         fragments.add(new ProjetsFragment());
         fragments.add(new PlanningFragment());
@@ -55,6 +59,7 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
             if (fragment != null)
                 getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
+
         setContentView(R.layout.activity_main_topdrawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
@@ -62,6 +67,7 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
 
         mNavigationDrawerFragment = (DrawerNavigationFragment) getFragmentManager().findFragmentById(R.id.fragment_drawer);
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
+
     }
 
     @Override
@@ -108,6 +114,16 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
 
         System.out.println("SAVE drawerActivity");
         getFragmentManager().putFragment(outState, "fragment", getFragmentManager().findFragmentById(R.id.container));
+        // save :
+        //outState.putString("side_user_login", ((TextView) findViewById(R.id.side_user_login)).getText().toString());
+
+        // restore :
+        /*
+        if (savedInstanceState != null) {
+            ((TextView) findViewById(R.id.side_user_login)).setText(savedInstanceState.getString("side_user_login"));
+            Utils.getImgFromCache(getApplicationContext(), "profil.bmp", ((ImageView) findViewById(R.id.side_user_picture)));
+        }
+        */
     }
 }
 

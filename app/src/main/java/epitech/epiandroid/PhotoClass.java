@@ -19,12 +19,14 @@ import java.net.URL;
 public class PhotoClass extends AsyncTask<Object, Void, Boolean> {
 
     ImageView mImageView;
+    ImageView mImageView2;
     String mUrl;
     Context ctx;
 
 
-    public PhotoClass(Context _ctx, String url, ImageView _imageView) {
+    public PhotoClass(Context _ctx, String url, ImageView _imageView, ImageView _imageView2) {
         mImageView = _imageView;
+        mImageView2 = _imageView2;
         mUrl = url;
         ctx = _ctx;
     }
@@ -41,5 +43,7 @@ public class PhotoClass extends AsyncTask<Object, Void, Boolean> {
 
     protected void onPostExecute(final Boolean success) {
         Utils.getImgFromCache(ctx, "profil.bmp", mImageView);
+        if (mImageView2 != null)
+            Utils.getImgFromCache(ctx, "profil.bmp", mImageView2);
     }
 }
