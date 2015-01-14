@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import epitech.epiandroid.R;
 import epitech.epiandroid.Utils;
@@ -64,6 +65,7 @@ public class DrawerNavigationFragment extends Fragment implements DrawerNavigati
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
         mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(getActivity(), PREF_USER_LEARNED_DRAWER, "false"));
         if (savedInstanceState != null) {

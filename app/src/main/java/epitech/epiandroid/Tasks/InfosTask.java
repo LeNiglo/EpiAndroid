@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import epitech.epiandroid.Fragment.ProfilFragment;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.PhotoClass;
 import epitech.epiandroid.R;
@@ -119,6 +120,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));
 
                     new PhotoClass(ctx, "https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"), user_picture, side_user_picture).execute();
+                    ((ProfilFragment) fragment).setIsProfileDisplayed(true);
                 } else if (json.has("error")) {
                     token = ((JSONObject)json.get("error")).getString("message");
                     Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();

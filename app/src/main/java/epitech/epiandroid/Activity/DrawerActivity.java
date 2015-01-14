@@ -1,16 +1,13 @@
 package epitech.epiandroid.Activity;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +20,6 @@ import epitech.epiandroid.Fragment.ProjetsFragment;
 import epitech.epiandroid.Fragment.SusieFragment;
 import epitech.epiandroid.Fragment.TrombiFragment;
 import epitech.epiandroid.R;
-import epitech.epiandroid.Utils;
 
 /**
  * Created by Styve on 07/01/2015.
@@ -67,7 +63,6 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
 
         mNavigationDrawerFragment = (DrawerNavigationFragment) getFragmentManager().findFragmentById(R.id.fragment_drawer);
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
-
     }
 
     @Override
@@ -116,6 +111,7 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
         getFragmentManager().putFragment(outState, "fragment", getFragmentManager().findFragmentById(R.id.container));
         // save :
         //outState.putString("side_user_login", ((TextView) findViewById(R.id.side_user_login)).getText().toString());
+        //Toast.makeText(getApplicationContext(), "side_user_login: " + ((TextView) findViewById(R.id.side_user_login)).getText().toString(), Toast.LENGTH_SHORT).show();
 
         // restore :
         /*
