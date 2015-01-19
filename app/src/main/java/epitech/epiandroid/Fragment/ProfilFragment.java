@@ -58,7 +58,9 @@ public class ProfilFragment extends Fragment {
                 rootView.findViewById((R.id.progress_picture)).setVisibility(View.GONE);
             }
             if (isMessagesDisplayed) {
-                ((ListView) rootView.findViewById(R.id.user_messages)).getAdapter();
+                //((ListView) rootView.findViewById(R.id.user_messages)).
+                System.out.println("Attention c'est ca que je cherche : " + savedInstanceState.getParcelable("user_messages"));
+                rootView.findViewById((R.id.progress_messages)).setVisibility(View.GONE);
             }
         }
 
@@ -67,13 +69,8 @@ public class ProfilFragment extends Fragment {
             new InfosTask(token, sContext, ProfilFragment.this).execute((Void) null);
         }
         if (!isMessagesDisplayed) {
+            rootView.findViewById((R.id.progress_messages)).setVisibility(View.VISIBLE);
             new MessagesTask(token, sContext, ProfilFragment.this).execute((Void) null);
-            /*
-            messages.add(new MessagesItem("Please verify; contact the person who corrected you if you believe that there is an error", "Mark added for activity Soutenance intermediaire du projet UML : diagramme de classes, interfaces et diagrammes de séquence. (Soutenance) by Francois Carrubba.", "Francois Carrubba", "14/01/2015", null));
-            messages.add(new MessagesItem("Please verify; contact the person who corrected you if you believe that there is an error", "Mark added for activity Soutenance intermediaire du projet UML : diagramme de classes, interfaces et diagrammes de séquence. (Soutenance) by Francois Carrubba.", "Francois Carrubba", "14/01/2015", null));
-            messages.add(new MessagesItem("Remember to register to this appointment. See appointments slots ...", "You can now register to the appointments of the activity : Soutenance finale du projet UML.", "Francois Carrubba", "14/01/2015", null));
-            messages.add(new MessagesItem("Remember to register to this appointment. See appointments slots ...", "You can now register to the appointments of the activity : Suivi pédagogique", "Julien1 Barouhiel", "14/01/2015", null));
-            */
         }
 
         return rootView;
@@ -95,6 +92,9 @@ public class ProfilFragment extends Fragment {
             outState.putString("user_login", ((TextView) rootView.findViewById(R.id.user_login)).getText().toString());
             outState.putString("user_logtime", ((TextView) rootView.findViewById(R.id.user_logtime)).getText().toString());
             outState.putInt("user_logtime_color", ((TextView) rootView.findViewById(R.id.user_logtime)).getCurrentTextColor());
+        }
+        if (isMessagesDisplayed) {
+            outState.putParcelable("user_messages", ((ListView) rootView.findViewById(R.id.user_messages)).onSaveInstanceState());
         }
     }
 }

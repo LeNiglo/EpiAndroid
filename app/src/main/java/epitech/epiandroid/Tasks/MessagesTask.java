@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -90,44 +91,11 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
                     final JSONObject tmp;
                     if ((tmp = json.getJSONObject(i)) != null) {
                         final JSONObject user = tmp.getJSONObject("user");
+                        TargetPic targetPic = new TargetPic(tmp.getString("content"), tmp.getString("title"), user.getString("title"), tmp.getString("date"));
                         if (user.getString("picture").equals("null")) {
-                            Picasso.with(fragment.getActivity().getApplicationContext()).load(R.drawable.login_x).into(new Target() {
-                                @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    try {
-                                        userMessages.add(new MessagesItem(tmp.getString("content"), tmp.getString("title"), user.getString("title"), tmp.getString("date"), bitmap));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onBitmapFailed(Drawable drawable) {
-                                }
-
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                }
-                            });
+                            Picasso.with(fragment.getActivity().getApplicationContext()).load(R.drawable.login_x).into(targetPic);
                         } else {
-                            Picasso.with(fragment.getActivity().getApplicationContext()).load(user.getString("picture")).into(new Target() {
-                                @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    try {
-                                        userMessages.add(new MessagesItem(tmp.getString("content"), tmp.getString("title"), user.getString("title"), tmp.getString("date"), bitmap));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onBitmapFailed(Drawable drawable) {
-                                }
-
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                }
-                            });
+                            Picasso.with(fragment.getActivity().getApplicationContext()).load(user.getString("picture")).into(targetPic);
                         }
                     }
                 }
@@ -140,9 +108,32 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
         ListAdapter customAdapter = new MessagesAdapter(fragment.getActivity().getApplicationContext(), R.layout.profil_message, userMessages);
         messages.setAdapter(customAdapter);
 
-        // TODO : Mettre un loading pour les messages (celui là c'est pour la photo de l'utilisateur)
-        //(fragment.getActivity().findViewById(R.id.progressBar)).setVisibility(View.GONE);
+        fragment.getActivity().findViewById(R.id.progress_messages).setVisibility(View.GONE);
 
         this.cancel(true);
+    }
+
+    private class TargetPic implements Target {
+        private String mContent;
+        private String mTitle;
+        private String mLogin;
+        private String mDate;
+
+        public TargetPic(String content, String title, String login, String date) { mContent = content; mTitle = title; mLogin = login; mDate = date; }
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            userMessages.add(new MessagesItem(mContent, mTitle, mLogin, mDate, bitmap));
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
     }
 }
