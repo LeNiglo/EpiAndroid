@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,24 +22,31 @@ import epitech.epiandroid.Activity.MessagesAdapter;
 import epitech.epiandroid.Activity.MessagesItem;
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.InfosTask;
+import epitech.epiandroid.Tasks.MessagesTask;
 import epitech.epiandroid.Utils;
 
 public class ProfilFragment extends Fragment {
     private View rootView;
     private boolean isProfileDisplayed;
+    private boolean isMessagesDisplayed;
     private List<MessagesItem> messages = new ArrayList<>();
 
     public void setIsProfileDisplayed(boolean value) { isProfileDisplayed = value; }
+    public void setIsMessagesDisplayed(boolean value) { isMessagesDisplayed = value; }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_section_profil, container, false);
         super.onCreate(savedInstanceState);
-        //setRetainInstance(true);
+
+        Context sContext = getActivity().getApplicationContext();
+        Bundle extras = getActivity().getIntent().getExtras();
+        String token = extras.getString("token");
 
         if (savedInstanceState != null) {
             isProfileDisplayed = savedInstanceState.getBoolean("profile_displayed");
+            isMessagesDisplayed = savedInstanceState.getBoolean("messages_displayed");
             if (isProfileDisplayed) {
                 ((TextView) rootView.findViewById(R.id.user_name)).setText(savedInstanceState.getString("user_name"));
                 ((TextView) rootView.findViewById(R.id.user_surname)).setText(savedInstanceState.getString("user_surname"));
@@ -45,23 +54,27 @@ public class ProfilFragment extends Fragment {
                 ((TextView) rootView.findViewById(R.id.user_login)).setText(savedInstanceState.getString("user_login"));
                 ((TextView) rootView.findViewById(R.id.user_logtime)).setText(savedInstanceState.getString("user_logtime"));
                 ((TextView) rootView.findViewById(R.id.user_logtime)).setTextColor(savedInstanceState.getInt("user_logtime_color"));
-                Utils.getImgFromCache(getActivity().getApplicationContext(), "profil.bmp", ((ImageView) rootView.findViewById(R.id.user_picture)));
+                Picasso.with(getActivity().getApplicationContext()).load("https://cdn.local.epitech.eu/userprofil/" + savedInstanceState.getString("user_login") + ".bmp").into(((ImageView) rootView.findViewById(R.id.user_picture)));
                 rootView.findViewById((R.id.progress_picture)).setVisibility(View.GONE);
-                return rootView;
+            }
+            if (isMessagesDisplayed) {
+                ((ListView) rootView.findViewById(R.id.user_messages)).getAdapter();
             }
         }
-        Context sContext = getActivity().getApplicationContext();
-        Bundle extras = getActivity().getIntent().getExtras();
-        String token = extras.getString("token");
 
-        messages.add(new MessagesItem("Please verify; contact the person who corrected you if you believe that there is an error", "Mark added for activity Soutenance intermediaire du projet UML : diagramme de classes, interfaces et diagrammes de séquence. (Soutenance) by Francois Carrubba.", "Francois Carrubba", "14/01/2015", null));
-        messages.add(new MessagesItem("Remember to register to this appointment. See appointments slots ...", "You can now register to the appointments of the activity : Soutenance finale du projet UML.", "Francois Carrubba", "14/01/2015", null));
-        messages.add(new MessagesItem("Remember to register to this appointment. See appointments slots ...", "You can now register to the appointments of the activity : Suivi pédagogique", "Julien1 Barouhiel", "14/01/2015", null));
-        ListView messageList = (ListView) rootView.findViewById(R.id.user_messages);
-        ListAdapter customAdapter = new MessagesAdapter(rootView.getContext(), R.layout.profil_message, messages);
-        messageList.setAdapter(customAdapter);
-        rootView.findViewById(R.id.progress_picture).setVisibility(View.VISIBLE);
-        new InfosTask(token, sContext, ProfilFragment.this).execute((Void) null);
+        if (!isProfileDisplayed) {
+            rootView.findViewById(R.id.progress_picture).setVisibility(View.VISIBLE);
+            new InfosTask(token, sContext, ProfilFragment.this).execute((Void) null);
+        }
+        if (!isMessagesDisplayed) {
+            new MessagesTask(token, sContext, ProfilFragment.this).execute((Void) null);
+            /*
+            messages.add(new MessagesItem("Please verify; contact the person who corrected you if you believe that there is an error", "Mark added for activity Soutenance intermediaire du projet UML : diagramme de classes, interfaces et diagrammes de séquence. (Soutenance) by Francois Carrubba.", "Francois Carrubba", "14/01/2015", null));
+            messages.add(new MessagesItem("Please verify; contact the person who corrected you if you believe that there is an error", "Mark added for activity Soutenance intermediaire du projet UML : diagramme de classes, interfaces et diagrammes de séquence. (Soutenance) by Francois Carrubba.", "Francois Carrubba", "14/01/2015", null));
+            messages.add(new MessagesItem("Remember to register to this appointment. See appointments slots ...", "You can now register to the appointments of the activity : Soutenance finale du projet UML.", "Francois Carrubba", "14/01/2015", null));
+            messages.add(new MessagesItem("Remember to register to this appointment. See appointments slots ...", "You can now register to the appointments of the activity : Suivi pédagogique", "Julien1 Barouhiel", "14/01/2015", null));
+            */
+        }
 
         return rootView;
     }
@@ -74,6 +87,7 @@ public class ProfilFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("profile_displayed", isProfileDisplayed);
+        outState.putBoolean("messages_displayed", isMessagesDisplayed);
         if (isProfileDisplayed) {
             outState.putString("user_name", ((TextView) rootView.findViewById(R.id.user_name)).getText().toString());
             outState.putString("user_surname", ((TextView) rootView.findViewById(R.id.user_surname)).getText().toString());

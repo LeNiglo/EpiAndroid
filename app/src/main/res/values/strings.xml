@@ -2,13 +2,9 @@
 <resources>
 
     <string name="app_name">EpiAndroid</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="hello_world">Hello world!</string>
     <string name="loginText">login_x</string>
     <string name="passwordText">Password (UNIX)</string>
-    <string name="loginButton">LogIn</string>
+    <string name="loginButton">LOGIN</string>
     <string name="loginStateText">Welcome</string>
 
     <array name="nav_drawer_items">

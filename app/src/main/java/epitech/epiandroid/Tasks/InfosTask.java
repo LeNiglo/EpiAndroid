@@ -11,6 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,7 +121,8 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
 
                     user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));
 
-                    new PhotoClass(ctx, "https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"), user_picture, side_user_picture).execute();
+                    Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into(user_picture);
+                    Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into(side_user_picture);
                     ((ProfilFragment) fragment).setIsProfileDisplayed(true);
                 } else if (json.has("error")) {
                     token = ((JSONObject)json.get("error")).getString("message");
