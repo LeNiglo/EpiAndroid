@@ -12,25 +12,28 @@ public class MessagesItem {
     private String mTitle;
     private String mLogin;
     private String mDate;
+    private String mPicUrl;
     private Drawable mDrawable;
     private Bitmap mBitmap;
 
-    public MessagesItem (String content, String title, String login, String date, Drawable drawable) {
+    public MessagesItem (String content, String title, String login, String date, String picUrl, Drawable drawable) {
         mContent = content;
         mTitle = title;
         mLogin = login;
         mDate = date;
         mDrawable = drawable;
         mBitmap = null;
+        mPicUrl = picUrl;
     }
 
-    public MessagesItem(String content, String title, String login, String date, Bitmap bitmap) {
+    public MessagesItem(String content, String title, String login, String date, String picUrl, Bitmap bitmap) {
         mContent = content;
         mTitle = title;
         mLogin = login;
         mDate = date;
         mDrawable = null;
         mBitmap = bitmap;
+        mPicUrl = picUrl;
     }
 
     public void setContent(String content) { mContent = content; }
@@ -44,6 +47,7 @@ public class MessagesItem {
     public String getTitle() { return Html.fromHtml(mTitle).toString(); }
     public String getLogin() { return mLogin; }
     public String getDate() { return mDate; }
+    public String getPicUrl() { return mPicUrl; }
     public Drawable getDrawable() { return mDrawable; }
     public Bitmap getBitmap() { return mBitmap; }
 }

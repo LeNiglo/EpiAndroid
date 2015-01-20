@@ -2,28 +2,24 @@ package epitech.epiandroid.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import epitech.epiandroid.Activity.MessagesAdapter;
 import epitech.epiandroid.Activity.MessagesItem;
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.InfosTask;
 import epitech.epiandroid.Tasks.MessagesTask;
-import epitech.epiandroid.Utils;
 
 public class ProfilFragment extends Fragment {
     private View rootView;
@@ -58,7 +54,7 @@ public class ProfilFragment extends Fragment {
             }
             if (isMessagesDisplayed) {
                 //((ListView) rootView.findViewById(R.id.user_messages)).
-                System.out.println("Attention c'est ca que je cherche : " + savedInstanceState.getParcelable("user_messages"));
+                new MessagesTask(ProfilFragment.this, savedInstanceState.getString("user_messages")).execute((Void) null);
                 rootView.findViewById((R.id.progress_messages)).setVisibility(View.GONE);
             }
         }
@@ -93,7 +89,23 @@ public class ProfilFragment extends Fragment {
             outState.putInt("user_logtime_color", ((TextView) rootView.findViewById(R.id.user_logtime)).getCurrentTextColor());
         }
         if (isMessagesDisplayed) {
-            outState.putParcelable("user_messages", ((ListView) rootView.findViewById(R.id.user_messages)).onSaveInstanceState());
+            ListView messageList = (ListView) rootView.findViewById(R.id.user_messages);
+            JSONArray json = new JSONArray();
+            for (int i = 0; i < messageList.getCount(); ++i) {
+                MessagesItem item = (MessagesItem) messageList.getItemAtPosition(i);
+                try {
+                    JSONObject jsonO = new JSONObject();
+                    jsonO.put("login", item.getLogin());
+                    jsonO.put("title", item.getTitle());
+                    jsonO.put("content", item.getContent());
+                    jsonO.put("date", item.getDate());
+                    jsonO.put("picture", item.getPicUrl());
+                    json.put(jsonO);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            outState.putString("user_messages", json.toString());
         }
     }
 }

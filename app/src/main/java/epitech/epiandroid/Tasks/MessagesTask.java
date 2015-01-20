@@ -40,37 +40,45 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
     private String responseString = null;
     private Fragment fragment;
     private List<MessagesItem> userMessages = new ArrayList<>();
+    private String jsonString;
+    private Boolean noDL;
 
     public MessagesTask(String token, Context ctx, Fragment fragment) {
         this.token = token;
         this.ctx = ctx;
         this.fragment = fragment;
+        this.noDL = false;
+    }
+
+    public MessagesTask(Fragment fragment, String jsonString) {
+        this.noDL = true;
+        this.fragment = fragment;
+        this.jsonString = jsonString;
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         responseString = "";
-        try {
-            MyRequest.clearFields();
-            MyRequest.addField("token", token);
-            MyRequest.CreatePost("messages");
+        if (!noDL) {
+            try {
+                MyRequest.clearFields();
+                MyRequest.addField("token", token);
+                MyRequest.CreatePost("messages");
 
-            if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
-                responseString = MyRequest.getResponseString();
+                if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
+                    responseString = MyRequest.getResponseString();
+                } else if (MyRequest.isStatusTimeout()) {
+                    Toast.makeText(ctx, "Delai d'attente dépassé", Toast.LENGTH_SHORT).show();
+                } else if (MyRequest.isStatusForbidden()) {
+                    throw new IOException(MyRequest.getReasonPhrase());
+                } else {
+                    responseString = MyRequest.getResponseString();
+                    throw new IOException(MyRequest.getReasonPhrase());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
             }
-            else if (MyRequest.isStatusTimeout()) {
-                Toast.makeText(ctx, "Delai d'attente dépassé", Toast.LENGTH_SHORT).show();
-            }
-            else if (MyRequest.isStatusForbidden()) {
-                throw new IOException(MyRequest.getReasonPhrase());
-            }
-            else {
-                responseString = MyRequest.getResponseString();
-                throw new IOException(MyRequest.getReasonPhrase());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
         ((ProfilFragment) fragment).setIsMessagesDisplayed(true);
         return true;
@@ -81,14 +89,14 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
         super.onPostExecute(success);
         JSONArray json;
 
-        try {
-            json = new JSONArray(responseString);
-            if (json.getJSONObject(0) != null) {
-                for (int i = 0; i < json.length() ; ++i) {
+        if (!noDL) {
+            try {
+                json = new JSONArray(responseString);
+                for (int i = 0; i < json.length(); ++i) {
                     JSONObject tmp;
                     if ((tmp = json.getJSONObject(i)) != null) {
                         JSONObject user = tmp.getJSONObject("user");
-                        TargetPic targetPic = new TargetPic(tmp.getString("content"), tmp.getString("title"), user.getString("title"), tmp.getString("date"));
+                        TargetPic targetPic = new TargetPic(tmp.getString("content"), tmp.getString("title"), user.getString("title"), tmp.getString("date"), user.getString("picture"));
                         if (user.getString("picture").equals("null")) {
                             Picasso.with(fragment.getActivity().getApplicationContext()).load(R.drawable.login_x).into(targetPic);
                         } else {
@@ -96,11 +104,26 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
                         }
                     }
                 }
+            } catch (JSONException e) {
+                Toast.makeText(ctx, "Server is down..", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+                return;
             }
-        } catch (JSONException e) {
-            Toast.makeText(ctx, "Server is down..", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-            return;
+        } else {
+            try {
+                json = new JSONArray(jsonString);
+                for (int i = 0; i < json.length(); ++i) {
+                    JSONObject tmp = json.getJSONObject(i);
+                    TargetPic targetPic = new TargetPic(tmp.getString("content"), tmp.getString("title"), tmp.getString("login"), tmp.getString("date"), tmp.getString("picture"));
+                    if (tmp.getString("picture").equals("null")) {
+                        Picasso.with(fragment.getActivity().getApplicationContext()).load(R.drawable.login_x).into(targetPic);
+                    } else {
+                        Picasso.with(fragment.getActivity().getApplicationContext()).load(tmp.getString("picture")).into(targetPic);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         ListView messages = (ListView) fragment.getActivity().findViewById(R.id.user_messages);
         ListAdapter customAdapter = new MessagesAdapter(fragment.getActivity().getApplicationContext(), R.layout.profil_message, userMessages);
@@ -113,26 +136,27 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
         private String mTitle;
         private String mLogin;
         private String mDate;
+        private String mPicUrl;
 
-        public TargetPic(String content, String title, String login, String date) { mContent = content; mTitle = title; mLogin = login; mDate = date; }
+        public TargetPic(String content, String title, String login, String date, String picUrl) { mContent = content; mTitle = title; mLogin = login; mDate = date; mPicUrl = picUrl; }
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            MessagesItem item = new MessagesItem(mContent, mTitle, mLogin, mDate, (Bitmap) null);
+            MessagesItem item = new MessagesItem(mContent, mTitle, mLogin, mDate, mPicUrl, (Bitmap) null);
             item.setBitmap(bitmap);
             userMessages.add(item);
         }
 
         @Override
         public void onBitmapFailed(Drawable errorDrawable) {
-            MessagesItem item = new MessagesItem(mContent, mTitle, mLogin, mDate, (Drawable) null);
+            MessagesItem item = new MessagesItem(mContent, mTitle, mLogin, mDate, mPicUrl, (Drawable) null);
             item.setDrawable(errorDrawable);
             userMessages.add(item);
         }
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {
-            MessagesItem item = new MessagesItem(mContent, mTitle, mLogin, mDate, (Drawable) null);
+            MessagesItem item = new MessagesItem(mContent, mTitle, mLogin, mDate, mPicUrl, (Drawable) null);
             item.setDrawable(placeHolderDrawable);
             userMessages.add(item);
         }
