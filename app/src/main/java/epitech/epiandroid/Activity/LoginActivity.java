@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,8 +48,9 @@ public class LoginActivity extends Activity {
                 if ((login.getText().toString().equals("") || mdp.getText().toString().equals("")) && canLogin)
                     Toast.makeText(sContext, getString(R.string.login_empty), Toast.LENGTH_SHORT).show();
                 else {
-                    ((TextView)(findViewById(R.id.notes))).setText("Connecting...");
-                    (findViewById(R.id.progressBar)).setVisibility(View.VISIBLE);
+                    //((TextView)(findViewById(R.id.notes))).setText("Connecting...");
+                    findViewById(R.id.login_button).setEnabled(false);
+                    findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
                     canLogin = false;
                     /*
                     ** Le LoginTask est dans le package Tasks car c'est plus simple de faire un fichier
@@ -75,6 +77,7 @@ public class LoginActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        findViewById(R.id.login_button).setEnabled(true);
         pushed = false;
     }
 
