@@ -49,9 +49,7 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        final String TAG = "background";
         responseString = "";
-        Log.v(TAG, "GETTING MESSAGES");
         try {
             MyRequest.clearFields();
             MyRequest.addField("token", token);
@@ -68,7 +66,6 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
             }
             else {
                 responseString = MyRequest.getResponseString();
-                Log.e(TAG, "connexion failed" + responseString);
                 throw new IOException(MyRequest.getReasonPhrase());
             }
         } catch (Exception e) {
@@ -88,9 +85,9 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
             json = new JSONArray(responseString);
             if (json.getJSONObject(0) != null) {
                 for (int i = 0; i < json.length() ; ++i) {
-                    final JSONObject tmp;
+                    JSONObject tmp;
                     if ((tmp = json.getJSONObject(i)) != null) {
-                        final JSONObject user = tmp.getJSONObject("user");
+                        JSONObject user = tmp.getJSONObject("user");
                         TargetPic targetPic = new TargetPic(tmp.getString("content"), tmp.getString("title"), user.getString("title"), tmp.getString("date"));
                         if (user.getString("picture").equals("null")) {
                             Picasso.with(fragment.getActivity().getApplicationContext()).load(R.drawable.login_x).into(targetPic);
@@ -103,14 +100,12 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
         } catch (JSONException e) {
             Toast.makeText(ctx, "Server is down..", Toast.LENGTH_LONG).show();
             e.printStackTrace();
+            return;
         }
         ListView messages = (ListView) fragment.getActivity().findViewById(R.id.user_messages);
         ListAdapter customAdapter = new MessagesAdapter(fragment.getActivity().getApplicationContext(), R.layout.profil_message, userMessages);
         messages.setAdapter(customAdapter);
-
         fragment.getActivity().findViewById(R.id.progress_messages).setVisibility(View.GONE);
-
-        this.cancel(true);
     }
 
     private class TargetPic implements Target {
@@ -123,17 +118,23 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            userMessages.add(new MessagesItem(mContent, mTitle, mLogin, mDate, bitmap));
+            MessagesItem item = new MessagesItem(mContent, mTitle, mLogin, mDate, (Bitmap) null);
+            item.setBitmap(bitmap);
+            userMessages.add(item);
         }
 
         @Override
         public void onBitmapFailed(Drawable errorDrawable) {
-
+            MessagesItem item = new MessagesItem(mContent, mTitle, mLogin, mDate, (Drawable) null);
+            item.setDrawable(errorDrawable);
+            userMessages.add(item);
         }
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+            MessagesItem item = new MessagesItem(mContent, mTitle, mLogin, mDate, (Drawable) null);
+            item.setDrawable(placeHolderDrawable);
+            userMessages.add(item);
         }
     }
 }

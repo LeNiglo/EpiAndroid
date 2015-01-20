@@ -20,10 +20,6 @@ import epitech.epiandroid.R;
 
 public class MessagesAdapter extends ArrayAdapter<MessagesItem> {
 
-    public MessagesAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-    }
-
     public MessagesAdapter(Context context, int resource, List<MessagesItem> items) {
         super(context, resource, items);
     }
@@ -59,10 +55,11 @@ public class MessagesAdapter extends ArrayAdapter<MessagesItem> {
                 title.setText(p.getTitle());
             }
             if (image != null) {
-                if (p.getDrawable() != null)
+                if (p.getDrawable() != null) {
                     image.setImageDrawable(p.getDrawable());
-                else
+                } else {
                     image.setImageBitmap(p.getBitmap());
+                }
             }
         }
         return v;

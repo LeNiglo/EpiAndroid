@@ -29,7 +29,6 @@ public class ProfilFragment extends Fragment {
     private View rootView;
     private boolean isProfileDisplayed;
     private boolean isMessagesDisplayed;
-    private List<MessagesItem> messages = new ArrayList<>();
 
     public void setIsProfileDisplayed(boolean value) { isProfileDisplayed = value; }
     public void setIsMessagesDisplayed(boolean value) { isMessagesDisplayed = value; }

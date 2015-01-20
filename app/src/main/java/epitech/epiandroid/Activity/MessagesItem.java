@@ -38,6 +38,7 @@ public class MessagesItem {
     public void setLogin(String login) { mLogin = login; }
     public void setDate(String date) { mDate = date; }
     public void setDrawable(Drawable image) { mDrawable = image; }
+    public void setBitmap(Bitmap bitmap) { mBitmap = bitmap; }
 
     public String getContent() { return Html.fromHtml(mContent).toString(); }
     public String getTitle() { return Html.fromHtml(mTitle).toString(); }

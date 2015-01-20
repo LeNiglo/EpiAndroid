@@ -50,7 +50,6 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
         }
         else
         {
-            System.out.println("RESTORE drawerActivity");
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
             if (fragment != null)
                 getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
@@ -107,7 +106,6 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        System.out.println("SAVE drawerActivity");
         getFragmentManager().putFragment(outState, "fragment", getFragmentManager().findFragmentById(R.id.container));
         // save :
         //outState.putString("side_user_login", ((TextView) findViewById(R.id.side_user_login)).getText().toString());

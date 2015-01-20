@@ -68,7 +68,6 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
-        //Log.v(TAG, "index=" + responseString);
         return true;
     }
 
@@ -87,10 +86,8 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
             ProgressBar progress = (ProgressBar) fragment.getActivity().findViewById(R.id.progress_picture);
             JSONObject json;
 
-            // check si le retour est bien du json
             try {
                 json = new JSONObject(responseString);
-                // check si il y a bien un token
                 if (json.has("ip")) {
                     Double active_log;
                     Double nslog_norm;
@@ -139,9 +136,5 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
             }
             progress.setVisibility(View.GONE);
         }
-        //Log.w("response", responseString);
-        //(activity.findViewById(R.id.progressBar)).setVisibility(View.GONE);
-
-        this.cancel(true);
     }
 }
