@@ -66,7 +66,6 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
-        Log.v(TAG, "index=" + responseString);
         ((LoginActivity) activity).setCanLogin(true);
         return true;
     }
@@ -74,7 +73,6 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean success) {
         super.onPostExecute(success);
-        TextView text = (TextView) activity.findViewById(R.id.notes);
         String token;
         Boolean err = true;
         JSONObject json;
@@ -96,18 +94,16 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             token = "Internal server error";
             Toast.makeText(ctx, "Internal server error", Toast.LENGTH_LONG).show();
             e.printStackTrace();
+            activity.findViewById(R.id.login_button).setEnabled(true);
         }
-
-        Log.w("response", responseString);
-        text.setText(token);
-        (activity.findViewById(R.id.progressBar)).setVisibility(View.GONE);
 
         if (!err) {
             Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
             i.putExtra("token", token);
+            activity.findViewById(R.id.progressBar).setVisibility(View.GONE);
             activity.startActivity(i);
+        } else {
+            activity.findViewById(R.id.login_button).setEnabled(true);
         }
-
-        this.cancel(true);
     }
 }
