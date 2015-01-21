@@ -1,107 +1,65 @@
 package epitech.epiandroid.Activity;
 
-import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.provider.ContactsContract;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import epitech.epiandroid.Fragment.ModulesFragment;
 import epitech.epiandroid.Fragment.NotesFragment;
 import epitech.epiandroid.Fragment.PlanningFragment;
 import epitech.epiandroid.Fragment.ProfilFragment;
 import epitech.epiandroid.Fragment.ProjetsFragment;
-import epitech.epiandroid.Fragment.SusieFragment;
-import epitech.epiandroid.Fragment.TrombiFragment;
 import epitech.epiandroid.R;
+import it.neokree.materialnavigationdrawer.MaterialAccount;
+import it.neokree.materialnavigationdrawer.MaterialAccountListener;
+import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
+import it.neokree.materialnavigationdrawer.MaterialSection;
+import it.neokree.materialnavigationdrawer.MaterialSectionListener;
 
 /**
  * Created by Styve on 07/01/2015.
  */
-public class DrawerActivity extends ActionBarActivity implements DrawerNavigationCallbacks {
+public class DrawerActivity extends MaterialNavigationDrawer implements MaterialAccountListener {
 
-    private Toolbar mToolbar;
-    private List<Fragment> fragments = new ArrayList<>();
-    private DrawerNavigationFragment mNavigationDrawerFragment;
-    private boolean mIsUserInitiatedNavItemSelection;
-    private Fragment fragment;
+	MaterialSection profileSection, projectsSection, planningSection, marksSection, logoutSection;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void init(Bundle savedInstanceState) {
+		// add first account
+		MaterialAccount account = new MaterialAccount("simonn_s","Styve Simonneau",this.getResources().getDrawable(R.drawable.login_x), this.getResources().getDrawable(R.drawable.background));
 
-        fragments.add(new ProfilFragment());
-        fragments.add(new ProjetsFragment());
-        fragments.add(new PlanningFragment());
-        fragments.add(new SusieFragment());
-        fragments.add(new ModulesFragment());
-        fragments.add(new NotesFragment());
-        fragments.add(new TrombiFragment());
+		// create sections
+		profileSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[0], new ProfilFragment());
+		projectsSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[1], new ProjetsFragment());
+		planningSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[2], new PlanningFragment());
+		marksSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[5], new NotesFragment());
 
-        if (savedInstanceState == null)
-        {
-            getFragmentManager().beginTransaction().replace(R.id.container, fragments.get(0)).commit();
-        }
-        else
-        {
-            fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
-            if (fragment != null)
-                getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-        }
+		logoutSection = this.newSection("Logout", new MaterialSectionListener() {
+			@Override
+			public void onClick(MaterialSection section) {
+				Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
 
-        setContentView(R.layout.activity_main_topdrawer);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+				section.unSelect();
+			}
+		});
 
-        mNavigationDrawerFragment = (DrawerNavigationFragment) getFragmentManager().findFragmentById(R.id.fragment_drawer);
-        mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
-    }
+		this.addAccount(account);
+		// set listener
+		this.setAccountListener(this);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+		// add your sections to the drawer
+		this.addSubheader(getApplicationContext().getString(R.string.app_name));
+		this.addDivisor();
+		this.addSection(profileSection);
+		this.addSection(projectsSection);
+		this.addSection(planningSection);
+		this.addSection(marksSection);
+		this.addBottomSection(logoutSection);
 
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        if (position == 0)
-            fragment = fragments.get(0);
-        else
-            fragment = fragments.get(position - 1);
+		this.setBackPattern(MaterialNavigationDrawer.BACKPATTERN_BACK_TO_FIRST);
 
-        // is this the automatic (non-user initiated) call to onNavigationItemSelected()
-        // that occurs when the activity is created/re-created?
-        if (!mIsUserInitiatedNavItemSelection)
-        {
-            // all subsequent calls to onNavigationItemSelected() won't be automatic
-            mIsUserInitiatedNavItemSelection = true;
-
-            // has the same fragment already replaced the container and assumed its id?
-            Fragment existingFragment = getFragmentManager().findFragmentById(R.id.container);
-            if (existingFragment != null && existingFragment.getClass().equals(fragment.getClass())) {
-                return;
-            }
-        }
-
-        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mNavigationDrawerFragment.isDrawerOpen())
-            mNavigationDrawerFragment.closeDrawer();
-        else
-            super.onBackPressed();
-    }
-
+	}
+/*
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -118,6 +76,18 @@ public class DrawerActivity extends ActionBarActivity implements DrawerNavigatio
             Utils.getImgFromCache(getApplicationContext(), "profil.bmp", ((ImageView) findViewById(R.id.side_user_picture)));
         }
         */
-    }
+//    }
+
+	@Override
+	public void onAccountOpening(MaterialAccount account) {
+		// open profile activity
+		Intent i = new Intent(this, ContactsContract.Profile.class);
+		startActivity(i);
+	}
+
+	@Override
+	public void onChangeAccount(MaterialAccount newAccount) {
+		// when another account is selected
+	}
 }
 
