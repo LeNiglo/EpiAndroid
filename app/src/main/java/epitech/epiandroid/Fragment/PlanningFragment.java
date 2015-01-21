@@ -18,6 +18,7 @@ public class PlanningFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_section_planning, container, false);
+
         return rootView;
     }
 }
