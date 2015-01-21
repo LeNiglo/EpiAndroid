@@ -1,6 +1,6 @@
 package epitech.epiandroid.Tasks;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;

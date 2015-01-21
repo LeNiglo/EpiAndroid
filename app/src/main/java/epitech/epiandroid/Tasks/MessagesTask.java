@@ -1,11 +1,10 @@
 package epitech.epiandroid.Tasks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
@@ -29,8 +28,6 @@ import epitech.epiandroid.Fragment.ProfilFragment;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
 
-//import com.squareup.picasso.Target;
-
 /**
  * Created by Styve on 12/01/2015.
  */
@@ -45,19 +42,19 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
     private Boolean noDL;
     private View view;
 
-    public MessagesTask(String token, Context ctx, Fragment fragment, View act) {
+    public MessagesTask(String token, Context ctx, Fragment fragment, View view) {
         this.token = token;
         this.ctx = ctx;
         this.fragment = fragment;
         this.noDL = false;
-        this.view = act;
+        this.view = view;
     }
 
-    public MessagesTask(Fragment fragment, String jsonString, View act) {
+    public MessagesTask(Fragment fragment, String jsonString, View view) {
         this.noDL = true;
         this.fragment = fragment;
         this.jsonString = jsonString;
-        this.view = act;
+        this.view = view;
     }
 
     @Override
