@@ -16,7 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import epitech.epiandroid.Activity.MessagesItem;
+import epitech.epiandroid.Items.MessagesItem;
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.InfosTask;
 import epitech.epiandroid.Tasks.MessagesTask;

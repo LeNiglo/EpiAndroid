@@ -1,4 +1,4 @@
-package epitech.epiandroid.Activity;
+package epitech.epiandroid.Items;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;

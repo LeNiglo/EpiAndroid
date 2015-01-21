@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import epitech.epiandroid.Activity.MessagesAdapter;
-import epitech.epiandroid.Activity.MessagesItem;
+import epitech.epiandroid.Adapters.MessagesAdapter;
+import epitech.epiandroid.Items.MessagesItem;
 import epitech.epiandroid.Fragment.ProfilFragment;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
