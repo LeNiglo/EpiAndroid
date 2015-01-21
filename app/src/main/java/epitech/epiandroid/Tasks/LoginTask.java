@@ -87,15 +87,18 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             } else if (json.has("error")) {
                 token = ((JSONObject)json.get("error")).getString("message");
                 Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();
+                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(-1);
                 ((CircularProgressButton) activity.findViewById(R.id.login_button)).setErrorText(activity.getString(R.string.loginFailedError));
-                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(-1);
+                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(0);
             } else {
-                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setErrorText(activity.getString(R.string.loginServerError));
                 ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(-1);
+                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setErrorText(activity.getString(R.string.loginServerError));
+                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(0);
             }
         } catch (JSONException e) {
-            ((CircularProgressButton) activity.findViewById(R.id.login_button)).setErrorText(activity.getString(R.string.loginError));
             ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(-1);
+            ((CircularProgressButton) activity.findViewById(R.id.login_button)).setErrorText(activity.getString(R.string.loginServerError));
+            ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(0);
         }
 
         if (!err) {

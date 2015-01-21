@@ -1,6 +1,6 @@
 package epitech.epiandroid.Fragment;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,8 +30,7 @@ public class ProfilFragment extends Fragment {
     public void setIsMessagesDisplayed(boolean value) { isMessagesDisplayed = value; }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_section_profil, container, false);
         super.onCreate(savedInstanceState);
 
@@ -53,8 +52,7 @@ public class ProfilFragment extends Fragment {
                 rootView.findViewById((R.id.progress_picture)).setVisibility(View.GONE);
             }
             if (isMessagesDisplayed) {
-                //((ListView) rootView.findViewById(R.id.user_messages)).
-                new MessagesTask(ProfilFragment.this, savedInstanceState.getString("user_messages")).execute((Void) null);
+                new MessagesTask(ProfilFragment.this, savedInstanceState.getString("user_messages"), rootView).execute((Void) null);
                 rootView.findViewById((R.id.progress_messages)).setVisibility(View.GONE);
             }
         }
@@ -65,7 +63,7 @@ public class ProfilFragment extends Fragment {
         }
         if (!isMessagesDisplayed) {
             rootView.findViewById((R.id.progress_messages)).setVisibility(View.VISIBLE);
-            new MessagesTask(token, sContext, ProfilFragment.this).execute((Void) null);
+            new MessagesTask(token, sContext, ProfilFragment.this, rootView).execute((Void) null);
         }
 
         return rootView;
