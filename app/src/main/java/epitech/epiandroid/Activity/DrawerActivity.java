@@ -1,8 +1,10 @@
 package epitech.epiandroid.Activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import epitech.epiandroid.Fragment.NotesFragment;
@@ -19,7 +21,7 @@ import it.neokree.materialnavigationdrawer.MaterialSectionListener;
 /**
  * Created by Styve on 07/01/2015.
  */
-public class DrawerActivity extends MaterialNavigationDrawer implements MaterialAccountListener {
+public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implements MaterialAccountListener {
 
 	MaterialSection profileSection, projectsSection, planningSection, marksSection, logoutSection;
 
@@ -29,6 +31,15 @@ public class DrawerActivity extends MaterialNavigationDrawer implements Material
 		MaterialAccount account = new MaterialAccount("simonn_s","Styve Simonneau",this.getResources().getDrawable(R.drawable.login_x), this.getResources().getDrawable(R.drawable.background));
 
 		// create sections
+        profileSection = this.newSection("Section 2", new MaterialSectionListener() {
+            @Override
+            public void onClick(MaterialSection section) {
+                Toast.makeText(getApplicationContext(), "Section 2 Clicked", Toast.LENGTH_SHORT).show();
+
+                // deselect section when is clicked
+                section.unSelect();
+            }
+        });
 		profileSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[0], new ProfilFragment());
 		projectsSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[1], new ProjetsFragment());
 		planningSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[2], new PlanningFragment());
@@ -81,8 +92,6 @@ public class DrawerActivity extends MaterialNavigationDrawer implements Material
 	@Override
 	public void onAccountOpening(MaterialAccount account) {
 		// open profile activity
-		Intent i = new Intent(this, ContactsContract.Profile.class);
-		startActivity(i);
 	}
 
 	@Override

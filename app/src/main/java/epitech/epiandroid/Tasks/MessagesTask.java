@@ -1,11 +1,11 @@
 package epitech.epiandroid.Tasks;
 
-import android.app.Fragment;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.text.Html;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-//import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +29,8 @@ import epitech.epiandroid.Fragment.ProfilFragment;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
 
+//import com.squareup.picasso.Target;
+
 /**
  * Created by Styve on 12/01/2015.
  */
@@ -42,18 +43,21 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
     private List<MessagesItem> userMessages = new ArrayList<>();
     private String jsonString;
     private Boolean noDL;
+    private View view;
 
-    public MessagesTask(String token, Context ctx, Fragment fragment) {
+    public MessagesTask(String token, Context ctx, Fragment fragment, View act) {
         this.token = token;
         this.ctx = ctx;
         this.fragment = fragment;
         this.noDL = false;
+        this.view = act;
     }
 
-    public MessagesTask(Fragment fragment, String jsonString) {
+    public MessagesTask(Fragment fragment, String jsonString, View act) {
         this.noDL = true;
         this.fragment = fragment;
         this.jsonString = jsonString;
+        this.view = act;
     }
 
     @Override
@@ -98,15 +102,14 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
                         JSONObject user = tmp.getJSONObject("user");
                         TargetPic targetPic = new TargetPic(tmp.getString("content"), tmp.getString("title"), user.getString("title"), tmp.getString("date"), user.getString("picture"));
                         if (user.getString("picture").equals("null")) {
-                            Picasso.with(fragment.getActivity().getApplicationContext()).load(R.drawable.login_x).into(targetPic);
+                            Picasso.with(ctx).load(R.drawable.login_x).into(targetPic);
                         } else {
-                            Picasso.with(fragment.getActivity().getApplicationContext()).load(user.getString("picture")).into(targetPic);
+                            Picasso.with(ctx).load(user.getString("picture")).into(targetPic);
                         }
                     }
                 }
             } catch (JSONException e) {
                 Toast.makeText(ctx, "Server is down..", Toast.LENGTH_LONG).show();
-                e.printStackTrace();
                 return;
             }
         } else {
@@ -116,19 +119,23 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
                     JSONObject tmp = json.getJSONObject(i);
                     TargetPic targetPic = new TargetPic(tmp.getString("content"), tmp.getString("title"), tmp.getString("login"), tmp.getString("date"), tmp.getString("picture"));
                     if (tmp.getString("picture").equals("null")) {
-                        Picasso.with(fragment.getActivity().getApplicationContext()).load(R.drawable.login_x).into(targetPic);
+                        Picasso.with(ctx).load(R.drawable.login_x).into(targetPic);
                     } else {
-                        Picasso.with(fragment.getActivity().getApplicationContext()).load(tmp.getString("picture")).into(targetPic);
+                        Picasso.with(ctx).load(tmp.getString("picture")).into(targetPic);
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        ListView messages = (ListView) fragment.getActivity().findViewById(R.id.user_messages);
-        ListAdapter customAdapter = new MessagesAdapter(fragment.getActivity().getApplicationContext(), R.layout.profil_message, userMessages);
-        messages.setAdapter(customAdapter);
-        fragment.getActivity().findViewById(R.id.progress_messages).setVisibility(View.GONE);
+        try {
+            ListView messages = (ListView) view.findViewById(R.id.user_messages);
+            ListAdapter customAdapter = new MessagesAdapter(ctx, R.layout.profil_message, userMessages);
+            messages.setAdapter(customAdapter);
+        } catch (Exception e) {
+            Log.e("Error", "Couldn't set adapter to listview (messages)");
+        }
+        view.findViewById(R.id.progress_messages).setVisibility(View.GONE);
     }
 
     private class TargetPic implements Target {
