@@ -110,9 +110,6 @@ public class TokenTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
         }
 
-        Log.w("response", responseString);
-        (activity.findViewById(R.id.progressBar)).setVisibility(View.GONE);
-
         if (!err) {
             Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
             i.putExtra("token", token);

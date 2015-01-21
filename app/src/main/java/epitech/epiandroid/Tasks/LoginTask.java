@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dd.CircularProgressButton;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,7 +43,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         final String TAG = "background";
         responseString = "";
-        Log.v(TAG, "launch background task");
+        Log.v(TAG, "launch login task");
         try {
             MyRequest.clearFields();
             MyRequest.addField("login", login);
@@ -66,44 +68,42 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
-        ((LoginActivity) activity).setCanLogin(true);
         return true;
     }
 
     @Override
     protected void onPostExecute(final Boolean success) {
         super.onPostExecute(success);
-        String token;
+        String token = "";
         Boolean err = true;
         JSONObject json;
 
-        // check si le retour est bien du json
         try {
             json = new JSONObject(responseString);
-            // check si il y a bien un token
             if (json.has("token")) {
                 token = json.getString("token");
+                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(100);
                 err = false;
             } else if (json.has("error")) {
                 token = ((JSONObject)json.get("error")).getString("message");
                 Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();
+                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setErrorText(activity.getString(R.string.loginFailedError));
+                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(-1);
             } else {
-                token = "non handled error.";
+                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setErrorText(activity.getString(R.string.loginServerError));
+                ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(-1);
             }
         } catch (JSONException e) {
-            token = "Internal server error";
-            Toast.makeText(ctx, "Internal server error", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-            activity.findViewById(R.id.login_button).setEnabled(true);
+            ((CircularProgressButton) activity.findViewById(R.id.login_button)).setErrorText(activity.getString(R.string.loginError));
+            ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(-1);
         }
 
         if (!err) {
             Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
             i.putExtra("token", token);
-            activity.findViewById(R.id.progressBar).setVisibility(View.GONE);
             activity.startActivity(i);
-        } else {
-            activity.findViewById(R.id.login_button).setEnabled(true);
         }
+
+        ((LoginActivity) activity).setCanLogin(true);
     }
 }

@@ -15,6 +15,7 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="50dp">
@@ -41,24 +42,20 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <Button android:id="@+id/login_button"
+        <com.dd.CircularProgressButton
+            android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/loginButton"
             android:layout_gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="false"
-            android:enabled="true" />
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:enabled="true"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cpb_textComplete="@string/loginComplete"
+            app:cpb_textError="@string/loginError"
+            app:cpb_textIdle="@string/loginButton" />
 
 </RelativeLayout>

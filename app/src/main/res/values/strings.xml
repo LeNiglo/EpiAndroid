@@ -5,6 +5,10 @@
     <string name="loginText">login_x</string>
     <string name="passwordText">Password (UNIX)</string>
     <string name="loginButton">LOGIN</string>
+    <string name="loginComplete">Welcome !</string>
+    <string name="loginError">Error</string>
+    <string name="loginFailedError">Incorrect password</string>
+    <string name="loginServerError">Internal server error</string>
     <string name="loginStateText">Welcome</string>
 
     <array name="nav_drawer_items">

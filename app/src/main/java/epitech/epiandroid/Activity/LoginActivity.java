@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dd.CircularProgressButton;
+
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.LoginTask;
 
@@ -49,8 +51,8 @@ public class LoginActivity extends Activity {
                     Toast.makeText(sContext, getString(R.string.login_empty), Toast.LENGTH_SHORT).show();
                 else {
                     //((TextView)(findViewById(R.id.notes))).setText("Connecting...");
-                    findViewById(R.id.login_button).setEnabled(false);
-                    findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                    ((CircularProgressButton) findViewById(R.id.login_button)).setIndeterminateProgressMode(true);
+                    ((CircularProgressButton) findViewById(R.id.login_button)).setProgress(50);
                     canLogin = false;
                     /*
                     ** Le LoginTask est dans le package Tasks car c'est plus simple de faire un fichier
@@ -77,7 +79,7 @@ public class LoginActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        findViewById(R.id.login_button).setEnabled(true);
+        ((CircularProgressButton) findViewById(R.id.login_button)).setProgress(0);
         pushed = false;
     }
 
