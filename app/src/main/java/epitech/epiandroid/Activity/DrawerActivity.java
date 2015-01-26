@@ -1,13 +1,12 @@
 package epitech.epiandroid.Activity;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import epitech.epiandroid.Databases.Messages;
+import epitech.epiandroid.Databases.ProfilInfos;
 import epitech.epiandroid.Fragment.NotesFragment;
 import epitech.epiandroid.Fragment.PlanningFragment;
 import epitech.epiandroid.Fragment.ProfilFragment;
@@ -26,10 +25,8 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
 
     MaterialSection profileSection, projectsSection, planningSection, marksSection, logoutSection;
 
-
     @Override
     public void init(Bundle savedInstanceState) {
-
         // add first account
         MaterialAccount account = new MaterialAccount("simonn_s", "Styve Simonneau", this.getResources().getDrawable(R.drawable.login_x), this.getResources().getDrawable(R.drawable.background));
 
@@ -51,9 +48,9 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
         logoutSection = this.newSection("Logout", new MaterialSectionListener() {
             @Override
             public void onClick(MaterialSection section) {
-                Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
-
-                section.unSelect();
+                Messages.deleteAll(Messages.class);
+                ProfilInfos.deleteAll(ProfilInfos.class);
+                finish();
             }
         });
 
@@ -77,29 +74,11 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Fragment fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
-        System.out.println("RESTORE");
-        if (fragment != null) {
-            System.out.println("Le fragment n'est pas nul.");
-            getFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).commit();
-        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        getFragmentManager().putFragment(outState, "fragment", getFragmentManager().findFragmentById(R.id.frame_container));
-        // save :
-        //outState.putString("side_user_login", ((TextView) findViewById(R.id.side_user_login)).getText().toString());
-        //Toast.makeText(getApplicationContext(), "side_user_login: " + ((TextView) findViewById(R.id.side_user_login)).getText().toString(), Toast.LENGTH_SHORT).show();
-
-        // restore :
-        /*
-        if (savedInstanceState != null) {
-            ((TextView) findViewById(R.id.side_user_login)).setText(savedInstanceState.getString("side_user_login"));
-            Utils.getImgFromCache(getApplicationContext(), "profil.bmp", ((ImageView) findViewById(R.id.side_user_picture)));
-        }*/
     }
 
     @Override

@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import epitech.epiandroid.Items.MessagesItem;
@@ -27,9 +29,8 @@ public class MessagesAdapter extends ArrayAdapter<MessagesItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.profil_message, null);
+            LayoutInflater vi = LayoutInflater.from(getContext());
+            v = vi.inflate(R.layout.profil_message, parent, false);
         }
 
         MessagesItem p = getItem(position);
@@ -54,11 +55,10 @@ public class MessagesAdapter extends ArrayAdapter<MessagesItem> {
                 title.setText(p.getTitle());
             }
             if (image != null) {
-                if (p.getDrawable() != null) {
-                    image.setImageDrawable(p.getDrawable());
-                } else {
-                    image.setImageBitmap(p.getBitmap());
-                }
+                if (p.getPicUrl() == null || p.getPicUrl().equals("null"))
+                    Picasso.with(getContext()).load(R.drawable.login_x).into(image);
+                else
+                    Picasso.with(getContext()).load(p.getPicUrl()).into(image);
             }
         }
         return v;

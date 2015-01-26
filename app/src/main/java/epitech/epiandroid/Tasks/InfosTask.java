@@ -1,5 +1,6 @@
 package epitech.epiandroid.Tasks;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
@@ -18,11 +19,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import epitech.epiandroid.Fragment.ProfilFragment;
+import epitech.epiandroid.Databases.ProfilInfos;
 import epitech.epiandroid.MyRequest;
-import epitech.epiandroid.PhotoClass;
 import epitech.epiandroid.R;
-import epitech.epiandroid.Utils;
 
 /**
  * Created by Styve on 12/01/2015.
@@ -32,19 +31,16 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
     private String token;
     private Context ctx;
     private String responseString = null;
-    private Fragment fragment;
 
-    public InfosTask(String token, Context ctx, Fragment fragment) {
+    public InfosTask(String token, Context ctx) {
         this.token = token;
         this.ctx = ctx;
-        this.fragment = fragment;
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         final String TAG = "background";
         responseString = "";
-        Log.v(TAG, "launch background task");
         try {
             MyRequest.clearFields();
             MyRequest.addField("token", token);
@@ -74,16 +70,13 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean success) {
         super.onPostExecute(success);
-        if (fragment != null && fragment.getActivity() != null) {
-            TextView user_name = (TextView) fragment.getActivity().findViewById(R.id.user_name);
-            TextView user_surname = (TextView) fragment.getActivity().findViewById(R.id.user_surname);
-            TextView user_login = (TextView) fragment.getActivity().findViewById(R.id.user_login);
-            TextView user_logtime = (TextView) fragment.getActivity().findViewById(R.id.user_logtime);
-            ImageView user_picture = (ImageView) fragment.getActivity().findViewById(R.id.user_picture);
-            //TextView side_user_login = (TextView) fragment.getActivity().findViewById(R.id.side_user_login);
-            //ImageView side_user_picture = (ImageView) fragment.getActivity().findViewById(R.id.side_user_picture);
-            TextView user_semester = (TextView) fragment.getActivity().findViewById(R.id.user_semester);
-            ProgressBar progress = (ProgressBar) fragment.getActivity().findViewById(R.id.progress_picture);
+        if (ctx != null) {
+            TextView user_name = (TextView) ((Activity)ctx).findViewById(R.id.user_name);
+            TextView user_surname = (TextView) ((Activity)ctx).findViewById(R.id.user_surname);
+            TextView user_login = (TextView) ((Activity)ctx).findViewById(R.id.user_login);
+            TextView user_logtime = (TextView) ((Activity)ctx).findViewById(R.id.user_logtime);
+            ImageView user_picture = (ImageView) ((Activity)ctx).findViewById(R.id.user_picture);
+            TextView user_semester = (TextView) ((Activity)ctx).findViewById(R.id.user_semester);
             JSONObject json;
 
             try {
@@ -98,14 +91,13 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     user_name.setText(infos.getString("lastname").toUpperCase());
                     user_surname.setText(infos.getString("firstname"));
                     user_login.setText(infos.getString("login"));
-                    //side_user_login.setText(infos.getString("login"));
 
                     active_log = Double.valueOf(current.getString("active_log"));
                     nslog_min = Double.valueOf(current.getString("nslog_min"));
                     nslog_norm = Double.valueOf(current.getString("nslog_norm"));
                     if (active_log < nslog_min) {
                         user_logtime.setTextColor(Color.parseColor("#FF0000"));
-                        user_logtime.setText(active_log.intValue() + " < " + nslog_norm.intValue());
+                        user_logtime.setText(active_log.intValue() + " < " + nslog_min.intValue());
                     }
                     else if (active_log < nslog_norm) {
                         user_logtime.setTextColor(Color.parseColor("#FFAA00"));
@@ -119,8 +111,18 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));
 
                     Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into(user_picture);
-                    //Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into(side_user_picture);
-                    ((ProfilFragment) fragment).setIsProfileDisplayed(true);
+
+                    ProfilInfos myInfos = new ProfilInfos();
+                    myInfos.setFirstName(infos.getString("firstname"));
+                    myInfos.setLastName(infos.getString("lastname").toUpperCase());
+                    myInfos.setLogin(infos.getString("login"));
+                    myInfos.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
+                    myInfos.setActiveLog(Double.valueOf(current.getString("active_log")).toString());
+                    myInfos.setNsLogMin(Double.valueOf(current.getString("nslog_min")).toString());
+                    myInfos.setNsLogNorm(Double.valueOf(current.getString("nslog_norm")).toString());
+                    myInfos.setLogColor(user_logtime.getCurrentTextColor());
+                    myInfos.setSemester(current.getString("semester_code"));
+                    myInfos.save();
                 } else if (json.has("error")) {
                     token = ((JSONObject)json.get("error")).getString("message");
                     Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();
@@ -134,7 +136,6 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                 Toast.makeText(ctx, "Error while parsing server response", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
-            progress.setVisibility(View.GONE);
         }
     }
 }

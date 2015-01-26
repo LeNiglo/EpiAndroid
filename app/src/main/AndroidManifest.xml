@@ -17,7 +17,14 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name="com.orm.SugarApp">
+
+        <meta-data android:name="DATABASE" android:value="data.db" />
+        <meta-data android:name="VERSION" android:value="0.1" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="epitech.epiandroid.Databases" />
+
         <activity
             android:name=".Activity.LoginActivity"
             android:label="@string/app_name" >

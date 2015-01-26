@@ -5,22 +5,13 @@
     android:orientation="vertical"
     android:nestedScrollingEnabled="false">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        android:id="@+id/progress_picture"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:visibility="gone" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:id="@+id/user_picture"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -40,8 +31,8 @@
 
         <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignTop="@+id/user_picture"
         android:layout_toRightOf="@+id/user_picture"
         android:layout_toEndOf="@+id/user_picture"
