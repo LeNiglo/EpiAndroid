@@ -2,6 +2,7 @@ package epitech.epiandroid.Activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 
+import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.LoginTask;
 
@@ -54,16 +56,16 @@ public class LoginActivity extends Activity {
                     ((CircularProgressButton) findViewById(R.id.login_button)).setIndeterminateProgressMode(true);
                     ((CircularProgressButton) findViewById(R.id.login_button)).setProgress(50);
                     canLogin = false;
-                    /*
-                    ** Le LoginTask est dans le package Tasks car c'est plus simple de faire un fichier
-                    ** pour chaque tache de fond, donc pour chaque appel à l'API. Tu peux changer ça pour
-                    ** le mettre dans le MyRequest mais ça risque d'être un peu compliqué après.
-                    */
                     mLoginTask = new LoginTask(login.getText().toString(), mdp.getText().toString(), sContext.getApplicationContext(), LoginActivity.this);
                     mLoginTask.execute();
                 }
             }
         });
+
+        if (LoginTable.listAll(LoginTable.class).size() > 0) {
+            Intent i = new Intent(getApplicationContext(), DrawerActivity.class);
+            startActivity(i);
+        }
     }
 
     @Override

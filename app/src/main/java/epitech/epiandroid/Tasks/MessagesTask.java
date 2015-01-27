@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import epitech.epiandroid.Adapters.MessagesAdapter;
+import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.Messages;
 import epitech.epiandroid.Items.MessagesItem;
 import epitech.epiandroid.MyRequest;
@@ -31,8 +32,10 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
     private List<MessagesItem> userMessages = new ArrayList<>();
     private View view;
 
-    public MessagesTask(View view, String token) {
-        this.token = token;
+    public MessagesTask(View view) {
+        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+        if (user != null)
+            token = user.getToken();
         this.view = view;
     }
 

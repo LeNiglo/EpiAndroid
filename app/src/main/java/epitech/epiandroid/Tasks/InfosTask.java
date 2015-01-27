@@ -19,9 +19,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.ProfilInfos;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
+import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 
 /**
  * Created by Styve on 12/01/2015.
@@ -32,9 +34,11 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
     private Context ctx;
     private String responseString = null;
 
-    public InfosTask(String token, Context ctx) {
-        this.token = token;
+    public InfosTask(Context ctx) {
         this.ctx = ctx;
+        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+        if (user != null)
+            token = user.getToken();
     }
 
     @Override
@@ -48,14 +52,11 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
 
             if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
                 responseString = MyRequest.getResponseString();
-            }
-            else if (MyRequest.isStatusTimeout()) {
+            } else if (MyRequest.isStatusTimeout()) {
                 Toast.makeText(ctx, "Delai d'attente dépassé", Toast.LENGTH_SHORT).show();
-            }
-            else if (MyRequest.isStatusForbidden()) {
+            } else if (MyRequest.isStatusForbidden()) {
                 throw new IOException(MyRequest.getReasonPhrase());
-            }
-            else {
+            } else {
                 responseString = MyRequest.getResponseString();
                 Log.e(TAG, "connexion failed" + responseString);
                 throw new IOException(MyRequest.getReasonPhrase());
@@ -70,13 +71,13 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean success) {
         super.onPostExecute(success);
-        if (ctx != null) {
-            TextView user_name = (TextView) ((Activity)ctx).findViewById(R.id.user_name);
-            TextView user_surname = (TextView) ((Activity)ctx).findViewById(R.id.user_surname);
-            TextView user_login = (TextView) ((Activity)ctx).findViewById(R.id.user_login);
-            TextView user_logtime = (TextView) ((Activity)ctx).findViewById(R.id.user_logtime);
-            ImageView user_picture = (ImageView) ((Activity)ctx).findViewById(R.id.user_picture);
-            TextView user_semester = (TextView) ((Activity)ctx).findViewById(R.id.user_semester);
+        if (ctx != null && success) {
+            TextView user_name = (TextView) ((Activity) ctx).findViewById(R.id.user_name);
+            TextView user_surname = (TextView) ((Activity) ctx).findViewById(R.id.user_surname);
+            TextView user_login = (TextView) ((Activity) ctx).findViewById(R.id.user_login);
+            TextView user_logtime = (TextView) ((Activity) ctx).findViewById(R.id.user_logtime);
+            ImageView user_picture = (ImageView) ((Activity) ctx).findViewById(R.id.user_picture);
+            TextView user_semester = (TextView) ((Activity) ctx).findViewById(R.id.user_semester);
             JSONObject json;
 
             try {
@@ -98,12 +99,10 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     if (active_log < nslog_min) {
                         user_logtime.setTextColor(Color.parseColor("#FF0000"));
                         user_logtime.setText(active_log.intValue() + " < " + nslog_min.intValue());
-                    }
-                    else if (active_log < nslog_norm) {
+                    } else if (active_log < nslog_norm) {
                         user_logtime.setTextColor(Color.parseColor("#FFAA00"));
                         user_logtime.setText(active_log.intValue() + " < " + nslog_norm.intValue());
-                    }
-                    else {
+                    } else {
                         user_logtime.setTextColor(Color.parseColor("#1FA055"));
                         user_logtime.setText(active_log.intValue() + " > " + nslog_norm.intValue());
                     }
@@ -123,8 +122,23 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     myInfos.setLogColor(user_logtime.getCurrentTextColor());
                     myInfos.setSemester(current.getString("semester_code"));
                     myInfos.save();
+
+                    LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+                    user.setFirstName(infos.getString("firstname"));
+                    user.setLastName(infos.getString("lastname"));
+                    user.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
+                    user.setLogin(infos.getString("login"));
+                    user.save();
+
+                    ((MaterialNavigationDrawer) ctx).getToolbar().setTitle(infos.getString("firstname"));
+                    ((MaterialNavigationDrawer) ctx).getToolbar().setTitleTextColor(Color.parseColor("#DEDEDE"));
+                    ((MaterialNavigationDrawer) ctx).getCurrentAccount().setTitle(infos.getString("login"));
+                    ((MaterialNavigationDrawer) ctx).getCurrentAccount().setSubTitle(infos.getString("firstname") + " " + infos.getString("lastname").toUpperCase());
+                    Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into((ImageView) ((Activity) ctx).findViewById(R.id.user_photo));
+                    ((MaterialNavigationDrawer) ctx).notifyAccountDataChanged();
+
                 } else if (json.has("error")) {
-                    token = ((JSONObject)json.get("error")).getString("message");
+                    token = ((JSONObject) json.get("error")).getString("message");
                     Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();
                 } else {
                     token = "non handled error.";

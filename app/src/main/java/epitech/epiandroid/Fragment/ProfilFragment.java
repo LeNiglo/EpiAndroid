@@ -39,16 +39,13 @@ public class ProfilFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_section_profil, container, false);
         super.onCreate(savedInstanceState);
 
-        Bundle extras = getActivity().getIntent().getExtras();
-        String token = extras.getString("token");
-
         isMessagesDisplayed = Messages.listAll(Messages.class).size() != 0;
         isProfileDisplayed = ProfilInfos.listAll(ProfilInfos.class).size() != 0;
 
         System.out.println(Messages.listAll(Messages.class).size() + " messages et " + ProfilInfos.listAll(ProfilInfos.class).size() + " profils");
 
         if (!isProfileDisplayed) {
-            new InfosTask(token, getActivity()).execute((Void) null);
+            new InfosTask(getActivity()).execute((Void) null);
         } else {
             ProfilInfos infos = ProfilInfos.listAll(ProfilInfos.class).get(0);
             ((TextView) rootView.findViewById(R.id.user_name)).setText(infos.getLastName());
@@ -62,7 +59,7 @@ public class ProfilFragment extends Fragment {
 
         if (!isMessagesDisplayed) {
             rootView.findViewById((R.id.progress_messages)).setVisibility(View.VISIBLE);
-            new MessagesTask(rootView, token).execute((Void) null);
+            new MessagesTask(rootView).execute((Void) null);
         } else {
             rootView.findViewById(R.id.progress_messages).setVisibility(View.VISIBLE);
             List<MessagesItem> userMessages = new ArrayList<>();
@@ -73,6 +70,8 @@ public class ProfilFragment extends Fragment {
             }
             ListView messageList = (ListView) rootView.findViewById(R.id.user_messages);
             ListAdapter customAdapter = new MessagesAdapter(rootView.getContext(), R.layout.profil_message, userMessages);
+            messageList.setClickable(false);
+            messageList.setScrollContainer(false);
             messageList.setAdapter(customAdapter);
             rootView.findViewById(R.id.progress_messages).setVisibility(View.GONE);
         }

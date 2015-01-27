@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import epitech.epiandroid.Activity.DrawerActivity;
 import epitech.epiandroid.Activity.LoginActivity;
+import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
 
@@ -82,6 +83,9 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             json = new JSONObject(responseString);
             if (json.has("token")) {
                 token = json.getString("token");
+                LoginTable user = new LoginTable();
+                user.setToken(token);
+                user.save();
                 ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(100);
                 err = false;
             } else if (json.has("error")) {
@@ -103,7 +107,6 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
         if (!err) {
             Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
-            i.putExtra("token", token);
             activity.startActivity(i);
         }
 
