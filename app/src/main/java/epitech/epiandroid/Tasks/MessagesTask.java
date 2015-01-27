@@ -1,8 +1,10 @@
 package epitech.epiandroid.Tasks;
 
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -88,9 +90,18 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
                 Toast.makeText(view.getContext(), "Server is down..", Toast.LENGTH_LONG).show();
                 return;
             }
-            ListView messages = (ListView) view.findViewById(R.id.user_messages);
-            ListAdapter customAdapter = new MessagesAdapter(view.getContext(), R.layout.profil_message, userMessages);
-            messages.setAdapter(customAdapter);
+            if (view.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                ListView messageList = (ListView) view.findViewById(R.id.user_messages);
+                ListAdapter customAdapter = new MessagesAdapter(view.getContext(), R.layout.profil_message, userMessages);
+                messageList.setAdapter(customAdapter);
+            } else {
+                LinearLayout messageList = (LinearLayout) view.findViewById(R.id.user_messages_linear);
+                ListAdapter customAdapter = new MessagesAdapter(view.getContext(), R.layout.profil_message, userMessages);
+                for (int i = 0; i < customAdapter.getCount(); i++) {
+                    View item = customAdapter.getView(i, null, null);
+                    messageList.addView(item);
+                }
+            }
             view.findViewById(R.id.progress_messages).setVisibility(View.GONE);
         }
     }

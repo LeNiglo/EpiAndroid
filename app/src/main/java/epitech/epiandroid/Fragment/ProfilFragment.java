@@ -2,12 +2,14 @@ package epitech.epiandroid.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -64,15 +66,24 @@ public class ProfilFragment extends Fragment {
             rootView.findViewById(R.id.progress_messages).setVisibility(View.VISIBLE);
             List<MessagesItem> userMessages = new ArrayList<>();
             List<Messages> messages = Messages.listAll(Messages.class);
+
             for (int i = 0; i < messages.size(); ++i) {
                 Messages msg = messages.get(i);
                 userMessages.add(new MessagesItem(msg.getContent(), msg.getTitle(), msg.getLogin(), msg.getDate(), msg.getPicUrl()));
             }
-            ListView messageList = (ListView) rootView.findViewById(R.id.user_messages);
-            ListAdapter customAdapter = new MessagesAdapter(rootView.getContext(), R.layout.profil_message, userMessages);
-            messageList.setClickable(false);
-            messageList.setScrollContainer(false);
-            messageList.setAdapter(customAdapter);
+
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                ListView messageList = (ListView) rootView.findViewById(R.id.user_messages);
+                ListAdapter customAdapter = new MessagesAdapter(rootView.getContext(), R.layout.profil_message, userMessages);
+                messageList.setAdapter(customAdapter);
+            } else {
+                LinearLayout messageList = (LinearLayout) rootView.findViewById(R.id.user_messages_linear);
+                ListAdapter customAdapter = new MessagesAdapter(rootView.getContext(), R.layout.profil_message, userMessages);
+                for (int i = 0; i < customAdapter.getCount(); i++) {
+                    View item = customAdapter.getView(i, null, null);
+                    messageList.addView(item);
+                }
+            }
             rootView.findViewById(R.id.progress_messages).setVisibility(View.GONE);
         }
 
