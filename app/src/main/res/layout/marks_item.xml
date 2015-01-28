@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#99999aaa"
+        android:layout_margin="10dp"
+        android:id="@+id/note_container">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/project_note"
+            android:layout_gravity="center"
+            android:textSize="17sp" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/project_name"
+        android:layout_alignTop="@+id/note_container"
+        android:layout_toRightOf="@+id/note_container"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:layout_toStartOf="@+id/module_image"
+        android:layout_toLeftOf="@+id/module_image" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/module_name"
+        android:layout_alignBottom="@+id/note_container"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:textSize="13sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/module_image"
+        android:layout_alignTop="@+id/project_name"
+        android:layout_alignRight="@+id/module_name"
+        android:layout_alignEnd="@+id/module_name" />
+
+</RelativeLayout>

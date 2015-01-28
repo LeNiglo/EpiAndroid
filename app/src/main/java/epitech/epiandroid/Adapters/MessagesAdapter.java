@@ -30,7 +30,7 @@ public class MessagesAdapter extends ArrayAdapter<MessagesItem> {
         View v = convertView;
         if (v == null) {
             LayoutInflater vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.profil_message, parent, false);
+            v = vi.inflate(R.layout.message_item, parent, false);
         }
 
         MessagesItem p = getItem(position);

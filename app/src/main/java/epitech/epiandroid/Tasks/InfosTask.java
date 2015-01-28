@@ -98,13 +98,13 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     nslog_norm = Double.valueOf(current.getString("nslog_norm"));
                     if (active_log < nslog_min) {
                         user_logtime.setTextColor(Color.parseColor("#FF0000"));
-                        user_logtime.setText(active_log.intValue() + " < " + nslog_min.intValue());
+                        user_logtime.setText(ctx.getResources().getString(R.string.logtime_insufficient_warn1) + " (" + active_log.intValue() + " < " + nslog_min.intValue() + ")");
                     } else if (active_log < nslog_norm) {
                         user_logtime.setTextColor(Color.parseColor("#FFAA00"));
-                        user_logtime.setText(active_log.intValue() + " < " + nslog_norm.intValue());
+                        user_logtime.setText(ctx.getResources().getString(R.string.logtime_insufficient_warn2) + " (" + active_log.intValue() + " < " + nslog_norm.intValue() + ")");
                     } else {
                         user_logtime.setTextColor(Color.parseColor("#1FA055"));
-                        user_logtime.setText(active_log.intValue() + " > " + nslog_norm.intValue());
+                        user_logtime.setText(ctx.getResources().getString(R.string.logtime_sufficient) + " (" + active_log.intValue() + " > " + nslog_norm.intValue() + ")");
                     }
 
                     user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));

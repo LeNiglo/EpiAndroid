@@ -21,22 +21,21 @@
         <item>Trombi</item>
     </array>
 
-    <string name="dummy_section_text">Section %1d is just a dummy section.</string>
-    <string name="demo_external_activity">Demo External Activity</string>
-    <string name="demo_collection">Demo Collection</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
     <string name="semester">Semestre</string>
+    <string name="logtime_insufficient_warn1">Your log time is inferior than the minimal required</string>
+    <string name="logtime_insufficient_warn2">Your log time is not sufficient. Try harder!</string>
+    <string name="logtime_sufficient">Your log time is sufficient. Rest in peace</string>
+
+    <string name="ask_quit">Quit the application ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <string name="login_empty">Login or password is missing</string>
     <string name="login_quit">Push a second time to quit the application</string>
-    <string name="drawer_open">Menu opened</string>
-    <string name="drawer_close">Menu closed</string>
+
     <string name="action_settings">Settings</string>
     <string name="title_activity_token">TokenActivity</string>
     <string name="token_title">Validez votre Token</string>
     <string name="token_validate">Validez</string>
-    <string name="hello_world">Hello world!</string>
 
 </resources>

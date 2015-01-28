@@ -1,10 +1,9 @@
 package epitech.epiandroid.Fragment;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +25,7 @@ import epitech.epiandroid.Items.MessagesItem;
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.InfosTask;
 import epitech.epiandroid.Tasks.MessagesTask;
+import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 
 public class ProfilFragment extends Fragment {
     private View rootView;
@@ -52,9 +48,20 @@ public class ProfilFragment extends Fragment {
             ProfilInfos infos = ProfilInfos.listAll(ProfilInfos.class).get(0);
             ((TextView) rootView.findViewById(R.id.user_name)).setText(infos.getLastName());
             ((TextView) rootView.findViewById(R.id.user_surname)).setText(infos.getFirstName());
-            ((TextView) rootView.findViewById(R.id.user_semester)).setText(infos.getSemester());
+            ((TextView) rootView.findViewById(R.id.user_semester)).setText(getResources().getString(R.string.semester) + " " + infos.getSemester());
             ((TextView) rootView.findViewById(R.id.user_login)).setText(infos.getLogin());
-            ((TextView) rootView.findViewById(R.id.user_logtime)).setText(infos.getActiveLog() + " / " + infos.getNsLogNorm());
+            ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitle(infos.getFirstName());
+            ((MaterialNavigationDrawer) this.getActivity()).getToolbar().setTitleTextColor(Color.parseColor("#DEDEDE"));
+            Double active_log = Double.valueOf(infos.getActiveLog());
+            Double nslog_norm = Double.valueOf(infos.getNsLogNorm());
+            Double nslog_min = Double.valueOf(infos.getNsLogMin());
+            if (active_log < nslog_min) {
+                ((TextView) rootView.findViewById(R.id.user_logtime)).setText(getResources().getString(R.string.logtime_insufficient_warn1) + " (" + active_log.intValue() + " < " + nslog_min.intValue() + ")");
+            } else if (active_log < nslog_norm) {
+                ((TextView) rootView.findViewById(R.id.user_logtime)).setText(getResources().getString(R.string.logtime_insufficient_warn2) + " (" + active_log.intValue() + " < " + nslog_norm.intValue() + ")");
+            } else {
+                ((TextView) rootView.findViewById(R.id.user_logtime)).setText(getResources().getString(R.string.logtime_sufficient) + " (" + active_log.intValue() + " > " + nslog_norm.intValue() + ")");
+            }
             ((TextView) rootView.findViewById(R.id.user_logtime)).setTextColor(infos.getLogColor());
             Picasso.with(getActivity().getApplicationContext()).load(infos.getPicUrl()).into(((ImageView) rootView.findViewById(R.id.user_picture)));
         }
@@ -74,11 +81,11 @@ public class ProfilFragment extends Fragment {
 
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 ListView messageList = (ListView) rootView.findViewById(R.id.user_messages);
-                ListAdapter customAdapter = new MessagesAdapter(rootView.getContext(), R.layout.profil_message, userMessages);
+                ListAdapter customAdapter = new MessagesAdapter(rootView.getContext(), R.layout.message_item, userMessages);
                 messageList.setAdapter(customAdapter);
             } else {
                 LinearLayout messageList = (LinearLayout) rootView.findViewById(R.id.user_messages_linear);
-                ListAdapter customAdapter = new MessagesAdapter(rootView.getContext(), R.layout.profil_message, userMessages);
+                ListAdapter customAdapter = new MessagesAdapter(rootView.getContext(), R.layout.message_item, userMessages);
                 for (int i = 0; i < customAdapter.getCount(); i++) {
                     View item = customAdapter.getView(i, null, null);
                     messageList.addView(item);

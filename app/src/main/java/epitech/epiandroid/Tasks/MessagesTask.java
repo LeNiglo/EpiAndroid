@@ -2,7 +2,6 @@ package epitech.epiandroid.Tasks;
 
 import android.content.res.Configuration;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -92,11 +91,11 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
             }
             if (view.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 ListView messageList = (ListView) view.findViewById(R.id.user_messages);
-                ListAdapter customAdapter = new MessagesAdapter(view.getContext(), R.layout.profil_message, userMessages);
+                ListAdapter customAdapter = new MessagesAdapter(view.getContext(), R.layout.message_item, userMessages);
                 messageList.setAdapter(customAdapter);
             } else {
                 LinearLayout messageList = (LinearLayout) view.findViewById(R.id.user_messages_linear);
-                ListAdapter customAdapter = new MessagesAdapter(view.getContext(), R.layout.profil_message, userMessages);
+                ListAdapter customAdapter = new MessagesAdapter(view.getContext(), R.layout.message_item, userMessages);
                 for (int i = 0; i < customAdapter.getCount(); i++) {
                     View item = customAdapter.getView(i, null, null);
                     messageList.addView(item);

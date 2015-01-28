@@ -1,6 +1,9 @@
 package epitech.epiandroid.Activity;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
@@ -9,6 +12,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import epitech.epiandroid.Databases.LoginTable;
+import epitech.epiandroid.Databases.Marks;
 import epitech.epiandroid.Databases.Messages;
 import epitech.epiandroid.Databases.ProfilInfos;
 import epitech.epiandroid.Fragment.NotesFragment;
@@ -56,6 +60,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
                 Messages.deleteAll(Messages.class);
                 ProfilInfos.deleteAll(ProfilInfos.class);
                 LoginTable.deleteAll(LoginTable.class);
+                Marks.deleteAll(Marks.class);
                 finish();
             }
         });
@@ -106,6 +111,28 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
     @Override
     public void onChangeAccount(MaterialAccount newAccount) {
         // when another account is selected
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("--> [ ] ?");
+        alert.setMessage(getResources().getString(R.string.ask_quit));
+
+        alert.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
+            }
+        });
+
+        alert.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+
+        alert.show();
     }
 }
 
