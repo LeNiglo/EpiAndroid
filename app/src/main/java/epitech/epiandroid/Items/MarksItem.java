@@ -1,8 +1,5 @@
 package epitech.epiandroid.Items;
 
-import android.graphics.drawable.Drawable;
-import android.text.Html;
-
 /**
  * Created by Styve on 14/01/2015.
  */

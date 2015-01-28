@@ -1,10 +1,10 @@
 <resources>
 	<!-- Base application theme. -->
 	<style name="AppTheme" parent="android:Theme.Holo.Light">
-        <item name="android:background">#005DA1</item>
-	</style>
+    <!-- <item name="android:background">#005DA1</item> -->
+    </style>
 
-	<!-- Drawer theme. -->
+<!-- Drawer theme. -->
 	<style name="DrawerActivity" parent="MaterialNavigationDrawerTheme.Light">
 		<!-- Customize your theme here. -->
 		<item name="colorPrimary">#ff005DA1</item>

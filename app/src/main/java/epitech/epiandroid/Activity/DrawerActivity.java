@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.Marks;
 import epitech.epiandroid.Databases.Messages;
+import epitech.epiandroid.Databases.Planning;
 import epitech.epiandroid.Databases.ProfilInfos;
 import epitech.epiandroid.Fragment.ActivitiesFragment;
 import epitech.epiandroid.Fragment.NotesFragment;
@@ -54,6 +55,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
                 ProfilInfos.deleteAll(ProfilInfos.class);
                 LoginTable.deleteAll(LoginTable.class);
                 Marks.deleteAll(Marks.class);
+                Planning.deleteAll(Planning.class);
                 finish();
             }
         });

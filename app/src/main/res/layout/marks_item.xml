@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:longClickable="true"
+    android:clickable="true">
 
     <FrameLayout
         android:layout_width="50dp"
@@ -40,7 +42,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/module_name"
         android:layout_alignBottom="@+id/note_container"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentRight="false"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp"
         android:textSize="13sp" />

@@ -8,47 +8,14 @@ import android.text.Html;
  * Created by Styve on 14/01/2015.
  */
 public class PlanningItem {
-	private String mContent;
-	private String mTitle;
-	private String mLogin;
-	private String mDate;
+	private String title;
+	private String dates;
 
-	public PlanningItem(String content, String title, String login, String date) {
-		mContent = content;
-		mTitle = title;
-		mLogin = login;
-		mDate = date;
+	public PlanningItem(String title, String dates) {
+		this.title = title;
+		this.dates = dates;
 	}
 
-	public void setContent(String content) {
-		mContent = content;
-	}
-
-	public void setTitle(String title) {
-		mTitle = title;
-	}
-
-	public void setLogin(String login) {
-		mLogin = login;
-	}
-
-	public void setDate(String date) {
-		mDate = date;
-	}
-
-	public String getContent() {
-		return Html.fromHtml(mContent).toString();
-	}
-
-	public String getTitle() {
-		return Html.fromHtml(mTitle).toString();
-	}
-
-	public String getLogin() {
-		return mLogin;
-	}
-
-	public String getDate() {
-		return mDate;
-	}
+	public String getTitle() { return this.title; }
+	public String getDates() { return this.dates; }
 }

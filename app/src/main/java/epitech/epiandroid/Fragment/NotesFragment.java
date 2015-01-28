@@ -1,10 +1,12 @@
 package epitech.epiandroid.Fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -41,7 +43,20 @@ public class NotesFragment extends Fragment {
             }
 
             ListView marksList = (ListView) rootView.findViewById(R.id.marks_list);
-            ListAdapter customAdapter = new MarksAdapter(rootView.getContext(), R.layout.marks_item, items);
+            final ListAdapter customAdapter = new MarksAdapter(rootView.getContext(), R.layout.marks_item, items);
+            marksList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                    MarksItem item = (MarksItem) customAdapter.getItem(pos);
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    sharingIntent.setType("text/plain");
+                    String shareBody = getResources().getString(R.string.share_body_1) + item.getNote() + getResources().getString(R.string.share_body_2) +
+                            item.getProjectName() + getResources().getString(R.string.share_body_3);
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_title));
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                    startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_via)));
+                    return true;
+                }
+            });
             marksList.setAdapter(customAdapter);
             rootView.findViewById(R.id.marks_progress).setVisibility(View.GONE);
         }

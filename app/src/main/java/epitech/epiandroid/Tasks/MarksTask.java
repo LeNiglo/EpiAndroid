@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -82,7 +83,7 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
         super.onPostExecute(success);
         String token;
         JSONObject json;
-        List<MarksItem> items = new ArrayList<>();
+        final List<MarksItem> items = new ArrayList<>();
 
         if (success) {
             try {
@@ -95,7 +96,6 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
                         Marks mark = new Marks();
                         Double note = 0.0;
                         try {
-                            System.out.println("note string : " + tmp.getString("final_note"));
                             note = Double.valueOf(tmp.getString("final_note"));
                         } catch (Exception e) {
                             Log.e("Note:", e.getMessage());
@@ -121,15 +121,14 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
                             r -= note * 7;
                             g += note * 9;
                         }
-                        Log.v("Note", note.toString() + " (" + r + "," + g + ",0)");
                         color = Color.rgb(r, g, 70);
                         mark.setNote(tmp.getString("final_note"));
                         mark.setModuleName(tmp.getString("titlemodule"));
                         mark.setProjectName(tmp.getString("title"));
                         mark.setContainerColor(color);
-                        mark.setModuleImage(R.drawable.powered_by_google_dark);
+                        mark.setModuleImage(R.drawable.module);
                         mark.save();
-                        items.add(new MarksItem(tmp.getString("final_note"), tmp.getString("titlemodule"), tmp.getString("title"), color, R.drawable.powered_by_google_dark));
+                        items.add(new MarksItem(tmp.getString("final_note"), tmp.getString("titlemodule"), tmp.getString("title"), color, R.drawable.module));
                     }
                 } else if (json.has("error")) {
                     token = ((JSONObject) json.get("error")).getString("message");
@@ -140,7 +139,20 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
             }
 
             ListView marksList = (ListView) view.findViewById(R.id.marks_list);
-            ListAdapter customAdapter = new MarksAdapter(view.getContext(), R.layout.marks_item, items);
+            final ListAdapter customAdapter = new MarksAdapter(view.getContext(), R.layout.marks_item, items);
+            marksList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                    MarksItem item = (MarksItem) customAdapter.getItem(pos);
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    sharingIntent.setType("text/plain");
+                    String shareBody = activity.getResources().getString(R.string.share_body_1) + item.getNote() + activity.getResources().getString(R.string.share_body_2) +
+                            item.getProjectName() + activity.getResources().getString(R.string.share_body_3);
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, activity.getResources().getString(R.string.share_title));
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                    activity.startActivity(Intent.createChooser(sharingIntent, activity.getResources().getString(R.string.share_via)));
+                    return true;
+                }
+            });
             marksList.setAdapter(customAdapter);
             view.findViewById(R.id.marks_progress).setVisibility(View.GONE);
         }

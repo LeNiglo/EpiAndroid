@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.daimajia.swipe.adapters.ArraySwipeAdapter;
 
@@ -15,29 +17,9 @@ import epitech.epiandroid.R;
 /**
  * Created by Guillaume on 21/01/2015.
  */
-public class PlanningSwipeAdapter extends ArraySwipeAdapter {
-	public PlanningSwipeAdapter(Context context, int resource) {
-		super(context, resource);
-	}
-
-	public PlanningSwipeAdapter(Context context, int resource, int textViewResourceId) {
-		super(context, resource, textViewResourceId);
-	}
-
-	public PlanningSwipeAdapter(Context context, int resource, Object[] objects) {
+public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
+	public PlanningSwipeAdapter(Context context, int resource, List<PlanningItem> objects) {
 		super(context, resource, objects);
-	}
-
-	public PlanningSwipeAdapter(Context context, int resource, int textViewResourceId, Object[] objects) {
-		super(context, resource, textViewResourceId, objects);
-	}
-
-	public PlanningSwipeAdapter(Context context, int resource, List objects) {
-		super(context, resource, objects);
-	}
-
-	public PlanningSwipeAdapter(Context context, int resource, int textViewResourceId, List objects) {
-		super(context, resource, textViewResourceId, objects);
 	}
 
 	@Override
@@ -55,6 +37,16 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter {
 
 		PlanningItem p = (PlanningItem) getItem(position);
 		if (p != null) {
+			TextView title = (TextView) v.findViewById(R.id.item_title);
+			TextView dates = (TextView) v.findViewById(R.id.item_dates);
+			Button button = (Button) v.findViewById(R.id.item_button);
+
+			if (title != null) {
+				title.setText(p.getTitle());
+			}
+			if (dates != null) {
+				dates.setText(p.getDates());
+			}
 
 		}
 
