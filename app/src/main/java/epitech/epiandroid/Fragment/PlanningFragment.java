@@ -11,9 +11,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import epitech.epiandroid.Databases.Planning;
 import epitech.epiandroid.Items.PlanningItem;
 import epitech.epiandroid.Adapters.PlanningSwipeAdapter;
 import epitech.epiandroid.R;
+import epitech.epiandroid.Tasks.PlanningTask;
 
 
 public class PlanningFragment extends Fragment {
@@ -26,15 +28,27 @@ public class PlanningFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_section_planning, container, false);
 
-		List<PlanningItem> items = new ArrayList<>();
+		Boolean isMarksDisplayed = Planning.listAll(Planning.class).size() > 0;
 
-		items.add(new PlanningItem("Yolo Swag #Yolo", "Yolo", "simonn_s", "05/07/58"));
+		if (!isMarksDisplayed) {
+			//rootView.findViewById(R.id.marks_progress).setVisibility(View.VISIBLE);
+			new PlanningTask(getActivity(), rootView).execute((Void) null);
+		} else {
+			//rootView.findViewById(R.id.marks_progress).setVisibility(View.VISIBLE);
+			List<PlanningItem> items = new ArrayList<>();
+			List<Planning> marks = Planning.listAll(Planning.class);
 
-		ListView planning = (ListView) rootView.findViewById(R.id.planning_swipe);
-		ListAdapter planningSwipeAdapter = new PlanningSwipeAdapter(this.getActivity().getApplicationContext(), R.layout.planning_item, items);
+			for (int i = 0; i < marks.size(); ++i) {
+				Planning item = marks.get(i);
+				items.add(new PlanningItem(item.getTitle(), item.getDates()));
+			}
 
-		planning.setAdapter(planningSwipeAdapter);
+			ListView planning = (ListView) rootView.findViewById(R.id.planning_swipe);
+			ListAdapter planningSwipeAdapter = new PlanningSwipeAdapter(rootView.getContext(), R.layout.planning_item, items);
 
-        return rootView;
+			planning.setAdapter(planningSwipeAdapter);
+			//rootView.findViewById(R.id.marks_progress).setVisibility(View.GONE);
+		}
+	    return rootView;
     }
 }
