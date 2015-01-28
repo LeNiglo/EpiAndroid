@@ -14,13 +14,17 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.ProfilInfos;
+import epitech.epiandroid.Databases.Submissions;
+import epitech.epiandroid.Items.SubmissionsItem;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
@@ -88,6 +92,22 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     Double nslog_min;
 
                     try {
+                        try {
+                            Submissions.deleteAll(Submissions.class);
+                            JSONObject board = json.getJSONObject("board");
+                            JSONArray projets = board.getJSONArray("projets");
+                            for (int i = 0; i < projets.length(); ++i) {
+                                JSONObject tmp = projets.getJSONObject(i);
+                                Submissions submission = new Submissions();
+                                submission.setProjectName(tmp.getString("title"));
+                                submission.setIdActivity(tmp.getString("id_activite"));
+                                submission.setProgress(Double.valueOf(tmp.getString("timeline_barre")).intValue());
+                                submission.setDate(ctx.getResources().getString(R.string.from) + " " + tmp.getString("timeline_start").substring(0, 10) + " "
+                                        + ctx.getResources().getString(R.string.to) + " " + tmp.getString("timeline_end").substring(0, 10));
+                                submission.save();
+                            }
+                        } catch (Exception ignored) {}
+
                         JSONObject infos = json.getJSONObject("infos");
                         JSONObject current = json.getJSONObject("current");
                         user_name.setText(infos.getString("lastname").toUpperCase());
@@ -112,6 +132,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
 
                         Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into(user_picture);
 
+                        ProfilInfos.deleteAll(ProfilInfos.class);
                         ProfilInfos myInfos = new ProfilInfos();
                         myInfos.setFirstName(infos.getString("firstname"));
                         myInfos.setLastName(infos.getString("lastname").toUpperCase());

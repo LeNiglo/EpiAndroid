@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="vertical"
+    android:longClickable="true"
+    android:clickable="true"
+    android:background="#006EB2">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="EIP - Validation du sujet"
+        android:id="@+id/submission_title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffffff"
+        android:layout_toLeftOf="@+id/circle_progress"
+        android:layout_toStartOf="@+id/circle_progress"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="du 28/01/2015 au 15/02/2015"
+        android:id="@+id/submission_date"
+        android:layout_below="@+id/submission_title"
+        android:layout_alignLeft="@+id/submission_title"
+        android:layout_alignStart="@+id/submission_title"
+        android:layout_marginTop="10dp" />
+
+    <com.github.lzyzsd.circleprogress.CircleProgress
+        android:id="@+id/circle_progress"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:layout_marginRight="10dp"
+        custom:circle_progress="20"
+        android:layout_centerVertical="true" />
+</RelativeLayout>

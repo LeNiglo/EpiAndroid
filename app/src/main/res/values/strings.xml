@@ -36,13 +36,15 @@
     <string name="next_susie">My next SUSIE</string>
     <string name="register_to_susie">Get a SUSIE</string>
     <string name="next_activity">My next activity</string>
+    <string name="next_submissions">My next submissions</string>
     <string name="nothing_to_show">Nothing to show !</string>
 
+    <string name="from">From</string>
+    <string name="to">to</string>
+
     <string name="share_via">Share via&#8230;</string>
-    <string name="share_title">Epiandroid - I'm sharing my mark with you !</string>
-    <string name="share_body_1">Hey ! I got </string>
-    <string name="share_body_2"> for the project called "</string>
-    <string name="share_body_3">". - Shared from the EpiAndroid Application</string>
+    <string name="share_title">Epiandroid - I\'m sharing my mark with you !</string>
+    <string name="share_body">Hey ! I got %1$s for the project called \"%2$s\".\n - Shared from the EpiAndroid application</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_token">TokenActivity</string>

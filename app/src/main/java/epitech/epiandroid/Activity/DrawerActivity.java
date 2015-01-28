@@ -16,6 +16,7 @@ import epitech.epiandroid.Databases.Marks;
 import epitech.epiandroid.Databases.Messages;
 import epitech.epiandroid.Databases.Planning;
 import epitech.epiandroid.Databases.ProfilInfos;
+import epitech.epiandroid.Databases.Submissions;
 import epitech.epiandroid.Fragment.ActivitiesFragment;
 import epitech.epiandroid.Fragment.NotesFragment;
 import epitech.epiandroid.Fragment.PlanningFragment;
@@ -56,6 +57,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
                 LoginTable.deleteAll(LoginTable.class);
                 Marks.deleteAll(Marks.class);
                 Planning.deleteAll(Planning.class);
+                Submissions.deleteAll(Submissions.class);
                 finish();
             }
         });

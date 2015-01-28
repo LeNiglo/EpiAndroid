@@ -49,8 +49,7 @@ public class NotesFragment extends Fragment {
                     MarksItem item = (MarksItem) customAdapter.getItem(pos);
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-                    String shareBody = getResources().getString(R.string.share_body_1) + item.getNote() + getResources().getString(R.string.share_body_2) +
-                            item.getProjectName() + getResources().getString(R.string.share_body_3);
+                    String shareBody = getResources().getString(R.string.share_body, item.getNote(), item.getProjectName());
                     sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_title));
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                     startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_via)));

@@ -145,8 +145,7 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
                     MarksItem item = (MarksItem) customAdapter.getItem(pos);
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-                    String shareBody = activity.getResources().getString(R.string.share_body_1) + item.getNote() + activity.getResources().getString(R.string.share_body_2) +
-                            item.getProjectName() + activity.getResources().getString(R.string.share_body_3);
+                    String shareBody = activity.getResources().getString(R.string.share_body, item.getNote(), item.getProjectName());
                     sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, activity.getResources().getString(R.string.share_title));
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                     activity.startActivity(Intent.createChooser(sharingIntent, activity.getResources().getString(R.string.share_via)));
