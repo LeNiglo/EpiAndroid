@@ -92,14 +92,44 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
                     JSONArray marks = json.getJSONArray("notes");
                     for (int i = 0; i < marks.length(); ++i) {
                         JSONObject tmp = marks.getJSONObject(i);
-                        items.add(new MarksItem(tmp.getString("final_note"), tmp.getString("titlemodule"), tmp.getString("title"), Color.parseColor("#dedede"), R.drawable.powered_by_google_dark));
                         Marks mark = new Marks();
+                        Double note = 0.0;
+                        try {
+                            System.out.println("note string : " + tmp.getString("final_note"));
+                            note = Double.valueOf(tmp.getString("final_note"));
+                        } catch (Exception e) {
+                            Log.e("Note:", e.getMessage());
+                        }
+                        int color;
+                        int r = 181;
+                        int g = 0;
+                        if (note < 0) {
+                            r = 0;
+                            g = 0;
+                        } else if (note >= 20 && note < 100) {
+                            r = 50;
+                            g = 181;
+                        } else if (note >= 100) {
+                            if (note < 400) {
+                                r = 0;
+                                g = 0;
+                            } else {
+                                r -= (note - 400) * 0.2316;
+                                g += (note - 400) * 0.3016;
+                            }
+                        } else {
+                            r -= note * 7;
+                            g += note * 9;
+                        }
+                        Log.v("Note", note.toString() + " (" + r + "," + g + ",0)");
+                        color = Color.rgb(r, g, 70);
                         mark.setNote(tmp.getString("final_note"));
                         mark.setModuleName(tmp.getString("titlemodule"));
                         mark.setProjectName(tmp.getString("title"));
-                        mark.setContainerColor(Color.parseColor("#dedede"));
+                        mark.setContainerColor(color);
                         mark.setModuleImage(R.drawable.powered_by_google_dark);
                         mark.save();
+                        items.add(new MarksItem(tmp.getString("final_note"), tmp.getString("titlemodule"), tmp.getString("title"), color, R.drawable.powered_by_google_dark));
                     }
                 } else if (json.has("error")) {
                     token = ((JSONObject) json.get("error")).getString("message");

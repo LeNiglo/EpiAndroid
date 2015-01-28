@@ -87,56 +87,57 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     Double nslog_norm;
                     Double nslog_min;
 
-                    JSONObject infos = json.getJSONObject("infos");
-                    JSONObject current = json.getJSONObject("current");
-                    user_name.setText(infos.getString("lastname").toUpperCase());
-                    user_surname.setText(infos.getString("firstname"));
-                    user_login.setText(infos.getString("login"));
+                    try {
+                        JSONObject infos = json.getJSONObject("infos");
+                        JSONObject current = json.getJSONObject("current");
+                        user_name.setText(infos.getString("lastname").toUpperCase());
+                        user_surname.setText(infos.getString("firstname"));
+                        user_login.setText(infos.getString("login"));
 
-                    active_log = Double.valueOf(current.getString("active_log"));
-                    nslog_min = Double.valueOf(current.getString("nslog_min"));
-                    nslog_norm = Double.valueOf(current.getString("nslog_norm"));
-                    if (active_log < nslog_min) {
-                        user_logtime.setTextColor(Color.parseColor("#FF0000"));
-                        user_logtime.setText(ctx.getResources().getString(R.string.logtime_insufficient_warn1) + " (" + active_log.intValue() + " < " + nslog_min.intValue() + ")");
-                    } else if (active_log < nslog_norm) {
-                        user_logtime.setTextColor(Color.parseColor("#FFAA00"));
-                        user_logtime.setText(ctx.getResources().getString(R.string.logtime_insufficient_warn2) + " (" + active_log.intValue() + " < " + nslog_norm.intValue() + ")");
-                    } else {
-                        user_logtime.setTextColor(Color.parseColor("#1FA055"));
-                        user_logtime.setText(ctx.getResources().getString(R.string.logtime_sufficient) + " (" + active_log.intValue() + " > " + nslog_norm.intValue() + ")");
-                    }
+                        active_log = Double.valueOf(current.getString("active_log"));
+                        nslog_min = Double.valueOf(current.getString("nslog_min"));
+                        nslog_norm = Double.valueOf(current.getString("nslog_norm"));
+                        if (active_log < nslog_min) {
+                            user_logtime.setTextColor(Color.parseColor("#FF0000"));
+                            user_logtime.setText(ctx.getResources().getString(R.string.logtime_insufficient_warn1) + " (" + active_log.intValue() + " < " + nslog_min.intValue() + ")");
+                        } else if (active_log < nslog_norm) {
+                            user_logtime.setTextColor(Color.parseColor("#FFAA00"));
+                            user_logtime.setText(ctx.getResources().getString(R.string.logtime_insufficient_warn2) + " (" + active_log.intValue() + " < " + nslog_norm.intValue() + ")");
+                        } else {
+                            user_logtime.setTextColor(Color.parseColor("#1FA055"));
+                            user_logtime.setText(ctx.getResources().getString(R.string.logtime_sufficient) + " (" + active_log.intValue() + " > " + nslog_norm.intValue() + ")");
+                        }
 
-                    user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));
+                        user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));
 
-                    Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into(user_picture);
+                        Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into(user_picture);
 
-                    ProfilInfos myInfos = new ProfilInfos();
-                    myInfos.setFirstName(infos.getString("firstname"));
-                    myInfos.setLastName(infos.getString("lastname").toUpperCase());
-                    myInfos.setLogin(infos.getString("login"));
-                    myInfos.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
-                    myInfos.setActiveLog(Double.valueOf(current.getString("active_log")).toString());
-                    myInfos.setNsLogMin(Double.valueOf(current.getString("nslog_min")).toString());
-                    myInfos.setNsLogNorm(Double.valueOf(current.getString("nslog_norm")).toString());
-                    myInfos.setLogColor(user_logtime.getCurrentTextColor());
-                    myInfos.setSemester(current.getString("semester_code"));
-                    myInfos.save();
+                        ProfilInfos myInfos = new ProfilInfos();
+                        myInfos.setFirstName(infos.getString("firstname"));
+                        myInfos.setLastName(infos.getString("lastname").toUpperCase());
+                        myInfos.setLogin(infos.getString("login"));
+                        myInfos.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
+                        myInfos.setActiveLog(Double.valueOf(current.getString("active_log")).toString());
+                        myInfos.setNsLogMin(Double.valueOf(current.getString("nslog_min")).toString());
+                        myInfos.setNsLogNorm(Double.valueOf(current.getString("nslog_norm")).toString());
+                        myInfos.setLogColor(user_logtime.getCurrentTextColor());
+                        myInfos.setSemester(current.getString("semester_code"));
+                        myInfos.save();
 
-                    LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
-                    user.setFirstName(infos.getString("firstname"));
-                    user.setLastName(infos.getString("lastname"));
-                    user.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
-                    user.setLogin(infos.getString("login"));
-                    user.save();
+                        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+                        user.setFirstName(infos.getString("firstname"));
+                        user.setLastName(infos.getString("lastname"));
+                        user.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
+                        user.setLogin(infos.getString("login"));
+                        user.save();
 
-                    ((MaterialNavigationDrawer) ctx).getToolbar().setTitle(infos.getString("firstname"));
-                    ((MaterialNavigationDrawer) ctx).getToolbar().setTitleTextColor(Color.parseColor("#DEDEDE"));
-                    ((MaterialNavigationDrawer) ctx).getCurrentAccount().setTitle(infos.getString("login"));
-                    ((MaterialNavigationDrawer) ctx).getCurrentAccount().setSubTitle(infos.getString("firstname") + " " + infos.getString("lastname").toUpperCase());
-                    Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into((ImageView) ((Activity) ctx).findViewById(R.id.user_photo));
-                    ((MaterialNavigationDrawer) ctx).notifyAccountDataChanged();
-
+                        ((MaterialNavigationDrawer) ctx).getToolbar().setTitle(infos.getString("firstname"));
+                        ((MaterialNavigationDrawer) ctx).getToolbar().setTitleTextColor(Color.parseColor("#DEDEDE"));
+                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setTitle(infos.getString("login"));
+                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setSubTitle(infos.getString("firstname") + " " + infos.getString("lastname").toUpperCase());
+                        Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into((ImageView) ((Activity) ctx).findViewById(R.id.user_photo));
+                        ((MaterialNavigationDrawer) ctx).notifyAccountDataChanged();
+                    } catch (Exception ignored) {}
                 } else if (json.has("error")) {
                     token = ((JSONObject) json.get("error")).getString("message");
                     Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();
