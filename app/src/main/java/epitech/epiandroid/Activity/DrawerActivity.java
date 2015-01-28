@@ -15,6 +15,7 @@ import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.Marks;
 import epitech.epiandroid.Databases.Messages;
 import epitech.epiandroid.Databases.ProfilInfos;
+import epitech.epiandroid.Fragment.ActivitiesFragment;
 import epitech.epiandroid.Fragment.NotesFragment;
 import epitech.epiandroid.Fragment.PlanningFragment;
 import epitech.epiandroid.Fragment.ProfilFragment;
@@ -31,7 +32,7 @@ import it.neokree.materialnavigationdrawer.elements.listeners.MaterialSectionLis
  */
 public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implements MaterialAccountListener {
 
-    MaterialSection profileSection, projectsSection, planningSection, marksSection, logoutSection;
+    MaterialSection activitiesSection, profileSection, projectsSection, planningSection, marksSection, logoutSection;
 
     @Override
     public void init(Bundle savedInstanceState) {
@@ -40,18 +41,10 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
         MaterialAccount account = new MaterialAccount(this.getResources(), "user_u", "login_x", R.drawable.login_x, R.drawable.background);
 
         // create sections
-        profileSection = this.newSection("Section 2", new MaterialSectionListener() {
-            @Override
-            public void onClick(MaterialSection section) {
-                Toast.makeText(getApplicationContext(), "Section 2 Clicked", Toast.LENGTH_SHORT).show();
-
-                // deselect section when is clicked
-                section.unSelect();
-            }
-        });
         profileSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[0], new ProfilFragment());
         projectsSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[1], new ProjetsFragment());
         planningSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[2], new PlanningFragment());
+        activitiesSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[3], new ActivitiesFragment());
         marksSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[5], new NotesFragment());
 
         logoutSection = this.newSection("Logout", new MaterialSectionListener() {
@@ -84,6 +77,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
         //this.addSubheader(getApplicationContext().getString(R.string.app_name));
         //this.addDivisor();
         this.addSection(profileSection);
+        this.addSection(activitiesSection);
         this.addSection(projectsSection);
         this.addSection(planningSection);
         this.addSection(marksSection);
@@ -116,7 +110,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("--> [ ] ?");
+        alert.setTitle("☣ → [ ] ?");
         alert.setMessage(getResources().getString(R.string.ask_quit));
 
         alert.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {

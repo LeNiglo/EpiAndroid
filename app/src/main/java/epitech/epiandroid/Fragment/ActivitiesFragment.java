@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import epitech.epiandroid.R;
 
 
-public class SusieFragment extends Fragment {
+public class ActivitiesFragment extends Fragment {
     View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView  = inflater.inflate(R.layout.fragment_section_token, container, false);
+        rootView  = inflater.inflate(R.layout.fragment_section_activities, container, false);
         return rootView;
     }
 }
