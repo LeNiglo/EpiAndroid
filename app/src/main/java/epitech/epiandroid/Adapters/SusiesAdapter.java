@@ -55,7 +55,7 @@ public class SusiesAdapter extends ArrayAdapter<SusiesItem> {
                 try {
                     SimpleDateFormat newDateFormat = new SimpleDateFormat("dd/MM/yyyy, hh:mm");
                     Date MyDate = newDateFormat.parse(p.getStart());
-                    newDateFormat.applyPattern("EEEE dd MMMM");
+                    newDateFormat.applyPattern("EEEE dd MMMM HH:mm");
                     String MyDate2 = newDateFormat.format(MyDate);
                     start.setText(MyDate2);
                 } catch (Exception e) {
