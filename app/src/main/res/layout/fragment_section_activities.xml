@@ -2,117 +2,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#005DA1"
     android:nestedScrollingEnabled="false"
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#005DA1">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#005DA1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="#005DA1"
+                android:background="@color/primary_material_light"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/next_susie"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/susie_nothing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/nothing_to_show"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/epi_blue"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/susie_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/susie_nothing"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:text="@string/register_to_susie"
+                android:textColor="@color/epi_blue"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal" />
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="0dp"
-                android:background="#006EB2"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/susie_nothing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/nothing_to_show"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#ffffffff"
-                    android:visibility="visible" />
-
-                <Button
-                    android:id="@+id/susie_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/susie_nothing"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/register_to_susie"
-                    android:textColor="#ffffffff" />
-
-                <TextView
-                    android:id="@+id/susie_date"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="false"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="false"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="right"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/susie_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#ffffff"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/susie_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/susie_login"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_toEndOf="@+id/susie_login"
-                    android:layout_toRightOf="@+id/susie_login"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/susie_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/susie_login"
-                    android:layout_below="@+id/susie_login"
-                    android:layout_marginBottom="10dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:visibility="gone" />
-
-            </RelativeLayout>
+                android:id="@+id/susies_list"></LinearLayout>
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="#005DA1"
+                android:background="@color/primary_material_light"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/next_activity"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -123,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="0dp"
-                android:background="#006EB2"
                 android:orientation="vertical">
 
                 <TextView
@@ -135,7 +81,7 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/nothing_to_show"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#ffffffff"
+                    android:textColor="@color/epi_blue"
                     android:visibility="visible" />
 
                 <TextView
@@ -151,7 +97,6 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="28-08-2015 15:00:00"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:visibility="gone" />
 
@@ -162,9 +107,8 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="Séance de coaching"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/epi_blue"
                     android:visibility="gone" />
 
                 <TextView
@@ -176,7 +120,6 @@
                     android:layout_marginTop="3dp"
                     android:layout_toEndOf="@+id/rdv_title"
                     android:layout_toRightOf="@+id/rdv_title"
-                    android:text="(coaching)"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:visibility="gone" />
 
@@ -190,7 +133,6 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="#1E88E5"
                     android:visibility="gone" />
 
             </RelativeLayout>
@@ -199,11 +141,11 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="#005DA1"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/next_submissions"
+                android:background="@color/primary_material_light"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffffff" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -213,7 +155,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/nothing_to_show"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#ffffffff"
+                android:textColor="@color/epi_blue"
                 android:visibility="gone"
                 android:layout_gravity="center" />
 

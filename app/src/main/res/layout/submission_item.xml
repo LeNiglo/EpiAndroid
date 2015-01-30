@@ -5,21 +5,19 @@
     android:layout_height="70dp"
     android:orientation="vertical"
     android:longClickable="true"
-    android:clickable="true"
-    android:background="#006EB2">
+    android:clickable="true">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="EIP - Validation du sujet"
         android:id="@+id/submission_title"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="#ffffffff"
+        android:textColor="#ff000000"
         android:layout_toLeftOf="@+id/circle_progress"
         android:layout_toStartOf="@+id/circle_progress"
         android:layout_marginRight="10dp" />
@@ -28,7 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="du 28/01/2015 au 15/02/2015"
         android:id="@+id/submission_date"
         android:layout_below="@+id/submission_title"
         android:layout_alignLeft="@+id/submission_title"

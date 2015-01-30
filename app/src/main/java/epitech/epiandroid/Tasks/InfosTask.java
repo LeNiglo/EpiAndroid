@@ -21,9 +21,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 
+import epitech.epiandroid.Databases.Activities;
 import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.ProfilInfos;
 import epitech.epiandroid.Databases.Submissions;
+import epitech.epiandroid.Databases.Susies;
 import epitech.epiandroid.Items.SubmissionsItem;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
@@ -92,9 +94,9 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     Double nslog_min;
 
                     try {
+                        JSONObject board = json.getJSONObject("board");
                         try {
                             Submissions.deleteAll(Submissions.class);
-                            JSONObject board = json.getJSONObject("board");
                             JSONArray projets = board.getJSONArray("projets");
                             for (int i = 0; i < projets.length(); ++i) {
                                 JSONObject tmp = projets.getJSONObject(i);
@@ -105,6 +107,30 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                                 submission.setDate(ctx.getResources().getString(R.string.from) + " " + tmp.getString("timeline_start").substring(0, 10) + " "
                                         + ctx.getResources().getString(R.string.to) + " " + tmp.getString("timeline_end").substring(0, 10));
                                 submission.save();
+                            }
+                        } catch (Exception ignored) {}
+
+                        try {
+                            Activities.deleteAll(Activities.class);
+                            JSONArray activites = board.getJSONArray("activites");
+                            for (int i = 0; i < activites.length(); ++i) {
+                                JSONObject tmp = activites.getJSONObject(i);
+                                Activities activite = new Activities();
+                                activite.save();
+                            }
+                        } catch (Exception ignored) {}
+
+                        try {
+                            Susies.deleteAll(Susies.class);
+                            JSONArray susies = board.getJSONArray("susies");
+                            for (int i = 0; i < susies.length(); ++i) {
+                                JSONObject tmp = susies.getJSONObject(i);
+                                Susies susie = new Susies();
+                                susie.setTitle(tmp.getString("title"));
+                                susie.setStart(tmp.getString("timeline_start"));
+                                susie.setSusie(tmp.getString("intervenant"));
+                                susie.setType(tmp.getString("type"));
+                                susie.save();
                             }
                         } catch (Exception ignored) {}
 
