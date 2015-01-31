@@ -115,8 +115,8 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                             JSONArray activites = board.getJSONArray("activites");
                             for (int i = 0; i < activites.length(); ++i) {
                                 JSONObject tmp = activites.getJSONObject(i);
-                                Activities activite = new Activities();
-                                activite.save();
+//                                Activities activite = new Activities();
+//                                activite.save();
                             }
                         } catch (Exception ignored) {}
 
