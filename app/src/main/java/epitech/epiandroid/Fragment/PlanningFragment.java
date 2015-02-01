@@ -100,7 +100,7 @@ public class PlanningFragment extends Fragment {
 					for (int i = 0; i < json.length(); ++i) {
 						JSONObject tmp;
 						if ((tmp = json.getJSONObject(i)) != null) {
-							if (tmp.getBoolean("module_registered") == true)
+							if (tmp.getString("module_registered").equals("true"))
 								userPlanning.add(new PlanningItem(tmp.getString("acti_title"), tmp.getString("start") + " " + tmp.getString("end"), tmp.getBoolean("module_registered")));
 						}
 					}

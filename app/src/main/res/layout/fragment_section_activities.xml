@@ -28,25 +28,22 @@
                 android:id="@+id/susie_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/nothing_to_show"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/epi_blue"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_gravity="center_horizontal" />
 
             <Button
                 android:id="@+id/susie_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/susie_nothing"
-                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
                 android:text="@string/register_to_susie"
                 android:textColor="@color/epi_blue"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_gravity="center_horizontal" />
 
             <LinearLayout
