@@ -3,6 +3,7 @@ package epitech.epiandroid.Tasks;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -42,18 +43,16 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
 
     public InfosTask(Context ctx) {
         this.ctx = ctx;
-        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
-        if (user != null)
-            token = user.getToken();
+		SharedPreferences prefs = ctx.getSharedPreferences("EPIANDROID", ctx.MODE_PRIVATE);
+		this.token = prefs.getString("token", null);
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        final String TAG = "background";
         responseString = "";
         try {
             MyRequest.clearFields();
-            MyRequest.addField("token", token);
+            MyRequest.addField("token", this.token);
             MyRequest.CreatePost("infos");
 
             if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
@@ -64,7 +63,6 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                 throw new IOException(MyRequest.getReasonPhrase());
             } else {
                 responseString = MyRequest.getResponseString();
-                Log.e(TAG, "connexion failed" + responseString);
                 throw new IOException(MyRequest.getReasonPhrase());
             }
         } catch (Exception e) {
@@ -93,10 +91,9 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     Double nslog_norm;
                     Double nslog_min;
 
-                    try {
+					try {
                         JSONObject board = json.getJSONObject("board");
                         try {
-                            Submissions.deleteAll(Submissions.class);
                             JSONArray projets = board.getJSONArray("projets");
                             for (int i = 0; i < projets.length(); ++i) {
                                 JSONObject tmp = projets.getJSONObject(i);
@@ -115,8 +112,6 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                             JSONArray activites = board.getJSONArray("activites");
                             for (int i = 0; i < activites.length(); ++i) {
                                 JSONObject tmp = activites.getJSONObject(i);
-                                Activities activite = new Activities();
-                                activite.save();
                             }
                         } catch (Exception ignored) {}
 
@@ -134,11 +129,19 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                             }
                         } catch (Exception ignored) {}
 
-                        JSONObject infos = json.getJSONObject("infos");
-                        JSONObject current = json.getJSONObject("current");
-                        user_name.setText(infos.getString("lastname").toUpperCase());
-                        user_surname.setText(infos.getString("firstname"));
-                        user_login.setText(infos.getString("login"));
+						JSONObject infos = json.getJSONObject("infos");
+						JSONObject current = json.getJSONObject("current");
+						SharedPreferences.Editor editor = ctx.getSharedPreferences("EPIANDROID", ctx.MODE_PRIVATE).edit();
+						editor.putString("lastName", infos.getString("lastname").toUpperCase());
+						editor.putString("firstName", infos.getString("firstname"));
+						editor.putString("login", infos.getString("login"));
+						editor.putString("userPic", "https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
+						editor.commit();
+
+						SharedPreferences prefs = ctx.getSharedPreferences("EPIANDROID", ctx.MODE_PRIVATE);
+						user_name.setText(prefs.getString("lastName", ""));
+                        user_surname.setText(prefs.getString("firstName", ""));
+                        user_login.setText(prefs.getString("login", ""));
 
                         active_log = Double.valueOf(current.getString("active_log"));
                         nslog_min = Double.valueOf(current.getString("nslog_min"));
@@ -156,33 +159,13 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
 
                         user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));
 
-                        Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into(user_picture);
+                        Picasso.with(ctx).load(prefs.getString("userPic", null)).into(user_picture);
 
-                        ProfilInfos.deleteAll(ProfilInfos.class);
-                        ProfilInfos myInfos = new ProfilInfos();
-                        myInfos.setFirstName(infos.getString("firstname"));
-                        myInfos.setLastName(infos.getString("lastname").toUpperCase());
-                        myInfos.setLogin(infos.getString("login"));
-                        myInfos.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
-                        myInfos.setActiveLog(Double.valueOf(current.getString("active_log")).toString());
-                        myInfos.setNsLogMin(Double.valueOf(current.getString("nslog_min")).toString());
-                        myInfos.setNsLogNorm(Double.valueOf(current.getString("nslog_norm")).toString());
-                        myInfos.setLogColor(user_logtime.getCurrentTextColor());
-                        myInfos.setSemester(current.getString("semester_code"));
-                        myInfos.save();
-
-                        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
-                        user.setFirstName(infos.getString("firstname"));
-                        user.setLastName(infos.getString("lastname"));
-                        user.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
-                        user.setLogin(infos.getString("login"));
-                        user.save();
-
-                        ((MaterialNavigationDrawer) ctx).getToolbar().setTitle(infos.getString("firstname"));
+                        ((MaterialNavigationDrawer) ctx).getToolbar().setTitle(prefs.getString("firstName", ""));
                         ((MaterialNavigationDrawer) ctx).getToolbar().setTitleTextColor(Color.parseColor("#DEDEDE"));
-                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setTitle(infos.getString("login"));
-                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setSubTitle(infos.getString("firstname") + " " + infos.getString("lastname").toUpperCase());
-                        Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into((ImageView) ((Activity) ctx).findViewById(R.id.user_photo));
+                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setTitle(prefs.getString("login", ""));
+                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setSubTitle(prefs.getString("firstName", "") + " " + prefs.getString("lastName", "").toUpperCase());
+                        Picasso.with(ctx).load(prefs.getString("userPic", null)).into((ImageView) ((Activity) ctx).findViewById(R.id.user_photo));
                         ((MaterialNavigationDrawer) ctx).notifyAccountDataChanged();
                     } catch (Exception ignored) {}
                 } else if (json.has("error")) {
@@ -192,9 +175,9 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     token = "non handled error.";
                 }
             } catch (JSONException e) {
-                user_name.setText("UNKNOWN");
-                user_surname.setText("User");
-                user_login.setText("unknow_u");
+                user_name.setText("");
+                user_surname.setText("");
+                user_login.setText("");
                 Toast.makeText(ctx, "Error while parsing server response", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }

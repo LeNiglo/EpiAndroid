@@ -27,6 +27,7 @@
     <string name="logtime_sufficient">Your log time is sufficient. Rest in peace</string>
 
     <string name="ask_quit">Quit the application ?</string>
+    <string name="ask_sure">Are you sure ?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
