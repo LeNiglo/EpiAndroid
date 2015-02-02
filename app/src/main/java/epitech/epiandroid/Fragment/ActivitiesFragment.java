@@ -30,7 +30,7 @@ public class ActivitiesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        long MILISECONDS_BEFORE_FORCE_REFRESH = 60 * 1000; // 60 secondes
+        long MILISECONDS_BEFORE_FORCE_REFRESH = 5 * 1000; // 60 secondes
         rootView = inflater.inflate(R.layout.fragment_section_activities, container, false);
 
         Boolean isSubmissionsDisplayed = Submissions.listAll(Submissions.class).size() > 0;

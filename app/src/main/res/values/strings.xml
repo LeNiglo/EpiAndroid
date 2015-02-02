@@ -50,5 +50,6 @@
     <string name="title_activity_token">TokenActivity</string>
     <string name="token_title">Validez votre Token</string>
     <string name="token_validate">Validez</string>
+    <string name="refresh">refresh</string>
 
 </resources>

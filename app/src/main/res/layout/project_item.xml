@@ -1,27 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="150dp">
+xmlns:custom="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="70dp"
+android:orientation="vertical"
+android:longClickable="true"
+android:clickable="true">
 
-    <ProgressBar
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
-        android:max="100"
-        android:progress="10"
-        android:indeterminate="false"
-        android:id="@+id/Progress"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+<ProgressBar
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+    android:max="100"
+    android:progress="10"
+    android:indeterminate="false"
+    android:id="@+id/Progress"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView6"
-        android:layout_alignBottom="@+id/Progress"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:id="@+id/submission_title"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:textColor="#ff000000"
+    android:layout_toLeftOf="@+id/circle_progress"
+    android:layout_toStartOf="@+id/circle_progress"
+    android:layout_marginRight="10dp"
+    android:text="tttt" />
 
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceSmall"
+    android:id="@+id/submission_date"
+    android:layout_below="@+id/submission_title"
+    android:layout_alignLeft="@+id/submission_title"
+    android:layout_alignStart="@+id/submission_title"
+    android:layout_marginTop="10dp"
+    android:text="ttt" />
+
+<com.github.lzyzsd.circleprogress.CircleProgress
+    android:id="@+id/circle_progress"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:layout_alignParentTop="false"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="false"
+    android:layout_marginRight="10dp"
+    custom:circle_progress="20"
+    android:layout_centerVertical="true" />
 </RelativeLayout>

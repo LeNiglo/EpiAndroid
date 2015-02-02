@@ -3,6 +3,7 @@ package epitech.epiandroid.Fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import epitech.epiandroid.Adapters.MarksAdapter;
+import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.Marks;
 import epitech.epiandroid.Items.MarksItem;
 import epitech.epiandroid.R;
@@ -24,16 +26,30 @@ public class NotesFragment extends Fragment {
     View rootView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        rootView  = inflater.inflate(R.layout.fragment_section_marks, container, false);
-        Boolean isMarksDisplayed = Marks.listAll(Marks.class).size() > 0;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        long MILISECONDS_BEFORE_FORCE_REFRESH = 5 * 1000; // 5 secondes
 
-        if (!isMarksDisplayed) {
+        rootView = inflater.inflate(R.layout.fragment_section_marks, container, false);
+
+        Boolean isMarksDisplayed = Marks.listAll(Marks.class).size() > 0;
+        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+
+        try {
             rootView.findViewById(R.id.marks_progress).setVisibility(View.VISIBLE);
-            new MarksTask(getActivity(), rootView).execute((Void) null);
+            rootView.findViewById(R.id.marks_list).setVisibility(View.GONE);
+        } catch (Exception ignored) {
+        }
+
+        if (!isMarksDisplayed || (user.getMarksUpdatedAt() + MILISECONDS_BEFORE_FORCE_REFRESH) < System.currentTimeMillis()) {
+            new MarksTask(getActivity(), this).execute((Void) null);
         } else {
-            rootView.findViewById(R.id.marks_progress).setVisibility(View.VISIBLE);
+            DisplayMarks();
+        }
+        return rootView;
+    }
+
+    public void DisplayMarks() {
+        try {
             List<MarksItem> items = new ArrayList<>();
             List<Marks> marks = Marks.listAll(Marks.class);
 
@@ -41,7 +57,14 @@ public class NotesFragment extends Fragment {
                 Marks mark = marks.get(i);
                 items.add(new MarksItem(mark.getNote(), mark.getModuleName(), mark.getProjectName(), mark.getContainerColor(), mark.getModuleImage()));
             }
+            onMarksDisplayed(items);
+        } catch (Exception e) {
+            Log.e("Displaymarks", e.getMessage());
+        }
+    }
 
+    public void onMarksDisplayed(List<MarksItem> items) {
+        try {
             ListView marksList = (ListView) rootView.findViewById(R.id.marks_list);
             final ListAdapter customAdapter = new MarksAdapter(rootView.getContext(), R.layout.marks_item, items);
             marksList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -58,7 +81,9 @@ public class NotesFragment extends Fragment {
             });
             marksList.setAdapter(customAdapter);
             rootView.findViewById(R.id.marks_progress).setVisibility(View.GONE);
+            rootView.findViewById(R.id.marks_list).setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            Log.e("Displaymarks", e.getMessage());
         }
-        return rootView;
     }
 }
