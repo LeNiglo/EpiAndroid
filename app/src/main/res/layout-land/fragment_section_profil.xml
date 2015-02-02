@@ -11,13 +11,6 @@
         android:layout_width="200dp"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_progress"
-            android:visibility="visible"
-            android:layout_gravity="center" />
-
         <ImageView
         android:layout_width="wrap_content"
         android:layout_height="80dp"
@@ -96,21 +89,38 @@
                 android:layout_alignParentEnd="true"
                 android:visibility="gone" />
 
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_progress"
+                android:visibility="visible"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
         </RelativeLayout>
     </LinearLayout>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progress_messages"
-        android:layout_gravity="center"
-        android:layout_marginLeft="50dp"
-        android:visibility="gone" />
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/user_messages"
-        android:nestedScrollingEnabled="false" />
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_messages"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/user_messages"
+            android:nestedScrollingEnabled="false"
+            android:visibility="visible" />
+    </RelativeLayout>
 
 </LinearLayout>

@@ -75,7 +75,6 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
             }
         }
 
-
         this.addAccount(account);
         // set listener
         this.setAccountListener(this);
