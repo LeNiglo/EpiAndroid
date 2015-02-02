@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.daimajia.swipe.adapters.ArraySwipeAdapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import epitech.epiandroid.Items.PlanningItem;
@@ -55,7 +57,22 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
 				title.setText(p.getTitle());
 			}
 			if (dates != null) {
-				dates.setText(p.getDates());
+                String start = p.getDates().substring(0, 18);
+                String end = p.getDates().substring(p.getDates().length() - 19, p.getDates().length() - 1);
+                Log.v("DEBUG", end);
+                try {
+                    SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    Date MyDate = newDateFormat.parse(start);
+                    Date MyDate2 = newDateFormat.parse(end);
+                    newDateFormat.applyPattern("EEEE dd MMMM");
+                    start = newDateFormat.format(MyDate);
+                    newDateFormat.applyPattern("HH:mm");
+                    end = newDateFormat.format(MyDate2);
+                    start += ": " + v.getResources().getString(R.string.from) + " " + newDateFormat.format(MyDate) + " " + v.getResources().getString(R.string.to) + " " + end;
+                } catch (Exception e) {
+                    start = "Parsing date error";
+                }
+				dates.setText(start);
 			}
             try {
                 if (button != null && square != null) {
