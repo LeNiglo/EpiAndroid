@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -73,7 +76,6 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
                 this.notifyAccountDataChanged();
             }
         }
-
 
         this.addAccount(account);
         // set listener
