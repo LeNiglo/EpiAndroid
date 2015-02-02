@@ -26,16 +26,14 @@ public class PlanningFragment extends Fragment {
 	private static Integer moveWeek = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_section_planning, container, false);
 
 		rootView.findViewById(R.id.prev_week).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				moveWeek--;
-				Toast.makeText(rootView.getContext(), "week is now : "+moveWeek, Toast.LENGTH_SHORT).show();
+                rootView.findViewById(R.id.planning_progress).setVisibility(View.VISIBLE);
 				new PlanningTask(getActivity(), rootView, PlanningFragment.this, moveWeek).execute((Void) null);
 			}
 		});
@@ -43,7 +41,7 @@ public class PlanningFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				moveWeek++;
-				Toast.makeText(rootView.getContext(), "week is now : "+moveWeek, Toast.LENGTH_SHORT).show();
+                rootView.findViewById(R.id.planning_progress).setVisibility(View.VISIBLE);
 				new PlanningTask(getActivity(), rootView, PlanningFragment.this, moveWeek).execute((Void) null);
 			}
 		});
@@ -66,7 +64,17 @@ public class PlanningFragment extends Fragment {
 
 		for (int i = 0; i < plannings.size(); ++i) {
 			Planning item = plannings.get(i);
-			items.add(new PlanningItem(item.getTitle(), item.getDates(), item.getCodemodule(), item.getCodeacti(), item.getCodeevent(), item.getCodeinstance(), item.getScolaryear(), item.getRegisterStudent(), item.getAllowToken(), item.getModuleRegistered(), item.getEventRegistered()));
+			items.add(new PlanningItem(item.getTitle(),
+                    item.getDates(),
+                    item.getCodemodule(),
+                    item.getCodeacti(),
+                    item.getCodeevent(),
+                    item.getCodeinstance(),
+                    item.getScolaryear(),
+                    item.getRegisterStudent(),
+                    item.getAllowToken(),
+                    item.getModuleRegistered(),
+                    item.getEventRegistered()));
 		}
 
 		this.onPlanningLoaded(items);

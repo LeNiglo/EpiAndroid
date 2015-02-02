@@ -2,6 +2,8 @@ package epitech.epiandroid.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +45,8 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
 			TextView module = (TextView) v.findViewById(R.id.item_module);
 			TextView title = (TextView) v.findViewById(R.id.item_title);
 			TextView dates = (TextView) v.findViewById(R.id.item_dates);
-			Button button = (Button) v.findViewById(R.id.item_button);
+            Button button = (Button) v.findViewById(R.id.item_button);
+            View square = v.findViewById(R.id.item_square);
 
 			if (module != null) {
 				module.setText(p.getCodemodule());
@@ -54,52 +57,48 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
 			if (dates != null) {
 				dates.setText(p.getDates());
 			}
-			if (button != null) {
-
-				if (p.getAllowToken() && p.getRegisterStudent() && !p.getEventRegistered().equals("null")) { // on peut valider son token !
-					button.setText(v.getResources().getString(R.string.planning_token));
-					button.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-
-							Toast.makeText(v.getContext(), "CLICKED FOR : token", Toast.LENGTH_LONG).show();
-
-						}
-					});
-				} else if (p.getRegisterStudent() && p.getModuleRegistered() && p.getEventRegistered().equals("null")) { // on peut s'enregistrer
-					button.setText(v.getResources().getString(R.string.planning_register));
-					button.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-
-							Toast.makeText(v.getContext(), "CLICKED FOR : register", Toast.LENGTH_LONG).show();
-							//new SubscribeTask(p.getScolaryear(), p.getCodemodule(), p.getCodeinstance(), p.getCodeacti(), p.getCodeevent(), v.getContext(), (Activity) v.getContext());
-						}
-					});
-				} else if (p.getRegisterStudent() && !p.getEventRegistered().equals("null")) { // on peut se désinscrire
-					button.setText(v.getResources().getString(R.string.planning_unregister));
-					button.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-
-							Toast.makeText(v.getContext(), "CLICKED FOR : unregister", Toast.LENGTH_LONG).show();
-
-						}
-					});
-				} else { // on peut rien faire :)
-					button.setText(v.getResources().getString(R.string.planning_nothing));
-					button.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-
-							Toast.makeText(v.getContext(), "CLICKED FOR : nothing", Toast.LENGTH_LONG).show();
-
-						}
-					});
-				}
-
-
-			}
+            try {
+                if (button != null && square != null && p.getEventRegistered() != null) {
+                    if (p.getAllowToken() && p.getRegisterStudent() && !p.getEventRegistered().equals("null")) { // on peut valider son token !
+                        button.setText(v.getResources().getString(R.string.planning_token));
+                        button.setBackgroundColor(Color.parseColor("#66FF66"));
+                        square.setBackgroundColor(Color.parseColor("#66FF66"));
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(v.getContext(), "CLICKED FOR : token", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else if (p.getRegisterStudent() && p.getModuleRegistered() && p.getEventRegistered().equals("null")) { // on peut s'enregistrer
+                        button.setText(v.getResources().getString(R.string.planning_register));
+                        button.setBackgroundColor(Color.parseColor("#FFFF66"));
+                        square.setBackgroundColor(Color.parseColor("#FFFF66"));
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(v.getContext(), "CLICKED FOR : register", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else if (p.getRegisterStudent() && !p.getEventRegistered().equals("null")) { // on peut se désinscrire
+                        button.setText(v.getResources().getString(R.string.planning_unregister));
+                        button.setBackgroundColor(Color.parseColor("#FF6666"));
+                        square.setBackgroundColor(Color.parseColor("#FF6666"));
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(v.getContext(), "CLICKED FOR : unregister", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else { // on peut rien faire :)
+                        button.setText(v.getResources().getString(R.string.planning_nothing));
+                        button.setBackgroundColor(Color.parseColor("#E0E0E0"));
+                        square.setBackgroundColor(Color.parseColor("#E0E0E0"));
+                        button.setClickable(false);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 		}
 

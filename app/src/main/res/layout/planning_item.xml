@@ -2,15 +2,14 @@
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 								android:id="@+id/swipe"
 								android:layout_width="match_parent"
-								android:layout_height="100dp">
+								android:layout_height="100dp"
+                                android:weightSum="100">
 
 	<!-- Bottom View Start-->
 	<LinearLayout
 		android:id="@+id/bottom_wrapper"
 		android:layout_width="160dp"
 		android:layout_height="match_parent"
-		android:background="#66ddff00"
-		android:weightSum="1"
 		android:orientation="horizontal">
 		<!--What you want to show-->
 		<Button
@@ -21,39 +20,49 @@
 	<!-- Bottom View End-->
 
 	<!-- Surface View Start -->
-	<LinearLayout
+	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:background="#ffffff"
-		android:padding="10dp"
-		android:orientation="vertical"
-		android:id="@+id/top_wrapper">
+        android:orientation="vertical"
+		android:id="@+id/top_wrapper"
+        android:visibility="visible"
+        android:paddingLeft="10dp">
 		<!--What you want to show in SurfaceView-->
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:id="@+id/item_module"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/item_module"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:id="@+id/item_title"
-				android:layout_marginLeft="5dp"/>
-		</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/item_title"
+            android:layout_marginLeft="7dp"
+            android:layout_toRightOf="@+id/item_module"
+            android:layout_marginTop="10dp" />
 
-		<TextView
+        <TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:id="@+id/item_dates"/>
+			android:id="@+id/item_dates"
+            android:layout_below="@+id/item_title"
+            android:layout_marginTop="5dp" />
 
-	</LinearLayout>
+        <View
+            android:layout_width="25dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/item_square" />
+
+    </RelativeLayout>
 	<!-- Surface View End -->
 </com.daimajia.swipe.SwipeLayout>

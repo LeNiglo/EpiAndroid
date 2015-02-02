@@ -111,7 +111,17 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
 					JSONObject tmp;
 					if ((tmp = json.getJSONObject(i)) != null) {
 						if (tmp.getBoolean("module_registered")) {
-							userPlanning.add(new PlanningItem(tmp.getString("acti_title"), tmp.getString("start") + " " + tmp.getString("end"), tmp.getString("codemodule"), tmp.getString("codeacti"), tmp.getString("codeevent"), tmp.getString("codeinstance"), tmp.getString("scolaryear"), tmp.getBoolean("register_student"), tmp.getBoolean("allow_token"), tmp.getBoolean("module_registered"), tmp.getString("event_registered")));
+							userPlanning.add(new PlanningItem(tmp.getString("acti_title"),
+                                    tmp.getString("start") + " " + tmp.getString("end"),
+                                    tmp.getString("codemodule"),
+                                    tmp.getString("codeacti"),
+                                    tmp.getString("codeevent"),
+                                    tmp.getString("codeinstance"),
+                                    tmp.getString("scolaryear"),
+                                    tmp.getBoolean("register_student"),
+                                    tmp.getBoolean("allow_token"),
+                                    tmp.getBoolean("module_registered"),
+                                    tmp.getString("event_registered")));
 
 							Planning item = new Planning();
 							item.setTitle(tmp.getString("acti_title"));
