@@ -6,6 +6,5 @@
         android:id="@+id/action_refresh"
         android:icon="@drawable/refresh"
         android:title="@string/refresh"
-        app:showAsAction="ifRoom"
-        app:actionViewClass="android.support.v7.widget"/>
+        app:showAsAction="ifRoom"/>
 </menu>
