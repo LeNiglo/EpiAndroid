@@ -40,10 +40,14 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
 
 		final PlanningItem p = (PlanningItem) getItem(position);
 		if (p != null) {
+			TextView module = (TextView) v.findViewById(R.id.item_module);
 			TextView title = (TextView) v.findViewById(R.id.item_title);
 			TextView dates = (TextView) v.findViewById(R.id.item_dates);
 			Button button = (Button) v.findViewById(R.id.item_button);
 
+			if (module != null) {
+				module.setText(p.getCodemodule());
+			}
 			if (title != null) {
 				title.setText(p.getTitle());
 			}
@@ -51,14 +55,50 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
 				dates.setText(p.getDates());
 			}
 			if (button != null) {
-				button.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
 
-						Toast.makeText(v.getContext(), "CLICKED FOR : "+p.getTitle(), Toast.LENGTH_LONG).show();
-						new SubscribeTask(p.getScolaryear(), p.getCodemodule(), p.getCodeinstance(), p.getCodeacti(), p.getCodeevent(), v.getContext(), (Activity) v.getContext());
-					}
-				});
+				if (p.getAllowToken() && p.getRegisterStudent() && !p.getEventRegistered().equals("null")) { // on peut valider son token !
+					button.setText(v.getResources().getString(R.string.planning_token));
+					button.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+
+							Toast.makeText(v.getContext(), "CLICKED FOR : token", Toast.LENGTH_LONG).show();
+
+						}
+					});
+				} else if (p.getRegisterStudent() && p.getModuleRegistered() && p.getEventRegistered().equals("null")) { // on peut s'enregistrer
+					button.setText(v.getResources().getString(R.string.planning_register));
+					button.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+
+							Toast.makeText(v.getContext(), "CLICKED FOR : register", Toast.LENGTH_LONG).show();
+							//new SubscribeTask(p.getScolaryear(), p.getCodemodule(), p.getCodeinstance(), p.getCodeacti(), p.getCodeevent(), v.getContext(), (Activity) v.getContext());
+						}
+					});
+				} else if (p.getRegisterStudent() && !p.getEventRegistered().equals("null")) { // on peut se désinscrire
+					button.setText(v.getResources().getString(R.string.planning_unregister));
+					button.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+
+							Toast.makeText(v.getContext(), "CLICKED FOR : unregister", Toast.LENGTH_LONG).show();
+
+						}
+					});
+				} else { // on peut rien faire :)
+					button.setText(v.getResources().getString(R.string.planning_nothing));
+					button.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+
+							Toast.makeText(v.getContext(), "CLICKED FOR : nothing", Toast.LENGTH_LONG).show();
+
+						}
+					});
+				}
+
+
 			}
 
 		}

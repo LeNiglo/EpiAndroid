@@ -16,6 +16,10 @@ public class Planning extends SugarRecord<Planning> {
 	private String codeevent;
 	private String codeinstance;
 	private String scolaryear;
+	private Boolean register_student;
+	private Boolean allow_token;
+	private Boolean module_registered;
+	private String event_registered;
 
 	public Planning() {}
 
@@ -26,6 +30,10 @@ public class Planning extends SugarRecord<Planning> {
 	public String getCodeevent() { return this.codeevent; }
 	public String getCodeinstance() { return this.codeinstance; }
 	public String getScolaryear() { return this.scolaryear; }
+	public Boolean getRegisterStudent() { return this.register_student; }
+	public Boolean getAllowToken() { return this.allow_token; }
+	public Boolean getModuleRegistered() { return this.module_registered; }
+	public String getEventRegistered() { return this.event_registered; }
 
 	public void setTitle(String i) { this.title = i; }
 	public void setDates(String i) { this.dates = i; }
@@ -34,4 +42,8 @@ public class Planning extends SugarRecord<Planning> {
 	public void setCodeevent(String i) { this.codeevent = i; }
 	public void setCodeinstance(String i) { this.codeinstance = i; }
 	public void setScolaryear(String i) { this.scolaryear = i; }
+	public void setRegisterStudent(Boolean i) { this.register_student = i; }
+	public void setAllowToken(Boolean i) { this.allow_token = i; }
+	public void setModuleRegistered(Boolean i) { this.module_registered = i; }
+	public void setEventRegistered(String i) { this.event_registered = i; }
 }

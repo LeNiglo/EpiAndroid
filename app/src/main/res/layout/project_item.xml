@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:custom="http://schemas.android.com/apk/res-auto"
 android:layout_width="match_parent"
-android:layout_height="70dp"
+android:layout_height="110dp"
 android:orientation="vertical"
 android:longClickable="true"
 android:clickable="true">
 
 <ProgressBar
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="10dp"
     style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
     android:max="100"
     android:progress="10"
@@ -30,8 +30,6 @@ android:clickable="true">
     android:layout_marginLeft="10dp"
     android:layout_marginTop="10dp"
     android:textColor="#ff000000"
-    android:layout_toLeftOf="@+id/circle_progress"
-    android:layout_toStartOf="@+id/circle_progress"
     android:layout_marginRight="10dp"
     android:text="tttt" />
 
@@ -46,14 +44,51 @@ android:clickable="true">
     android:layout_marginTop="10dp"
     android:text="ttt" />
 
-<com.github.lzyzsd.circleprogress.CircleProgress
-    android:id="@+id/circle_progress"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:layout_alignParentTop="false"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="false"
-    android:layout_marginRight="10dp"
-    custom:circle_progress="20"
-    android:layout_centerVertical="true" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/submission_date"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="2"
+        android:id="@+id/linearLayout2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:layout_weight="1.0"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/textView6"
+            android:background="#ffe74c3c" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:layout_weight="1.0"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/textView7"
+            android:background="#2ecc71" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="register"
+        android:id="@+id/textView9"
+        android:layout_above="@+id/linearLayout2"
+        android:gravity="center"
+        android:layout_below="@+id/Progress"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#e74c3c"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="12dp" />
+
 </RelativeLayout>

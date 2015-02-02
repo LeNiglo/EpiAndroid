@@ -28,6 +28,7 @@ import epitech.epiandroid.Adapters.PlanningSwipeAdapter;
 import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.Marks;
 import epitech.epiandroid.Databases.Planning;
+import epitech.epiandroid.Fragment.PlanningFragment;
 import epitech.epiandroid.Items.MarksItem;
 import epitech.epiandroid.Items.PlanningItem;
 import epitech.epiandroid.MyRequest;
@@ -43,11 +44,13 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
 	private List<PlanningItem> userPlanning = new ArrayList<>();
     private View view;
 	private Integer moveWeek;
+	private PlanningFragment parent;
 
-    public PlanningTask(Activity activity, View view, Integer moveWeek) {
+    public PlanningTask(Activity activity, View view, PlanningFragment parent, Integer moveWeek) {
         this.activity = activity;
         this.view = view;
 		this.moveWeek = moveWeek;
+		this.parent = parent;
     }
 
     @Override
@@ -108,7 +111,8 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
 					JSONObject tmp;
 					if ((tmp = json.getJSONObject(i)) != null) {
 						if (tmp.getBoolean("module_registered")) {
-							userPlanning.add(new PlanningItem(tmp.getString("acti_title"), tmp.getString("start") + " " + tmp.getString("end"), tmp.getString("codemodule"), tmp.getString("codeacti"), tmp.getString("codeevent"), tmp.getString("codeinstance"), tmp.getString("scolaryear")));
+							userPlanning.add(new PlanningItem(tmp.getString("acti_title"), tmp.getString("start") + " " + tmp.getString("end"), tmp.getString("codemodule"), tmp.getString("codeacti"), tmp.getString("codeevent"), tmp.getString("codeinstance"), tmp.getString("scolaryear"), tmp.getBoolean("register_student"), tmp.getBoolean("allow_token"), tmp.getBoolean("module_registered"), tmp.getString("event_registered")));
+
 							Planning item = new Planning();
 							item.setTitle(tmp.getString("acti_title"));
 							item.setDates(tmp.getString("start") + " " + tmp.getString("end"));
@@ -117,6 +121,10 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
 							item.setCodeevent(tmp.getString("codeevent"));
 							item.setCodemodule(tmp.getString("codemodule"));
 							item.setScolaryear(tmp.getString("scolaryear"));
+							item.setRegisterStudent(tmp.getBoolean("register_student"));
+							item.setAllowToken(tmp.getBoolean("allow_token"));
+							item.setModuleRegistered(tmp.getBoolean("module_registered"));
+							item.setEventRegistered(tmp.getString("event_registered"));
 							item.save();
 						}
 					}
@@ -125,11 +133,7 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
                 e.printStackTrace();
             }
 
-			ListView planning = (ListView) view.findViewById(R.id.planning_swipe);
-			ListAdapter planningSwipeAdapter = new PlanningSwipeAdapter(this.view.getContext(), R.layout.planning_item, userPlanning);
-			planning.setAdapter(planningSwipeAdapter);
-
-            view.findViewById(R.id.planning_progress).setVisibility(View.GONE);
+			parent.onPlanningLoaded(userPlanning);
         }
     }
 }
