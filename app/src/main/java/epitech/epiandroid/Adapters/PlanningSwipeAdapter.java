@@ -58,11 +58,11 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
 				dates.setText(p.getDates());
 			}
             try {
-                if (button != null && square != null && p.getEventRegistered() != null) {
-                    if (p.getAllowToken() && p.getRegisterStudent() && !p.getEventRegistered().equals("null")) { // on peut valider son token !
+                if (button != null && square != null) {
+                    if (p.getAllowToken() && p.getEventRegistered().equals("registered")) { // on peut valider son token !
                         button.setText(v.getResources().getString(R.string.planning_token));
-                        button.setBackgroundColor(Color.parseColor("#66FF66"));
-                        square.setBackgroundColor(Color.parseColor("#66FF66"));
+                        button.setBackgroundColor(Color.parseColor("#FFB266"));
+                        square.setBackgroundColor(Color.parseColor("#FFB266"));
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -79,7 +79,7 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                                 Toast.makeText(v.getContext(), "CLICKED FOR : register", Toast.LENGTH_LONG).show();
                             }
                         });
-                    } else if (p.getRegisterStudent() && !p.getEventRegistered().equals("null")) { // on peut se désinscrire
+                    } else if (p.getRegisterStudent() && p.getEventRegistered().equals("registered")) { // on peut se désinscrire
                         button.setText(v.getResources().getString(R.string.planning_unregister));
                         button.setBackgroundColor(Color.parseColor("#FF6666"));
                         square.setBackgroundColor(Color.parseColor("#FF6666"));
@@ -89,6 +89,11 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                                 Toast.makeText(v.getContext(), "CLICKED FOR : unregister", Toast.LENGTH_LONG).show();
                             }
                         });
+                    } else if (p.getEventRegistered().equals("present")) { // on a été présent
+                        button.setText(v.getResources().getString(R.string.planning_present));
+                        button.setBackgroundColor(Color.parseColor("#66FF66"));
+                        square.setBackgroundColor(Color.parseColor("#66FF66"));
+                        button.setClickable(false);
                     } else { // on peut rien faire :)
                         button.setText(v.getResources().getString(R.string.planning_nothing));
                         button.setBackgroundColor(Color.parseColor("#E0E0E0"));

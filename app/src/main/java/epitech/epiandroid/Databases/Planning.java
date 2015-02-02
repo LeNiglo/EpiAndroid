@@ -57,5 +57,5 @@ public class Planning extends SugarRecord<Planning> {
     public void setRegisterStudent(Boolean i) { this.register_student = i; }
     public void setAllowToken(Boolean i) { this.allow_token = i; }
     public void setModuleRegistered(Boolean i) { this.module_registered = i; }
-    public void setEventRegistered(String i) { this.event_registered = i; }
+    public void setEventRegistered(String i) { this.event_registered = (i == null ? "null" : i); }
 }

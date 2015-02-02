@@ -46,5 +46,5 @@ public class PlanningItem {
 	public Boolean getRegisterStudent() { return this.register_student; }
 	public Boolean getAllowToken() { return this.allow_token; }
 	public Boolean getModuleRegistered() { return this.module_registered; }
-	public String getEventRegistered() { return this.event_registered; }
+	public String getEventRegistered() { return this.event_registered == null ? "null" : this.event_registered; }
 }
