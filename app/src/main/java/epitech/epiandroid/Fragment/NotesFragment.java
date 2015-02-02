@@ -27,7 +27,7 @@ public class NotesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        long MILISECONDS_BEFORE_FORCE_REFRESH = 5 * 1000; // 60 secondes
+        long MILISECONDS_BEFORE_FORCE_REFRESH = 5 * 1000; // 5 secondes
 
         rootView = inflater.inflate(R.layout.fragment_section_marks, container, false);
 
@@ -81,6 +81,7 @@ public class NotesFragment extends Fragment {
             });
             marksList.setAdapter(customAdapter);
             rootView.findViewById(R.id.marks_progress).setVisibility(View.GONE);
+            rootView.findViewById(R.id.marks_list).setVisibility(View.VISIBLE);
         } catch (Exception e) {
             Log.e("Displaymarks", e.getMessage());
         }
