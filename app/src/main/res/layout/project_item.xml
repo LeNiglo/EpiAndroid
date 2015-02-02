@@ -7,19 +7,7 @@ android:orientation="vertical"
 android:longClickable="true"
 android:clickable="true">
 
-<ProgressBar
-    android:layout_width="fill_parent"
-    android:layout_height="10dp"
-    style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
-    android:max="100"
-    android:progress="10"
-    android:indeterminate="false"
-    android:id="@+id/Progress"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true" />
-
-<TextView
+    <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -30,25 +18,25 @@ android:clickable="true">
     android:layout_marginLeft="10dp"
     android:layout_marginTop="10dp"
     android:textColor="#ff000000"
-    android:layout_marginRight="10dp"
-    android:text="tttt" />
+    android:layout_marginRight="10dp" />
 
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceSmall"
-    android:id="@+id/submission_date"
+    android:id="@+id/title_module"
     android:layout_below="@+id/submission_title"
     android:layout_alignLeft="@+id/submission_title"
     android:layout_alignStart="@+id/submission_title"
     android:layout_marginTop="10dp"
-    android:text="ttt" />
+    android:text="ttt"
+    android:textColor="#c8000000" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/submission_date"
+        android:layout_below="@+id/title_module"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:weightSum="2"
@@ -60,8 +48,7 @@ android:clickable="true">
             android:gravity="center"
             android:layout_weight="1.0"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView6"
+            android:id="@+id/start"
             android:background="#ffe74c3c" />
 
         <TextView
@@ -70,8 +57,7 @@ android:clickable="true">
             android:gravity="center"
             android:layout_weight="1.0"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView7"
+            android:id="@+id/end"
             android:background="#2ecc71" />
     </LinearLayout>
 
@@ -79,11 +65,9 @@ android:clickable="true">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="register"
         android:id="@+id/textView9"
         android:layout_above="@+id/linearLayout2"
         android:gravity="center"
-        android:layout_below="@+id/Progress"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="#e74c3c"

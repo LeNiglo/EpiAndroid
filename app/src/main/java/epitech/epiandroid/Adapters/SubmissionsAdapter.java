@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.CircleProgress;
@@ -46,7 +44,7 @@ public class SubmissionsAdapter extends ArrayAdapter<SubmissionsItem> {
         if (p != null) {
             CircleProgress progress = (CircleProgress) v.findViewById(R.id.circle_progress);
             TextView title = (TextView) v.findViewById(R.id.submission_title);
-            TextView date = (TextView) v.findViewById(R.id.submission_date);
+            TextView date = (TextView) v.findViewById(R.id.title_module);
 
             if (progress != null) {
                 progress.setProgress(p.getProgress());
