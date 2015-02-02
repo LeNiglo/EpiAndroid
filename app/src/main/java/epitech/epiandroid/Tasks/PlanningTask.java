@@ -46,9 +46,7 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        final String TAG = "background";
         responseString = "";
-        Log.v(TAG, "launch planning task");
         try {
             LoginTable infos = LoginTable.listAll(LoginTable.class).get(0);
             String token = infos.getToken();
@@ -73,7 +71,6 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
             }
             else {
                 responseString = MyRequest.getResponseString();
-                Log.e(TAG, "connexion failed" + responseString);
                 throw new IOException(MyRequest.getReasonPhrase());
             }
         } catch (Exception e) {
@@ -95,13 +92,18 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
 				for (int i = 0; i < json.length(); ++i) {
 					JSONObject tmp;
 					if ((tmp = json.getJSONObject(i)) != null) {
-						String dates = tmp.getString("start") + " " + tmp.getString("end");
-						userPlanning.add(new PlanningItem(tmp.getString("acti_title"), dates));
-						Planning item = new Planning();
-                        item.setTitle(tmp.getString("acti_title"));
-                        item.setDates(dates);
-						item.save();
-                        System.out.println(dates);
+						if (tmp.getBoolean("module_registered")) {
+							userPlanning.add(new PlanningItem(tmp.getString("acti_title"), tmp.getString("start") + " " + tmp.getString("end"), tmp.getString("codemodule"), tmp.getString("codeacti"), tmp.getString("codeevent"), tmp.getString("codeinstance"), tmp.getString("scolaryear")));
+							Planning item = new Planning();
+							item.setTitle(tmp.getString("acti_title"));
+							item.setDates(tmp.getString("start") + " " + tmp.getString("end"));
+							item.setCodeacti(tmp.getString("codeacti"));
+							item.setCodeinstance(tmp.getString("codeinstance"));
+							item.setCodeevent(tmp.getString("codeevent"));
+							item.setCodemodule(tmp.getString("codemodule"));
+							item.setScolaryear(tmp.getString("scolaryear"));
+							item.save();
+						}
 					}
 				}
 			} catch (JSONException e) {

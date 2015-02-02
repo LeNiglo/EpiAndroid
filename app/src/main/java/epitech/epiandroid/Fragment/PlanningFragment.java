@@ -40,7 +40,7 @@ public class PlanningFragment extends Fragment {
 
 			for (int i = 0; i < marks.size(); ++i) {
 				Planning item = marks.get(i);
-				items.add(new PlanningItem(item.getTitle(), item.getDates()));
+				items.add(new PlanningItem(item.getTitle(), item.getDates(), item.getCodemodule(), item.getCodeacti(), item.getCodeevent(), item.getCodeinstance(), item.getScolaryear()));
 			}
 
 			ListView planning = (ListView) rootView.findViewById(R.id.planning_swipe);
