@@ -36,7 +36,7 @@ public class PlanningFragment extends Fragment {
 			public void onClick(View v) {
 				moveWeek--;
 				Toast.makeText(rootView.getContext(), "week is now : "+moveWeek, Toast.LENGTH_SHORT).show();
-				new PlanningTask(getActivity(), rootView, moveWeek).execute((Void) null);
+				new PlanningTask(getActivity(), rootView, PlanningFragment.this, moveWeek).execute((Void) null);
 			}
 		});
 		rootView.findViewById(R.id.next_week).setOnClickListener(new View.OnClickListener() {
@@ -44,7 +44,7 @@ public class PlanningFragment extends Fragment {
 			public void onClick(View v) {
 				moveWeek++;
 				Toast.makeText(rootView.getContext(), "week is now : "+moveWeek, Toast.LENGTH_SHORT).show();
-				new PlanningTask(getActivity(), rootView, moveWeek).execute((Void) null);
+				new PlanningTask(getActivity(), rootView, PlanningFragment.this, moveWeek).execute((Void) null);
 			}
 		});
 
@@ -52,23 +52,32 @@ public class PlanningFragment extends Fragment {
 
 		if (!isMarksDisplayed) {
 			rootView.findViewById(R.id.planning_progress).setVisibility(View.VISIBLE);
-			new PlanningTask(this.getActivity(), rootView, moveWeek).execute((Void) null);
+			new PlanningTask(this.getActivity(), rootView, this, moveWeek).execute((Void) null);
 		} else {
-		    rootView.findViewById(R.id.planning_progress).setVisibility(View.VISIBLE);
-			List<PlanningItem> items = new ArrayList<>();
-			List<Planning> marks = Planning.listAll(Planning.class);
-
-			for (int i = 0; i < marks.size(); ++i) {
-				Planning item = marks.get(i);
-				items.add(new PlanningItem(item.getTitle(), item.getDates(), item.getCodemodule(), item.getCodeacti(), item.getCodeevent(), item.getCodeinstance(), item.getScolaryear()));
-			}
-
-			ListView planning = (ListView) rootView.findViewById(R.id.planning_swipe);
-			ListAdapter planningSwipeAdapter = new PlanningSwipeAdapter(rootView.getContext(), R.layout.planning_item, items);
-
-			planning.setAdapter(planningSwipeAdapter);
-			rootView.findViewById(R.id.planning_progress).setVisibility(View.GONE);
+			this.loadPlanning();
 		}
-	    return rootView;
+		return rootView;
     }
+
+	public void loadPlanning() {
+		rootView.findViewById(R.id.planning_progress).setVisibility(View.VISIBLE);
+		List<PlanningItem> items = new ArrayList<>();
+		List<Planning> plannings = Planning.listAll(Planning.class);
+
+		for (int i = 0; i < plannings.size(); ++i) {
+			Planning item = plannings.get(i);
+			items.add(new PlanningItem(item.getTitle(), item.getDates(), item.getCodemodule(), item.getCodeacti(), item.getCodeevent(), item.getCodeinstance(), item.getScolaryear(), item.getRegisterStudent(), item.getAllowToken(), item.getModuleRegistered(), item.getEventRegistered()));
+		}
+
+		this.onPlanningLoaded(items);
+	}
+
+
+	public void onPlanningLoaded(List<PlanningItem> items) {
+		ListView planning = (ListView) rootView.findViewById(R.id.planning_swipe);
+		ListAdapter planningSwipeAdapter = new PlanningSwipeAdapter(rootView.getContext(), R.layout.planning_item, items);
+
+		planning.setAdapter(planningSwipeAdapter);
+		rootView.findViewById(R.id.planning_progress).setVisibility(View.INVISIBLE);
+	}
 }

@@ -29,11 +29,24 @@
 		android:orientation="vertical"
 		android:id="@+id/top_wrapper">
 		<!--What you want to show in SurfaceView-->
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:id="@+id/item_title"/>
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:id="@+id/item_module"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:id="@+id/item_title"
+				android:layout_marginLeft="5dp"/>
+		</LinearLayout>
 
 		<TextView
 			android:layout_width="wrap_content"
