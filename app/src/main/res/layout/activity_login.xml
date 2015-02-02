@@ -58,6 +58,7 @@
             app:cpb_textError="@string/loginError"
             app:cpb_textIdle="@string/loginButton"
             android:layout_below="@+id/mdp"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp"
+            android:visibility="gone" />
 
 </RelativeLayout>

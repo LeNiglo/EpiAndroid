@@ -55,4 +55,9 @@
 	<string name="prev_week">Prev</string>
 	<string name="next_week">Next</string>
 
+    <string name="planning_token">Token</string>
+    <string name="planning_register">Register</string>
+    <string name="planning_unregister">Unregister</string>
+    <string name="planning_nothing">Nothing</string>
+
 </resources>
