@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ import epitech.epiandroid.Tasks.PlanningTask;
 public class PlanningFragment extends Fragment {
 
     View rootView;
+	private static Integer moveWeek = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,11 +31,28 @@ public class PlanningFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_section_planning, container, false);
 
+		rootView.findViewById(R.id.prev_week).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				moveWeek--;
+				Toast.makeText(rootView.getContext(), "week is now : "+moveWeek, Toast.LENGTH_SHORT).show();
+				new PlanningTask(getActivity(), rootView, moveWeek).execute((Void) null);
+			}
+		});
+		rootView.findViewById(R.id.next_week).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				moveWeek++;
+				Toast.makeText(rootView.getContext(), "week is now : "+moveWeek, Toast.LENGTH_SHORT).show();
+				new PlanningTask(getActivity(), rootView, moveWeek).execute((Void) null);
+			}
+		});
+
 		Boolean isMarksDisplayed = Planning.listAll(Planning.class).size() > 0;
 
 		if (!isMarksDisplayed) {
 			rootView.findViewById(R.id.planning_progress).setVisibility(View.VISIBLE);
-			new PlanningTask(getActivity(), rootView).execute((Void) null);
+			new PlanningTask(this.getActivity(), rootView, moveWeek).execute((Void) null);
 		} else {
 		    rootView.findViewById(R.id.planning_progress).setVisibility(View.VISIBLE);
 			List<PlanningItem> items = new ArrayList<>();

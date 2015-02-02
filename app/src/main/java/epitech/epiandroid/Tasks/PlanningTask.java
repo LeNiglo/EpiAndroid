@@ -14,10 +14,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import epitech.epiandroid.Adapters.MarksAdapter;
 import epitech.epiandroid.Adapters.PlanningSwipeAdapter;
@@ -38,10 +42,12 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
     private Activity activity;
 	private List<PlanningItem> userPlanning = new ArrayList<>();
     private View view;
+	private Integer moveWeek;
 
-    public PlanningTask(Activity activity, View view) {
+    public PlanningTask(Activity activity, View view, Integer moveWeek) {
         this.activity = activity;
         this.view = view;
+		this.moveWeek = moveWeek;
     }
 
     @Override
@@ -52,13 +58,22 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
             String token = infos.getToken();
             MyRequest.clearFields();
             MyRequest.addField("token", token);
-			String start= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            MyRequest.addField("start", start);
-			long theFuture = System.currentTimeMillis() + (86400 * 7 * 1000);
-			Date nextWeek = new Date(theFuture);
-			String end= new SimpleDateFormat("yyyy-MM-dd").format(nextWeek);
-            MyRequest.addField("end", end);
-            MyRequest.CreatePost("planning");
+
+
+			Calendar c = GregorianCalendar.getInstance(Locale.FRANCE);
+			c.add(Calendar.DATE, 7*this.moveWeek);
+			c.setFirstDayOfWeek(Calendar.MONDAY);
+
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
+
+			String startDate = df.format(c.getTime());
+			c.add(Calendar.DATE, 6);
+			String endDate = df.format(c.getTime());
+
+            MyRequest.addField("start", startDate);
+            MyRequest.addField("end", endDate);
+
+			MyRequest.CreatePost("planning");
 
             if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
                 responseString = MyRequest.getResponseString();

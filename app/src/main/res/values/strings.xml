@@ -52,4 +52,7 @@
     <string name="token_validate">Validez</string>
     <string name="refresh">refresh</string>
 
+	<string name="prev_week">Prev</string>
+	<string name="next_week">Next</string>
+
 </resources>
