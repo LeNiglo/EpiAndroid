@@ -43,6 +43,8 @@ public class LoginActivity extends Activity {
         final EditText login = (EditText) findViewById(R.id.login);
         final EditText mdp = (EditText) findViewById(R.id.mdp);
 
+        login.setText("simonn_s");
+        mdp.setText("w,h=Jvse");
         findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,11 +56,16 @@ public class LoginActivity extends Activity {
                     ((CircularProgressButton) findViewById(R.id.login_button)).setIndeterminateProgressMode(true);
                     ((CircularProgressButton) findViewById(R.id.login_button)).setProgress(50);
                     canLogin = false;
-                    new LoginTask(login.getText().toString(), mdp.getText().toString(), sContext.getApplicationContext(), LoginActivity.this).execute();
+                    mLoginTask = new LoginTask(login.getText().toString(), mdp.getText().toString(), sContext.getApplicationContext(), LoginActivity.this);
+                    mLoginTask.execute();
                 }
             }
         });
 
+        if (LoginTable.listAll(LoginTable.class).size() > 0) {
+            Intent i = new Intent(getApplicationContext(), DrawerActivity.class);
+            startActivity(i);
+        }
     }
 
     @Override

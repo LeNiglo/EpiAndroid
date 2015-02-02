@@ -3,7 +3,6 @@ package epitech.epiandroid.Tasks;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -27,6 +26,8 @@ import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.ProfilInfos;
 import epitech.epiandroid.Databases.Submissions;
 import epitech.epiandroid.Databases.Susies;
+import epitech.epiandroid.Fragment.ActivitiesFragment;
+import epitech.epiandroid.Fragment.ProfilFragment;
 import epitech.epiandroid.Items.SubmissionsItem;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
@@ -40,21 +41,23 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
     private String token;
     private Context ctx;
     private String responseString = null;
+    private Fragment parent;
 
-    public InfosTask(Context ctx) {
+    public InfosTask(Context ctx, Fragment parent) {
         this.ctx = ctx;
-
-
-		SharedPreferences prefs = ctx.getSharedPreferences("EPIANDROID", ctx.MODE_PRIVATE);
-		this.token = prefs.getString("token", null);
+        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+        if (user != null)
+            token = user.getToken();
+        this.parent = parent;
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
+        final String TAG = "background";
         responseString = "";
         try {
             MyRequest.clearFields();
-            MyRequest.addField("token", this.token);
+            MyRequest.addField("token", token);
             MyRequest.CreatePost("infos");
 
             if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
@@ -65,6 +68,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                 throw new IOException(MyRequest.getReasonPhrase());
             } else {
                 responseString = MyRequest.getResponseString();
+                Log.e(TAG, "connexion failed" + responseString);
                 throw new IOException(MyRequest.getReasonPhrase());
             }
         } catch (Exception e) {
@@ -78,12 +82,6 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(final Boolean success) {
         super.onPostExecute(success);
         if (ctx != null && success) {
-            TextView user_name = (TextView) ((Activity) ctx).findViewById(R.id.user_name);
-            TextView user_surname = (TextView) ((Activity) ctx).findViewById(R.id.user_surname);
-            TextView user_login = (TextView) ((Activity) ctx).findViewById(R.id.user_login);
-            TextView user_logtime = (TextView) ((Activity) ctx).findViewById(R.id.user_logtime);
-            ImageView user_picture = (ImageView) ((Activity) ctx).findViewById(R.id.user_picture);
-            TextView user_semester = (TextView) ((Activity) ctx).findViewById(R.id.user_semester);
             JSONObject json;
 
             try {
@@ -93,9 +91,10 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     Double nslog_norm;
                     Double nslog_min;
 
-					try {
+                    try {
                         JSONObject board = json.getJSONObject("board");
                         try {
+                            Submissions.deleteAll(Submissions.class);
                             JSONArray projets = board.getJSONArray("projets");
                             for (int i = 0; i < projets.length(); ++i) {
                                 JSONObject tmp = projets.getJSONObject(i);
@@ -109,13 +108,15 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                             }
                         } catch (Exception ignored) {}
 
-                        try {
+                        /*try {
                             Activities.deleteAll(Activities.class);
                             JSONArray activites = board.getJSONArray("activites");
                             for (int i = 0; i < activites.length(); ++i) {
                                 JSONObject tmp = activites.getJSONObject(i);
+                                Activities activite = new Activities();
+                                activite.save();
                             }
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {}*/
 
                         try {
                             Susies.deleteAll(Susies.class);
@@ -131,44 +132,45 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                             }
                         } catch (Exception ignored) {}
 
-						JSONObject infos = json.getJSONObject("infos");
-						JSONObject current = json.getJSONObject("current");
-						SharedPreferences.Editor editor = ctx.getSharedPreferences("EPIANDROID", ctx.MODE_PRIVATE).edit();
-						editor.putString("lastName", infos.getString("lastname").toUpperCase());
-						editor.putString("firstName", infos.getString("firstname"));
-						editor.putString("login", infos.getString("login"));
-						editor.putString("userPic", "https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
-						editor.commit();
+                        JSONObject infos = json.getJSONObject("infos");
+                        JSONObject current = json.getJSONObject("current");
 
-						SharedPreferences prefs = ctx.getSharedPreferences("EPIANDROID", ctx.MODE_PRIVATE);
-						user_name.setText(prefs.getString("lastName", ""));
-                        user_surname.setText(prefs.getString("firstName", ""));
-                        user_login.setText(prefs.getString("login", ""));
+                        ProfilInfos.deleteAll(ProfilInfos.class);
+                        ProfilInfos myInfos = new ProfilInfos();
+                        myInfos.setFirstName(infos.getString("firstname"));
+                        myInfos.setLastName(infos.getString("lastname").toUpperCase());
+                        myInfos.setLogin(infos.getString("login"));
+                        myInfos.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
+                        myInfos.setActiveLog(Double.valueOf(current.getString("active_log")).toString());
+                        myInfos.setNsLogMin(Double.valueOf(current.getString("nslog_min")).toString());
+                        myInfos.setNsLogNorm(Double.valueOf(current.getString("nslog_norm")).toString());
+                        myInfos.setSemester(current.getString("semester_code"));
+                        myInfos.save();
 
-                        active_log = Double.valueOf(current.getString("active_log"));
-                        nslog_min = Double.valueOf(current.getString("nslog_min"));
-                        nslog_norm = Double.valueOf(current.getString("nslog_norm"));
-                        if (active_log < nslog_min) {
-                            user_logtime.setTextColor(Color.parseColor("#FF0000"));
-                            user_logtime.setText(ctx.getResources().getString(R.string.logtime_insufficient_warn1) + " (" + active_log.intValue() + " < " + nslog_min.intValue() + ")");
-                        } else if (active_log < nslog_norm) {
-                            user_logtime.setTextColor(Color.parseColor("#FFAA00"));
-                            user_logtime.setText(ctx.getResources().getString(R.string.logtime_insufficient_warn2) + " (" + active_log.intValue() + " < " + nslog_norm.intValue() + ")");
-                        } else {
-                            user_logtime.setTextColor(Color.parseColor("#1FA055"));
-                            user_logtime.setText(ctx.getResources().getString(R.string.logtime_sufficient) + " (" + active_log.intValue() + " > " + nslog_norm.intValue() + ")");
-                        }
+                        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+                        user.setFirstName(infos.getString("firstname"));
+                        user.setLastName(infos.getString("lastname"));
+                        user.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
+                        user.setLogin(infos.getString("login"));
+                        user.setInfosUpdatedAt(System.currentTimeMillis());
+                        user.save();
 
-                        user_semester.setText(ctx.getString(R.string.semester) + " " + current.getString("semester_code"));
-
-                        Picasso.with(ctx).load(prefs.getString("userPic", null)).into(user_picture);
-
-                        ((MaterialNavigationDrawer) ctx).getToolbar().setTitle(prefs.getString("firstName", ""));
+                        ((MaterialNavigationDrawer) ctx).getToolbar().setTitle(infos.getString("firstname"));
                         ((MaterialNavigationDrawer) ctx).getToolbar().setTitleTextColor(Color.parseColor("#DEDEDE"));
-                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setTitle(prefs.getString("login", ""));
-                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setSubTitle(prefs.getString("firstName", "") + " " + prefs.getString("lastName", "").toUpperCase());
-                        Picasso.with(ctx).load(prefs.getString("userPic", null)).into((ImageView) ((Activity) ctx).findViewById(R.id.user_photo));
+                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setTitle(infos.getString("login"));
+                        ((MaterialNavigationDrawer) ctx).getCurrentAccount().setSubTitle(infos.getString("firstname") + " " + infos.getString("lastname").toUpperCase());
+                        Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into((ImageView) ((Activity) ctx).findViewById(R.id.user_photo));
                         ((MaterialNavigationDrawer) ctx).notifyAccountDataChanged();
+
+                        try {
+                            ((ProfilFragment) parent).onProfileLoaded();
+                        } catch (ClassCastException ignored) {
+                        }
+                        try {
+                            ((ActivitiesFragment) parent).LoadSusies();
+                            ((ActivitiesFragment) parent).LoadSubmissions();
+                        } catch (ClassCastException ignored) {
+                        }
                     } catch (Exception ignored) {}
                 } else if (json.has("error")) {
                     token = ((JSONObject) json.get("error")).getString("message");
@@ -177,9 +179,6 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                     token = "non handled error.";
                 }
             } catch (JSONException e) {
-                user_name.setText("");
-                user_surname.setText("");
-                user_login.setText("");
                 Toast.makeText(ctx, "Error while parsing server response", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }

@@ -3,7 +3,6 @@ package epitech.epiandroid.Tasks;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -86,6 +85,9 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
                 token = json.getString("token");
                 // token = "u4j4uoj7puemja003q601k5c30"; // octeau_j
                 // token = "eapvqa4o3lqimk9itf026voi80"; // soler_p
+                LoginTable user = new LoginTable();
+                user.setToken(token);
+                user.save();
                 ((CircularProgressButton) activity.findViewById(R.id.login_button)).setProgress(100);
                 err = false;
             } else if (json.has("error")) {
@@ -107,10 +109,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
         if (!err) {
             Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
-			SharedPreferences.Editor editor = ctx.getSharedPreferences("EPIANDROID", Context.MODE_PRIVATE).edit();
-			editor.putString("token", token);
-            editor.commit();
-			activity.startActivity(i);
+            activity.startActivity(i);
         }
 
         ((LoginActivity) activity).setCanLogin(true);

@@ -8,17 +8,14 @@ import android.text.Html;
  * Created by Styve on 14/01/2015.
  */
 public class PlanningItem {
-	private Boolean module_registered;
 	private String title;
 	private String dates;
 
-	public PlanningItem(String title, String dates, Boolean module_registered) {
+	public PlanningItem(String title, String dates) {
 		this.title = title;
 		this.dates = dates;
-		this.module_registered = module_registered;
 	}
 
 	public String getTitle() { return this.title; }
 	public String getDates() { return this.dates; }
-	public Boolean getModuleRegistered() { return this.module_registered; }
 }
