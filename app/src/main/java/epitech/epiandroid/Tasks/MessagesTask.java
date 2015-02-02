@@ -1,5 +1,6 @@
 package epitech.epiandroid.Tasks;
 
+import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.List;
 import epitech.epiandroid.Adapters.MessagesAdapter;
 import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.Messages;
+import epitech.epiandroid.Fragment.ProfilFragment;
 import epitech.epiandroid.Items.MessagesItem;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
@@ -30,14 +32,15 @@ import epitech.epiandroid.R;
 public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
     private String token;
     private String responseString = null;
-    private List<MessagesItem> userMessages = new ArrayList<>();
+    private ProfilFragment parent;
     private View view;
 
-    public MessagesTask(View view) {
+    public MessagesTask(View view, ProfilFragment parent) {
         LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
         if (user != null)
             token = user.getToken();
         this.view = view;
+        this.parent = parent;
     }
 
     @Override
@@ -71,37 +74,24 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
         if (success) {
             try {
                 JSONArray json;
-                System.out.println("Création des messages et ajout à la DB");
                 json = new JSONArray(responseString);
-                // supprime tous les messages de la DB
                 Messages.deleteAll(Messages.class);
                 for (int i = 0; i < json.length(); ++i) {
                     JSONObject tmp;
                     if ((tmp = json.getJSONObject(i)) != null) {
                         JSONObject user = tmp.getJSONObject("user");
-                        userMessages.add(new MessagesItem(tmp.getString("content"), tmp.getString("title"), user.getString("title"), tmp.getString("date"), user.getString("picture")));
-                        // ajoute le message dans la db
                         Messages message = new Messages(tmp.getString("content"), tmp.getString("title"), user.getString("title"), tmp.getString("date"), user.getString("picture"));
                         message.save();
                     }
                 }
+                LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+                user.setMessagesUpdatedAt(System.currentTimeMillis());
+                user.save();
             } catch (JSONException e) {
                 Toast.makeText(view.getContext(), "Server is down..", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (view.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                ListView messageList = (ListView) view.findViewById(R.id.user_messages);
-                ListAdapter customAdapter = new MessagesAdapter(view.getContext(), R.layout.message_item, userMessages);
-                messageList.setAdapter(customAdapter);
-            } else {
-                LinearLayout messageList = (LinearLayout) view.findViewById(R.id.user_messages_linear);
-                ListAdapter customAdapter = new MessagesAdapter(view.getContext(), R.layout.message_item, userMessages);
-                for (int i = 0; i < customAdapter.getCount(); i++) {
-                    View item = customAdapter.getView(i, null, null);
-                    messageList.addView(item);
-                }
-            }
-            view.findViewById(R.id.progress_messages).setVisibility(View.GONE);
+            parent.LoadMessages();
         }
     }
 
