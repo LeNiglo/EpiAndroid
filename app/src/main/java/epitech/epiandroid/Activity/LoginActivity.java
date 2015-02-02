@@ -43,8 +43,8 @@ public class LoginActivity extends Activity {
         final EditText login = (EditText) findViewById(R.id.login);
         final EditText mdp = (EditText) findViewById(R.id.mdp);
 
-        login.setText("simonn_s");
-        mdp.setText("w,h=Jvse");
+        login.setText("");
+        mdp.setText("");
         findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,8 +74,10 @@ public class LoginActivity extends Activity {
             Toast.makeText(sContext, getString(R.string.login_quit), Toast.LENGTH_SHORT).show();
             pushed = true;
         }
-        else
+        else {
+            finish();
             super.onBackPressed();
+        }
     }
 
     @Override

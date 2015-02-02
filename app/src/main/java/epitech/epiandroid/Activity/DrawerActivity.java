@@ -135,15 +135,6 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
         alert.show();
     }
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -160,7 +151,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            Toast.makeText(getApplicationContext(), "refresh", Toast.LENGTH_SHORT).show();
+
             return true;
         }
 

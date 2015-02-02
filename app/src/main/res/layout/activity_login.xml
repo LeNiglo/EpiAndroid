@@ -47,15 +47,17 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="false"
+            android:layout_alignParentEnd="true"
             android:enabled="true"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:cpb_textComplete="@string/loginComplete"
             app:cpb_textError="@string/loginError"
-            app:cpb_textIdle="@string/loginButton" />
+            app:cpb_textIdle="@string/loginButton"
+            android:layout_below="@+id/mdp"
+            android:layout_marginTop="30dp" />
 
 </RelativeLayout>

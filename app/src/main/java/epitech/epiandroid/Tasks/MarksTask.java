@@ -1,29 +1,17 @@
 package epitech.epiandroid.Tasks;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
-
-import com.dd.CircularProgressButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import epitech.epiandroid.Activity.DrawerActivity;
-import epitech.epiandroid.Activity.LoginActivity;
 import epitech.epiandroid.Adapters.MarksAdapter;
 import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.Marks;
@@ -40,10 +28,12 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
     private String responseString = null;
     private Activity activity;
     private NotesFragment parent;
+    private MarksAdapter adapter;
 
-    public MarksTask(Activity activity, NotesFragment parent) {
+    public MarksTask(Activity activity, NotesFragment parent, MarksAdapter adapter) {
         this.activity = activity;
         this.parent = parent;
+        this.adapter = adapter;
     }
 
     @Override
@@ -60,14 +50,11 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
 
             if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
                 responseString = MyRequest.getResponseString();
-            }
-            else if (MyRequest.isStatusTimeout()) {
+            } else if (MyRequest.isStatusTimeout()) {
                 Toast.makeText(activity, "Delai d'attente dépassé", Toast.LENGTH_SHORT).show();
-            }
-            else if (MyRequest.isStatusForbidden()) {
+            } else if (MyRequest.isStatusForbidden()) {
                 throw new IOException(MyRequest.getReasonPhrase());
-            }
-            else {
+            } else {
                 responseString = MyRequest.getResponseString();
                 Log.e(TAG, "connexion failed" + responseString);
                 throw new IOException(MyRequest.getReasonPhrase());
@@ -91,9 +78,10 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
                 if (json.has("notes")) {
                     Marks.deleteAll(Marks.class);
                     JSONArray marks = json.getJSONArray("notes");
+                    parent.onMarksDisplayed();
                     for (int i = 0; i < marks.length(); ++i) {
                         JSONObject tmp = marks.getJSONObject(i);
-                        Marks mark = new Marks();
+                        final Marks mark = new Marks();
                         Double note = 0.0;
                         try {
                             note = Double.valueOf(tmp.getString("final_note"));
@@ -128,11 +116,17 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
                         mark.setContainerColor(color);
                         mark.setModuleImage(R.drawable.module);
                         mark.save();
-
-                        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
-                        user.setMarksUpdatedAt(System.currentTimeMillis());
-                        user.save();
+                        activity.runOnUiThread(new Runnable(){
+                            @Override
+                            public void run(){
+                                adapter.add(new MarksItem(mark.getNote(), mark.getModuleName(), mark.getProjectName(), mark.getContainerColor(), mark.getModuleImage()));
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
                     }
+                    LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+                    user.setMarksUpdatedAt(System.currentTimeMillis());
+                    user.save();
                 } else if (json.has("error")) {
                     token = ((JSONObject) json.get("error")).getString("message");
                     Toast.makeText(activity, token, Toast.LENGTH_SHORT).show();
@@ -140,7 +134,6 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            parent.DisplayMarks();
         }
     }
 }
