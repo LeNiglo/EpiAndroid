@@ -15,7 +15,7 @@
         <item>Profil</item>
         <item>Projets</item>
         <item>Planning</item>
-        <item>Activitées</item>
+        <item>Activités</item>
         <item>Notes</item>
     </array>
 
@@ -38,10 +38,10 @@
     <string name="next_submissions">Mon prochain rendez-vous</string>
     <string name="nothing_to_show">Rien à afficher !</string>
 
-    <string name="from">De</string>
+    <string name="from">de</string>
     <string name="to">à</string>
 
-    <string name="share_via">Partager par&#8230;</string>
+    <string name="share_via">Partager via&#8230;</string>
     <string name="share_title">Epiandroid - Je partage ma note avec toi !</string>
     <string name="share_body">Salut ! J\'ai eu %1$s pour le projet \"%2$s\".\n - Partagé depuis EpiAndroid</string>
 
