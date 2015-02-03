@@ -159,8 +159,8 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                         ((MaterialNavigationDrawer) ctx).getToolbar().setTitleTextColor(Color.parseColor("#DEDEDE"));
                         ((MaterialNavigationDrawer) ctx).getCurrentAccount().setTitle(infos.getString("login"));
                         ((MaterialNavigationDrawer) ctx).getCurrentAccount().setSubTitle(infos.getString("firstname") + " " + infos.getString("lastname").toUpperCase());
-                        Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into((ImageView) ((Activity) ctx).findViewById(R.id.user_photo));
                         ((MaterialNavigationDrawer) ctx).notifyAccountDataChanged();
+                        Picasso.with(ctx).load("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture")).into((ImageView) ((Activity) ctx).findViewById(R.id.user_photo));
 
                         try {
                             ((ProfilFragment) parent).onProfileLoaded();

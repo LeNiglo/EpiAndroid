@@ -4,7 +4,12 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.IOException;
 
 import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.Databases.Marks;
@@ -39,12 +47,40 @@ import it.neokree.materialnavigationdrawer.elements.listeners.MaterialSectionLis
 public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implements MaterialAccountListener {
 
     MaterialSection activitiesSection, profileSection, projectsSection, planningSection, marksSection, logoutSection;
+    MaterialAccount account = null;
+    DrawerActivity self = this;
+
+    private class getUserProfileImage extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            if (LoginTable.listAll(LoginTable.class).size() != 0) {
+                final LoginTable infos = LoginTable.listAll(LoginTable.class).get(0);
+                if (infos.getLastName() != null) {
+                    self.getCurrentAccount().setTitle(infos.getLogin());
+                    self.getCurrentAccount().setSubTitle(infos.getFirstName() + " " + infos.getLastName().toUpperCase());
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Picasso.with(getApplicationContext()).load(infos.getPicUrl()).into((ImageView) findViewById(R.id.user_photo));
+                            }
+                        });
+                    } catch (Exception e) {
+                        Log.e("Bitmap", "Exception: " + e.getMessage());
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
 
     @Override
     public void init(Bundle savedInstanceState) {
         allowArrowAnimation();
         // add first account
-        MaterialAccount account = new MaterialAccount(this.getResources(), "", "", R.drawable.login_x, R.drawable.background);
+        account = new MaterialAccount(this.getResources(), "", "", null, R.drawable.background);
 
         // create sections
         profileSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[0], new ProfilFragment());
@@ -66,17 +102,6 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
             }
         });
 
-        if (LoginTable.listAll(LoginTable.class).size() != 0) {
-            LoginTable infos = LoginTable.listAll(LoginTable.class).get(0);
-            if (infos.getLastName() != null) {
-                account.setTitle(infos.getLogin());
-                account.setSubTitle(infos.getFirstName() + " " + infos.getLastName().toUpperCase());
-                Picasso.with(this.getApplicationContext()).load(infos.getPicUrl()).into((ImageView) findViewById(R.id.user_photo));
-                Log.e("Debug", infos.getPicUrl());
-                this.notifyAccountDataChanged();
-            }
-        }
-
         this.addAccount(account);
         // set listener
         this.setAccountListener(this);
@@ -92,7 +117,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
         this.addBottomSection(logoutSection);
 
         this.setBackPattern(MaterialNavigationDrawer.BACKPATTERN_BACK_TO_FIRST);
-
+        new getUserProfileImage().execute();
     }
 
     @Override
@@ -113,6 +138,11 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
     @Override
     public void onChangeAccount(MaterialAccount newAccount) {
         // when another account is selected
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
