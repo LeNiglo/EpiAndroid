@@ -36,7 +36,12 @@ public class ActivitiesFragment extends Fragment {
         Boolean isSubmissionsDisplayed = Submissions.listAll(Submissions.class).size() > 0;
         Boolean isSusiesDisplayed = Susies.listAll(Susies.class).size() > 0;
 
-        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+        LoginTable user = null;
+        try {
+            user = LoginTable.listAll(LoginTable.class).get(0);
+        } catch (Exception e) {
+            getActivity().finish();
+        }
 
         try {
             rootView.findViewById(R.id.susies_list).setVisibility(View.GONE);

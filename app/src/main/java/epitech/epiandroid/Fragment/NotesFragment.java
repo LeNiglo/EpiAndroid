@@ -36,7 +36,12 @@ public class NotesFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_section_marks, container, false);
 
         Boolean isMarksDisplayed = Marks.listAll(Marks.class).size() > 0;
-        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+        LoginTable user = null;
+        try {
+            user = LoginTable.listAll(LoginTable.class).get(0);
+        } catch (Exception e) {
+            getActivity().finish();
+        }
 
         marksList = (ListView) rootView.findViewById(R.id.marks_list);
         customAdapter = new MarksAdapter(rootView.getContext(), R.layout.marks_item, new ArrayList<MarksItem>());

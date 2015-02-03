@@ -46,7 +46,12 @@ public class ProfilFragment extends Fragment {
         isMessagesDisplayed = Messages.listAll(Messages.class).size() != 0;
         isProfileDisplayed = ProfilInfos.listAll(ProfilInfos.class).size() != 0;
 
-        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+        LoginTable user = null;
+        try {
+            user = LoginTable.listAll(LoginTable.class).get(0);
+        } catch (Exception e) {
+            getActivity().finish();
+        }
 
         try {
             rootView.findViewById(R.id.user_name).setVisibility(View.GONE);

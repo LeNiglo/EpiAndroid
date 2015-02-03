@@ -19,15 +19,11 @@ import epitech.epiandroid.Tasks.LoginTask;
 
 
 public class LoginActivity extends Activity {
-
-    /**
-     * The {@link ViewPager} that will display the three primary sections of the app, one at a
-     * time.
-     */
     private Context     sContext;
     private LoginTask   mLoginTask;
     private boolean     pushed;
     private boolean     canLogin;
+    private final LoginActivity self = this;
 
     public void setCanLogin(boolean v) {
         canLogin = v;
@@ -52,11 +48,10 @@ public class LoginActivity extends Activity {
                 if ((login.getText().toString().equals("") || mdp.getText().toString().equals("")) && canLogin)
                     Toast.makeText(sContext, getString(R.string.login_empty), Toast.LENGTH_SHORT).show();
                 else {
-                    //((TextView)(findViewById(R.id.notes))).setText("Connecting...");
                     ((CircularProgressButton) findViewById(R.id.login_button)).setIndeterminateProgressMode(true);
                     ((CircularProgressButton) findViewById(R.id.login_button)).setProgress(50);
                     canLogin = false;
-                    mLoginTask = new LoginTask(login.getText().toString(), mdp.getText().toString(), sContext.getApplicationContext(), LoginActivity.this);
+                    mLoginTask = new LoginTask(login.getText().toString(), mdp.getText().toString(), sContext.getApplicationContext(), self);
                     mLoginTask.execute();
                 }
             }

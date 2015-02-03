@@ -117,7 +117,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
 
                         try {
                             Susies.deleteAll(Susies.class);
-                            /*JSONArray susies = board.getJSONArray("susies");
+                            JSONArray susies = board.getJSONArray("susies");
                             for (int i = 0; i < susies.length(); ++i) {
                                 JSONObject tmp = susies.getJSONObject(i);
                                 Susies susie = new Susies();
@@ -126,7 +126,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                                 susie.setSusie(tmp.getString("intervenant"));
                                 susie.setType(tmp.getString("type"));
                                 susie.save();
-                            }*/
+                            }
                         } catch (Exception ignored) {}
 
                         JSONObject infos = json.getJSONObject("infos");
@@ -144,13 +144,17 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                         myInfos.setSemester(current.getString("semester_code"));
                         myInfos.save();
 
-                        LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
-                        user.setFirstName(infos.getString("firstname"));
-                        user.setLastName(infos.getString("lastname"));
-                        user.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
-                        user.setLogin(infos.getString("login"));
-                        user.setInfosUpdatedAt(System.currentTimeMillis());
-                        user.save();
+                        try {
+                            LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+                            if (user != null) {
+                                user.setFirstName(infos.getString("firstname"));
+                                user.setLastName(infos.getString("lastname"));
+                                user.setPicUrl("https://cdn.local.epitech.eu/userprofil/" + infos.getString("picture"));
+                                user.setLogin(infos.getString("login"));
+                                user.setInfosUpdatedAt(System.currentTimeMillis());
+                                user.save();
+                            }
+                        } catch (Exception ignored) {}
 
                         ((MaterialNavigationDrawer) ctx).getToolbar().setTitle(infos.getString("firstname"));
                         ((MaterialNavigationDrawer) ctx).getToolbar().setTitleTextColor(Color.parseColor("#DEDEDE"));

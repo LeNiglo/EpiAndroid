@@ -1,5 +1,6 @@
 package epitech.epiandroid.Tasks;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -83,9 +84,14 @@ public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
                         message.save();
                     }
                 }
-                LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
-                user.setMessagesUpdatedAt(System.currentTimeMillis());
-                user.save();
+
+                try {
+                    LoginTable user = LoginTable.listAll(LoginTable.class).get(0);
+                    user.setMessagesUpdatedAt(System.currentTimeMillis());
+                    user.save();
+                } catch (Exception e) {
+                    ((Activity)view.getContext()).finish();
+                }
             } catch (JSONException e) {
                 Toast.makeText(view.getContext(), "Server is down..", Toast.LENGTH_LONG).show();
                 return;

@@ -114,8 +114,6 @@ public class ProjetsFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-
-                Date date= new java.util.Date();
                 long now = System.currentTimeMillis();
                 long total = d2.getTime() - d.getTime();
                 long diffnow =   d2.getTime() - now;
