@@ -1,5 +1,6 @@
 package epitech.epiandroid.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import epitech.epiandroid.Items.PlanningItem;
 import epitech.epiandroid.R;
+import epitech.epiandroid.Tasks.SubscribeTask;
 
 /**
  * Created by Guillaume on 21/01/2015.
@@ -107,6 +109,7 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+								new SubscribeTask(p.getScolaryear(), p.getCodemodule(), p.getCodeinstance(), p.getCodeacti(), p.getCodeevent(), v.getContext(), (Activity) v.getContext()).execute((Void) null);
                                 Toast.makeText(v.getContext(), "CLICKED FOR : register", Toast.LENGTH_LONG).show();
                             }
                         });
@@ -117,6 +120,7 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
                                 Toast.makeText(v.getContext(), "CLICKED FOR : unregister", Toast.LENGTH_LONG).show();
                             }
                         });

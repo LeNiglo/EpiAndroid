@@ -5,14 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/marks_progress"
-        android:layout_gravity="center"
-        android:visibility="visible"
-        android:layout_centerInParent="true" />
+
+	<com.gc.materialdesign.views.ProgressBarCircularIndeterminate
+		android:id="@+id/marks_progress"
+		android:layout_width="64dp"
+		android:layout_height="64dp"
+		android:background="#1E88E5"
+		android:layout_centerVertical="true"
+		android:layout_centerHorizontal="true"
+		android:layout_gravity="center"
+		android:visibility="visible"
+		android:layout_centerInParent="true" />
 
     <ListView
         android:layout_width="wrap_content"
