@@ -1,6 +1,5 @@
 package epitech.epiandroid.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import epitech.epiandroid.Items.PlanningItem;
 import epitech.epiandroid.R;
-import epitech.epiandroid.Tasks.SubscribeTask;
 
 /**
  * Created by Guillaume on 21/01/2015.

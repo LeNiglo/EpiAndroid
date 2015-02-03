@@ -103,7 +103,7 @@ public class ActivitiesFragment extends Fragment {
         Submissions item = null;
         for (int i = 0; i < sumbissions.size(); ++i) {
             Submissions tmp = sumbissions.get(i);
-            if (item == null || tmp.getProgress() > item.getProgress())
+            if (item == null || (tmp.getProgress() > item.getProgress() && tmp.getProgress() != 100))
                 item = tmp;
         }
         if (item != null)

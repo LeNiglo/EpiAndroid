@@ -138,6 +138,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        menu.clear();
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
