@@ -133,9 +133,9 @@ public class ProjetsFragment extends Fragment {
 
 
                 if (d.getTime() < now)
-                    difftext.setText(String.valueOf(getResources().getString(R.string.rest) + String.valueOf(days) + getResources().getString(R.string.jours)));
+                    difftext.setText(String.valueOf(getResources().getString(R.string.rest, String.valueOf(days))));
                 else {
-                    difftext.setText(String.valueOf(getResources().getString(R.string.start_proj) + String.valueOf(days) + getResources().getString(R.string.jours)));
+                    difftext.setText(String.valueOf(getResources().getString(R.string.start_proj, String.valueOf(days))));
                     difftext.setTextColor(Color.parseColor("#42A5F5"));
                 }
 

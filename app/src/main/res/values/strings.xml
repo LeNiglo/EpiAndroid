@@ -63,8 +63,7 @@
 	<string name="subscribe">Suscribed for : %1$s</string>
 	<string name="unsubscribe">UnSuscribed from : %1$s</string>
 	<string name="token_done">Token validated for : %1$s</string>
-    <string name="rest">Il vous reste </string>
-    <string name="jours"> jours</string>
-    <string name="start_proj">Ce projet commence dans </string>
+    <string name="rest">You have %1$s day(s) left</string>
+    <string name="start_proj">This projet starts in %1$s day(s)</string>
 
 </resources>
