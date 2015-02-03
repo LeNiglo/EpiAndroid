@@ -50,7 +50,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
         projectsSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[1], new ProjetsFragment());
         planningSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[2], new PlanningFragment());
         activitiesSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[3], new ActivitiesFragment());
-        marksSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[5], new NotesFragment());
+        marksSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[4], new NotesFragment());
         logoutSection = this.newSection("Logout", new MaterialSectionListener() {
             @Override
             public void onClick(MaterialSection section) {
@@ -116,8 +116,8 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("☣ → [ ] ?");
-        alert.setMessage(getResources().getString(R.string.ask_quit));
+        alert.setTitle(getResources().getString(R.string.ask_quit));
+        alert.setMessage(getResources().getString(R.string.ask_sure));
 
         alert.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
