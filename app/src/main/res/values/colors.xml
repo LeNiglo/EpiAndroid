@@ -4,4 +4,6 @@
 	<color name="background">#ffdedede</color>
     <color name="white">#ffffffff</color>
 	<color name="grey_1000">#ffdedede</color>
+    <color name="material_blue_500">#ff2196F3</color>
+
 </resources>

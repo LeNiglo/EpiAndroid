@@ -26,9 +26,8 @@ import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
 
 /**
- * Created by Styve on 12/01/2015.
- */
-
+*** Created by Styve on 12/01/2015.
+**/
 public class MessagesTask extends AsyncTask<Void, Void, Boolean> {
     private String token;
     private String responseString = null;

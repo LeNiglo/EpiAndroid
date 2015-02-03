@@ -21,8 +21,11 @@ import epitech.epiandroid.Items.PlanningItem;
 import epitech.epiandroid.MyRequest;
 
 /**
- * Created by julien on 02/02/15.
- */
+** Created by julien on 02/02/15.
+**
+*/
+
+
 public class ProjectTask extends AsyncTask<Void, Void, Boolean> {
     private String responseString = null;
     private Activity activity;
@@ -69,8 +72,7 @@ public class ProjectTask extends AsyncTask<Void, Void, Boolean> {
         super.onPostExecute(success);
         JSONArray json;
 
-        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
-//        Log.e("TAG", "test");
+        ArrayList<JSONObject> list = new ArrayList<>();
 
         if (success) {
             try {
@@ -87,7 +89,7 @@ public class ProjectTask extends AsyncTask<Void, Void, Boolean> {
                     e.printStackTrace();
                 }
             } catch (Exception e) {
-
+                return;
             }
         }
         parent.completelistview(view, list, activity.getApplicationContext());

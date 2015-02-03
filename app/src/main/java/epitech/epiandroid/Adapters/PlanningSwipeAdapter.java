@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.swipe.adapters.ArraySwipeAdapter;
 
 import java.text.SimpleDateFormat;
@@ -25,38 +26,38 @@ import epitech.epiandroid.Tasks.SubscribeTask;
  * Created by Guillaume on 21/01/2015.
  */
 public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
-	public PlanningSwipeAdapter(Context context, int resource, List<PlanningItem> objects) {
-		super(context, resource, objects);
-	}
+    public PlanningSwipeAdapter(Context context, int resource, List<PlanningItem> objects) {
+        super(context, resource, objects);
+    }
 
-	@Override
-	public int getSwipeLayoutResourceId(int position) {
-		return R.id.swipe;
-	}
+    @Override
+    public int getSwipeLayoutResourceId(int position) {
+        return R.id.swipe;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View v = convertView;
-		if (v == null) {
-			LayoutInflater vi = LayoutInflater.from(getContext());
-			v = vi.inflate(R.layout.planning_item, null);
-		}
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View v = convertView;
+        if (v == null) {
+            LayoutInflater vi = LayoutInflater.from(getContext());
+            v = vi.inflate(R.layout.planning_item, null);
+        }
 
-		final PlanningItem p = (PlanningItem) getItem(position);
-		if (p != null) {
-			TextView module = (TextView) v.findViewById(R.id.item_module);
-			TextView title = (TextView) v.findViewById(R.id.item_title);
-			TextView dates = (TextView) v.findViewById(R.id.item_dates);
+        final PlanningItem p = (PlanningItem) getItem(position);
+        if (p != null) {
+            TextView module = (TextView) v.findViewById(R.id.item_module);
+            TextView title = (TextView) v.findViewById(R.id.item_title);
+            TextView dates = (TextView) v.findViewById(R.id.item_dates);
             Button button = (Button) v.findViewById(R.id.item_button);
             View square = v.findViewById(R.id.item_square);
 
-			if (module != null) {
-				module.setText(p.getCodemodule());
-			}
-			if (title != null) {
-				title.setText(p.getTitle());
-			}
-			if (dates != null) {
+            if (module != null) {
+                module.setText(p.getCodemodule());
+            }
+            if (title != null) {
+                title.setText(p.getTitle());
+            }
+            if (dates != null) {
                 String start = p.getDates().substring(0, 18);
                 String end = p.getDates().substring(p.getDates().length() - 19, p.getDates().length() - 1);
                 Log.v("DEBUG", end);
@@ -72,8 +73,8 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                 } catch (Exception e) {
                     start = "Parsing date error";
                 }
-				dates.setText(start);
-			}
+                dates.setText(start);
+            }
             try {
                 if (button != null && square != null) {
                     if (p.getAllowToken() && p.getEventRegistered().equals("registered")) { // on peut valider son token !
@@ -83,7 +84,22 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(v.getContext(), "CLICKED FOR : token", Toast.LENGTH_LONG).show();
+
+                                final View v2 = v;
+                                new MaterialDialog.Builder(getContext())
+                                        .title(R.string.token_title)
+                                        .positiveColorRes(R.color.material_blue_500)
+                                        .neutralColorRes(R.color.material_blue_500)
+                                        .negativeColorRes(R.color.material_blue_500)
+                                        .positiveText(R.string.ok)
+                                        .customView(R.layout.input_text, true)
+                                        .callback(new MaterialDialog.ButtonCallback() {
+                                            @Override
+                                            public void onPositive(MaterialDialog dialog) {
+                                                Toast.makeText(v2.getContext(), "CLICKED FOR : token", Toast.LENGTH_LONG).show();
+                                            }
+                                        })
+                                        .show();
                             }
                         });
                     } else if (p.getRegisterStudent() && p.getModuleRegistered() && p.getEventRegistered().equals("null")) { // on peut s'enregistrer
@@ -122,8 +138,8 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                 e.printStackTrace();
             }
 
-		}
+        }
 
-		return v;
-	}
+        return v;
+    }
 }

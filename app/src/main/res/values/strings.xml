@@ -60,5 +60,6 @@
     <string name="planning_unregister">Unregister</string>
     <string name="planning_nothing">Nothing</string>
     <string name="planning_present">Present</string>
+    <string name="ok">ok</string>
 
 </resources>
