@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.swipe.adapters.ArraySwipeAdapter;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +24,7 @@ import java.util.List;
 import epitech.epiandroid.Items.PlanningItem;
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.SubscribeTask;
+import epitech.epiandroid.Tasks.TokenTask;
 import epitech.epiandroid.Tasks.UnSubscribeTask;
 
 /**
@@ -87,19 +91,21 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                             public void onClick(View v) {
 
                                 final View v2 = v;
+								final int layout = R.layout.input_text;
                                 new MaterialDialog.Builder(getContext())
                                         .title(R.string.token_title)
                                         .positiveColorRes(R.color.material_blue_500)
                                         .neutralColorRes(R.color.material_blue_500)
                                         .negativeColorRes(R.color.material_blue_500)
                                         .positiveText(R.string.ok)
-                                        .customView(R.layout.input_text, true)
+                                        .customView(layout, true)
                                         .callback(new MaterialDialog.ButtonCallback() {
-                                            @Override
-                                            public void onPositive(MaterialDialog dialog) {
-                                                Toast.makeText(v2.getContext(), "CLICKED FOR : token", Toast.LENGTH_LONG).show();
-                                            }
-                                        })
+											@Override
+											public void onPositive(MaterialDialog dialog) {
+												View view = dialog.getCustomView();
+												new TokenTask(p.getScolaryear(), p.getCodemodule(), p.getCodeinstance(), p.getCodeacti(), p.getCodeevent(), ((EditText) view.findViewById(R.id.validate_token)).getText().toString(), view.getContext(), (Activity) view.getContext()).execute((Void) null);
+											}
+										})
                                         .show();
                             }
                         });
@@ -111,7 +117,6 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                             @Override
                             public void onClick(View v) {
 								new SubscribeTask(p.getScolaryear(), p.getCodemodule(), p.getCodeinstance(), p.getCodeacti(), p.getCodeevent(), v.getContext(), (Activity) v.getContext()).execute((Void) null);
-                                Toast.makeText(v.getContext(), "CLICKED FOR : register", Toast.LENGTH_LONG).show();
                             }
                         });
                     } else if (p.getRegisterStudent() && p.getEventRegistered().equals("registered")) { // on peut se désinscrire
@@ -122,7 +127,6 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                             @Override
                             public void onClick(View v) {
 								new UnSubscribeTask(p.getScolaryear(), p.getCodemodule(), p.getCodeinstance(), p.getCodeacti(), p.getCodeevent(), v.getContext(), (Activity) v.getContext()).execute((Void) null);
-								Toast.makeText(v.getContext(), "CLICKED FOR : unregister", Toast.LENGTH_LONG).show();
                             }
                         });
                     } else if (p.getEventRegistered().equals("present")) { // on a été présent
