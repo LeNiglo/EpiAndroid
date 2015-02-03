@@ -21,6 +21,7 @@ import java.util.List;
 import epitech.epiandroid.Items.PlanningItem;
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.SubscribeTask;
+import epitech.epiandroid.Tasks.TokenTask;
 import epitech.epiandroid.Tasks.UnSubscribeTask;
 
 /**
@@ -87,16 +88,18 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                             public void onClick(View v) {
 
                                 final View v2 = v;
+								final int layout = R.layout.input_text;
                                 new MaterialDialog.Builder(getContext())
                                         .title(R.string.token_title)
                                         .positiveColorRes(R.color.material_blue_500)
                                         .neutralColorRes(R.color.material_blue_500)
                                         .negativeColorRes(R.color.material_blue_500)
                                         .positiveText(R.string.ok)
-                                        .customView(R.layout.input_text, true)
+                                        .customView(layout, true)
                                         .callback(new MaterialDialog.ButtonCallback() {
                                             @Override
                                             public void onPositive(MaterialDialog dialog) {
+												// p.getScolaryear(), p.getCodemodule(), p.getCodeinstance(), p.getCodeacti(), p.getCodeevent(), v.getContext(), (Activity) v.getContext()).execute((Void) null);
                                                 Toast.makeText(v2.getContext(), "CLICKED FOR : token", Toast.LENGTH_LONG).show();
                                             }
                                         })

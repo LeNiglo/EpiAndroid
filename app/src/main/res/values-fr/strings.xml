@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">EpiAndroid</string>
-    <string name="loginText">identifiant_u</string>
     <string name="passwordText">Mot de Passe (UNIX)</string>
     <string name="loginButton">Connexion</string>
     <string name="loginComplete">Bienvenue !</string>
