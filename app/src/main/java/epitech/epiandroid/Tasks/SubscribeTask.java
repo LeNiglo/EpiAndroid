@@ -15,6 +15,7 @@ import java.io.IOException;
 import epitech.epiandroid.Activity.DrawerActivity;
 import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.MyRequest;
+import epitech.epiandroid.R;
 
 /**
  * Created by Styve on 12/01/2015.
@@ -55,7 +56,7 @@ public class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
 			MyRequest.addField("codeacti", this.codeacti);
 			MyRequest.addField("codeevent", this.codeevent);
 
-			MyRequest.CreatePost("token");
+			MyRequest.CreatePost("project");
 
             if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
                 responseString = MyRequest.getResponseString();
@@ -80,34 +81,9 @@ public class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean success) {
         super.onPostExecute(success);
-        String token;
-        Boolean err = true;
-        JSONObject json;
 
-		Log.v("Validate Token", responseString);
-        // check si le retour est bien du json
-        try {
-            json = new JSONObject(responseString);
-            // check si il y a bien un token
-            if (json.has("token")) {
-                token = json.getString("token");
-                err = false;
-            } else if (json.has("error")) {
-                token = ((JSONObject)json.get("error")).getString("message");
-                Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();
-            } else {
-                token = "non handled error.";
-            }
-        } catch (JSONException e) {
-            token = "Internal server error";
-            Toast.makeText(ctx, "Internal server error", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
+		Toast.makeText(this.ctx, this.ctx.getResources().getString(R.string.subscribe, this.codeacti), Toast.LENGTH_LONG).show();
 
-        if (!err) {
-			Toast.makeText(this.ctx, "Suscribed FOR : "+this.codeevent, Toast.LENGTH_LONG).show();
-		}
-
-        this.cancel(true);
+		this.cancel(true);
     }
 }

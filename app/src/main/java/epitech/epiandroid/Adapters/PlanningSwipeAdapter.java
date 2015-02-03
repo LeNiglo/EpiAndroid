@@ -21,6 +21,7 @@ import java.util.List;
 import epitech.epiandroid.Items.PlanningItem;
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.SubscribeTask;
+import epitech.epiandroid.Tasks.UnSubscribeTask;
 
 /**
  * Created by Guillaume on 21/01/2015.
@@ -120,8 +121,8 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
-                                Toast.makeText(v.getContext(), "CLICKED FOR : unregister", Toast.LENGTH_LONG).show();
+								new UnSubscribeTask(p.getScolaryear(), p.getCodemodule(), p.getCodeinstance(), p.getCodeacti(), p.getCodeevent(), v.getContext(), (Activity) v.getContext()).execute((Void) null);
+								Toast.makeText(v.getContext(), "CLICKED FOR : unregister", Toast.LENGTH_LONG).show();
                             }
                         });
                     } else if (p.getEventRegistered().equals("present")) { // on a été présent

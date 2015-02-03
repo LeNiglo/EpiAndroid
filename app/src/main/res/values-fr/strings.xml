@@ -60,4 +60,8 @@
     <string name="planning_present">Présent</string>
     <string name="ok">ok</string>
 
+	<string name="subscribe">Inscrit pour : %1$s</string>
+	<string name="unsubscribe">Désinscrit de : %1$s</string>
+	<string name="token_done">Token validé pour : %1$s</string>
+
 </resources>

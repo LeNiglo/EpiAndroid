@@ -111,7 +111,9 @@ public class TokenTask extends AsyncTask<Void, Void, Boolean> {
         }
 
         if (!err) {
-            Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
+			Toast.makeText(this.ctx, this.ctx.getResources().getString(R.string.token_done, this.codeacti), Toast.LENGTH_LONG).show();
+
+			Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
             i.putExtra("token", token);
             activity.startActivity(i);
         }
