@@ -82,7 +82,6 @@ public class ProjectTask extends AsyncTask<Void, Void, Boolean> {
                         JSONObject c = (JSONObject) json.get(i);
                         if (c.get("type_acti").equals("Projets") || c.get("type_acti").equals("Projet")) {
                             list.add(c);
-                            Log.e("TAG", c.toString());
                         }
                     }
                 } catch (JSONException e) {

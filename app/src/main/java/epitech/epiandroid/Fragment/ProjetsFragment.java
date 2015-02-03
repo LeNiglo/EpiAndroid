@@ -1,6 +1,7 @@
 package epitech.epiandroid.Fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -24,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import epitech.epiandroid.R;
@@ -96,16 +98,11 @@ public class ProjetsFragment extends Fragment {
             TextView difftext = (TextView) convertView.findViewById(R.id.difftext);
             TextView module = (TextView) convertView.findViewById(R.id.title_module);
 
-
-
-
             try {
                 text.setText(list.get(position).get("project").toString());
                 text.setText(list.get(position).get("project").toString());
 
-
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
                 Date d = new Date();
                 Date d2 = new Date();
@@ -120,53 +117,33 @@ public class ProjetsFragment extends Fragment {
 
                 Date date= new java.util.Date();
                 long now = System.currentTimeMillis();
-//                long progress = (d.getTime() / 100000) * 100 / (d2.getTime() / 100000);
-
-
                 long total = d2.getTime() - d.getTime();
-                long diffnow =  now - d.getTime();
-
+                long diffnow =   d2.getTime() - now;
                 long days = TimeUnit.MILLISECONDS.toDays(diffnow);
-
-                //long progress = (d.getTime()) * 100 / ();
                 long progress = diffnow * 100 / total;
-
 
                 if (progress < 0)
                     progress = 0;
 
-               // Log.e("PROG", String.valueOf(progress));
                 float st = (float) progress / 100;
-               // float st2 = (float) (1 - st - 0.001);
-
-                Log.e("PROG1", String.valueOf(st));
-              // Log.e("PROG2", String.valueOf(st2));
-
-
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.weight = st;
                 start.setLayoutParams(params);
 
 
-                difftext.setText(String.valueOf("il vous reste"));
+                if (d.getTime() < now)
+                    difftext.setText(String.valueOf(getResources().getString(R.string.rest) + String.valueOf(days) + getResources().getString(R.string.jours)));
+                else {
+                    difftext.setText(String.valueOf(getResources().getString(R.string.start_proj) + String.valueOf(days) + getResources().getString(R.string.jours)));
+                    difftext.setTextColor(Color.parseColor("#42A5F5"));
+                }
 
                 module.setText(tmpboj.getString("title_module"));
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
-//            if(convertView == null){
-//                LayoutInflater inflater = LayoutInflater.from(context);        // only context can also be used
-//                convertView = inflater.inflate(R.layout.project_item, null);
-//                viewHolder = new ViewHolder();
-//                convertView.setTag(viewHolder);
-//
-//            }else{
-//                viewHolder = (ViewHolder) convertView.getTag();
-//            }
 
             return (convertView);
         }
