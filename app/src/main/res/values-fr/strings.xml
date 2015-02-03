@@ -55,7 +55,7 @@
     <string name="planning_token">Token</string>
     <string name="planning_register">S\'inscrire</string>
     <string name="planning_unregister">Se désinscrire</string>
-    <string name="planning_nothing">Rien</string>
+    <string name="planning_nothing">Aucune action possible</string>
     <string name="planning_present">Présent</string>
     <string name="ok">ok</string>
 
