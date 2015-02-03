@@ -10,7 +10,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import epitech.epiandroid.Databases.Planning;
@@ -76,12 +82,22 @@ public class PlanningFragment extends Fragment {
                     item.getModuleRegistered(),
                     item.getEventRegistered()));
 		}
-
 		this.onPlanningLoaded(items);
 	}
 
 
 	public void onPlanningLoaded(List<PlanningItem> items) {
+        Collections.sort(items, new Comparator<PlanningItem>() {
+            DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            @Override
+            public int compare(PlanningItem o1, PlanningItem o2) {
+                try {
+                    return f.parse(o1.getDates().substring(0, 18)).compareTo(f.parse(o2.getDates().substring(0, 18)));
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        });
 		ListView planning = (ListView) rootView.findViewById(R.id.planning_swipe);
 		ListAdapter planningSwipeAdapter = new PlanningSwipeAdapter(rootView.getContext(), R.layout.planning_item, items);
 

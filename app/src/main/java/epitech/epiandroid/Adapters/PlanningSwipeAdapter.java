@@ -65,7 +65,6 @@ public class PlanningSwipeAdapter extends ArraySwipeAdapter<PlanningItem> {
             if (dates != null) {
                 String start = p.getDates().substring(0, 18);
                 String end = p.getDates().substring(p.getDates().length() - 19, p.getDates().length() - 1);
-                Log.v("DEBUG", end);
                 try {
                     SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     Date MyDate = newDateFormat.parse(start);
