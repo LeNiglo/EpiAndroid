@@ -2,6 +2,7 @@ package epitech.epiandroid.Activity;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -184,7 +185,20 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
+            Messages.deleteAll(Messages.class);
+            ProfilInfos.deleteAll(ProfilInfos.class);
+            Marks.deleteAll(Marks.class);
+            Planning.deleteAll(Planning.class);
+            Submissions.deleteAll(Submissions.class);
+            Susies.deleteAll(Susies.class);
 
+
+            // Reload current fragment
+            Fragment frg = getFragmentManager().findFragmentById(R.id.frame_container);
+            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(frg);
+            ft.attach(frg);
+            ft.commit();
             return true;
         }
 

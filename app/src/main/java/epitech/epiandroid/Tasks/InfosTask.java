@@ -87,9 +87,6 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
             try {
                 json = new JSONObject(responseString);
                 if (json.has("ip")) {
-                    Double active_log;
-                    Double nslog_norm;
-                    Double nslog_min;
 
                     try {
                         JSONObject board = json.getJSONObject("board");
@@ -120,7 +117,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
 
                         try {
                             Susies.deleteAll(Susies.class);
-                            JSONArray susies = board.getJSONArray("susies");
+                            /*JSONArray susies = board.getJSONArray("susies");
                             for (int i = 0; i < susies.length(); ++i) {
                                 JSONObject tmp = susies.getJSONObject(i);
                                 Susies susie = new Susies();
@@ -129,7 +126,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                                 susie.setSusie(tmp.getString("intervenant"));
                                 susie.setType(tmp.getString("type"));
                                 susie.save();
-                            }
+                            }*/
                         } catch (Exception ignored) {}
 
                         JSONObject infos = json.getJSONObject("infos");
@@ -171,7 +168,7 @@ public class InfosTask extends AsyncTask<Void, Void, Boolean> {
                             ((ActivitiesFragment) parent).LoadSubmissions();
                         } catch (ClassCastException ignored) {
                         }
-                    } catch (Exception ignored) {}
+                    } catch (ClassCastException ignored) {}
                 } else if (json.has("error")) {
                     token = ((JSONObject) json.get("error")).getString("message");
                     Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();

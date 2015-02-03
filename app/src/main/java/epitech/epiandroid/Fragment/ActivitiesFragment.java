@@ -64,7 +64,6 @@ public class ActivitiesFragment extends Fragment {
             try {
                 rootView.findViewById(R.id.susies_list).setVisibility(View.VISIBLE);
                 rootView.findViewById(R.id.susie_nothing).setVisibility(View.GONE);
-                rootView.findViewById(R.id.susie_button).setVisibility(View.GONE);
             } catch (Exception ignored) {
             }
             for (int i = 0; i < susies.size(); ++i) {
@@ -76,7 +75,7 @@ public class ActivitiesFragment extends Fragment {
             try {
                 rootView.findViewById(R.id.susies_list).setVisibility(View.GONE);
                 rootView.findViewById(R.id.susie_nothing).setVisibility(View.VISIBLE);
-                rootView.findViewById(R.id.susie_button).setVisibility(View.VISIBLE);
+                rootView.findViewById(R.id.susies_progress).setVisibility(View.GONE);
             } catch (Exception ignored) {
             }
         }
