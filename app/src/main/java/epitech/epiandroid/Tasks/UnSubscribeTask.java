@@ -54,7 +54,7 @@ public class UnSubscribeTask extends AsyncTask<Void, Void, Boolean> {
 			MyRequest.addField("codeacti", this.codeacti);
 			MyRequest.addField("codeevent", this.codeevent);
 
-			MyRequest.CreatePost("project");
+			MyRequest.CreateGet("project");
 
             if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
                 responseString = MyRequest.getResponseString();
@@ -80,6 +80,7 @@ public class UnSubscribeTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(final Boolean success) {
         super.onPostExecute(success);
 
+        //Log.e("DEBUG", responseString);
 		Toast.makeText(this.ctx, this.ctx.getResources().getString(R.string.unsubscribe, this.codeacti), Toast.LENGTH_LONG).show();
 
         this.cancel(true);

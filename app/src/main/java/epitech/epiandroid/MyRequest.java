@@ -10,8 +10,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpParams;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -30,7 +33,7 @@ public class MyRequest {
     public static MyRequest     getInstance() {
         return ourInstance;
     }
-    private static ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+    public static ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
     private static void InitHttpClient() {
         try {
@@ -44,6 +47,21 @@ public class MyRequest {
 
     private MyRequest() {
         MyRequest.InitHttpClient();
+    }
+
+    public static HttpResponse CreateGet(String function) {
+        String myFinalString = "";
+        for (int i = 0; i < MyRequest.nameValuePairs.size(); ++i) {
+            myFinalString += MyRequest.nameValuePairs.get(i).getName() + "=" + MyRequest.nameValuePairs.get(i).getValue() + "&";
+        }
+        MyRequest.get = new HttpGet(MyRequest.baseUrl + function + "?" + myFinalString);
+        try {
+            MyRequest.response = httpclient.execute(get);
+            MyRequest.clearFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (MyRequest.response);
     }
 
     public static HttpResponse CreatePost(String function) {
@@ -67,7 +85,7 @@ public class MyRequest {
             out.close();
             try {
                 MyRequest.response.getEntity().getContent().close();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         } catch (Exception e) {
             e.printStackTrace();

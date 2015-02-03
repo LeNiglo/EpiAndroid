@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import epitech.epiandroid.Activity.DrawerActivity;
 import epitech.epiandroid.Databases.LoginTable;
@@ -56,7 +57,7 @@ public class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
 			MyRequest.addField("codeacti", this.codeacti);
 			MyRequest.addField("codeevent", this.codeevent);
 
-			MyRequest.CreatePost("project");
+			MyRequest.CreateGet("project");
 
             if (MyRequest.isStatusOk() || MyRequest.isStatusUnauthorized()) {
                 responseString = MyRequest.getResponseString();
@@ -82,7 +83,18 @@ public class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(final Boolean success) {
         super.onPostExecute(success);
 
-		Toast.makeText(this.ctx, this.ctx.getResources().getString(R.string.subscribe, this.codeacti), Toast.LENGTH_LONG).show();
+        //Log.e("DEBUG", responseString);
+        JSONObject json;
+        try {
+            json = new JSONObject(responseString);
+            if (json.has("error")) {
+                Toast.makeText(this.ctx, json.getString("error"), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this.ctx, this.ctx.getResources().getString(R.string.subscribe, this.codeacti), Toast.LENGTH_LONG).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 		this.cancel(true);
     }
