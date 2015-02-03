@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText3"
+		android:maxLength="8"
+        android:id="@+id/validate_token"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
