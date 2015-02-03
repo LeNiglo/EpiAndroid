@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import epitech.epiandroid.Activity.DrawerActivity;
 import epitech.epiandroid.Activity.LoginActivity;
+import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
 
@@ -29,17 +30,20 @@ public class TokenTask extends AsyncTask<Void, Void, Boolean> {
     private String codemodule;
     private String codeinstance;
     private String codeacti;
+    private String codeevent;
     private String code;
     private Context ctx;
     private String responseString = null;
     private Activity activity;
 
-    public TokenTask(String token, String scolaryear, String codemodule, String codeinstance, String codeacti, String code, Context ctx, Activity activity) {
-        this.token = token;
-        this.scolaryear = scolaryear;
+    public TokenTask(String scolaryear, String codemodule, String codeinstance, String codeacti, String codeevent, String code, Context ctx, Activity activity) {
+		LoginTable infos = LoginTable.listAll(LoginTable.class).get(0);
+		this.token = infos.getToken();
+		this.scolaryear = scolaryear;
         this.codemodule = codemodule;
         this.codeinstance = codeinstance;
         this.codeacti = codeacti;
+		this.codeevent = codeevent;
         this.code = code;
         this.ctx = ctx;
         this.activity = activity;
@@ -57,7 +61,8 @@ public class TokenTask extends AsyncTask<Void, Void, Boolean> {
 			MyRequest.addField("codemodule", this.codemodule);
 			MyRequest.addField("codeinstance", this.codeinstance);
 			MyRequest.addField("codeacti", this.codeacti);
-			MyRequest.addField("code", this.code);
+			MyRequest.addField("codeevent", this.codeevent);
+			MyRequest.addField("tokenvalidationcode", this.code);
 
 			MyRequest.CreatePost("token");
 
@@ -79,7 +84,6 @@ public class TokenTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
-        Log.v(TAG, "index=" + responseString);
         return true;
     }
 
@@ -91,7 +95,6 @@ public class TokenTask extends AsyncTask<Void, Void, Boolean> {
         JSONObject json;
 
 		Log.v("Validate Token", responseString);
-        // check si le retour est bien du json
         try {
             json = new JSONObject(responseString);
             // check si il y a bien un token
@@ -99,19 +102,21 @@ public class TokenTask extends AsyncTask<Void, Void, Boolean> {
                 token = json.getString("token");
                 err = false;
             } else if (json.has("error")) {
-                token = ((JSONObject)json.get("error")).getString("message");
+                token = json.getString("error");
                 Toast.makeText(ctx, token, Toast.LENGTH_SHORT).show();
             } else {
                 token = "non handled error.";
             }
         } catch (JSONException e) {
             token = "Internal server error";
-            Toast.makeText(ctx, "Internal server error", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, token, Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
 
         if (!err) {
-            Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
+			Toast.makeText(this.ctx, this.ctx.getResources().getString(R.string.token_done, this.codeacti), Toast.LENGTH_LONG).show();
+
+			Intent i = new Intent(activity.getApplicationContext(), DrawerActivity.class);
             i.putExtra("token", token);
             activity.startActivity(i);
         }

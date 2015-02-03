@@ -10,5 +10,6 @@
 		<item name="colorPrimary">#ff005DA1</item>
 		<item name="colorPrimaryDark">#ff001A60</item>
 		<item name="colorAccent">@color/grey_1000</item>
+        <item name="singleAccount">true</item>
 	</style>
 </resources>

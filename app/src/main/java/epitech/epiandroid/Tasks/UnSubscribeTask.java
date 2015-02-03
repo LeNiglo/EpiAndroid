@@ -2,7 +2,6 @@ package epitech.epiandroid.Tasks;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,7 +11,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import epitech.epiandroid.Activity.DrawerActivity;
 import epitech.epiandroid.Databases.LoginTable;
 import epitech.epiandroid.MyRequest;
 import epitech.epiandroid.R;
@@ -21,7 +19,7 @@ import epitech.epiandroid.R;
  * Created by Styve on 12/01/2015.
  */
 
-public class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
+public class UnSubscribeTask extends AsyncTask<Void, Void, Boolean> {
     private String token;
     private String scolaryear;
     private String codemodule;
@@ -32,7 +30,7 @@ public class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
     private String responseString = null;
     private Activity activity;
 
-	public SubscribeTask(String scolaryear, String codemodule, String codeinstance, String codeacti, String codeevent, Context ctx, Activity activity) {
+	public UnSubscribeTask(String scolaryear, String codemodule, String codeinstance, String codeacti, String codeevent, Context ctx, Activity activity) {
 		LoginTable infos = LoginTable.listAll(LoginTable.class).get(0);
 		this.token = infos.getToken();
 		this.scolaryear = scolaryear;
@@ -82,8 +80,8 @@ public class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(final Boolean success) {
         super.onPostExecute(success);
 
-		Toast.makeText(this.ctx, this.ctx.getResources().getString(R.string.subscribe, this.codeacti), Toast.LENGTH_LONG).show();
+		Toast.makeText(this.ctx, this.ctx.getResources().getString(R.string.unsubscribe, this.codeacti), Toast.LENGTH_LONG).show();
 
-		this.cancel(true);
+        this.cancel(true);
     }
 }
