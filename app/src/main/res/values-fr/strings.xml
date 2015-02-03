@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EpiAndroid</string>
+    <string name="loginText">identifiant_u</string>
+    <string name="passwordText">Mot de Passe (UNIX)</string>
+    <string name="loginButton">Connexion</string>
+    <string name="loginComplete">Bienvenue !</string>
+    <string name="loginError">Erreur</string>
+    <string name="loginFailedError">Mot de Passe incorrect.</string>
+    <string name="loginServerError">Erreur Serveur</string>
+    <string name="loginStateText">Bienvenue</string>
+
+    <array name="nav_drawer_items">
+        <item>Profil</item>
+        <item>Projets</item>
+        <item>Planning</item>
+        <item>Activitées</item>
+        <item>Notes</item>
+    </array>
+
+    <string name="semester">Semestre</string>
+    <string name="logtime_insufficient_warn1">Votre temps de log est inférieur à la normale !</string>
+    <string name="logtime_insufficient_warn2">Votre temps de log n\'est pas suffisant. Faites des efforts !</string>
+    <string name="logtime_sufficient">Votre temps de log est suffisant. Reposez vous en paix.</string>
+
+    <string name="ask_quit">Quitter l\'application.</string>
+    <string name="ask_sure">Etes-vous sûr ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+
+	<string name="login_empty">Identifiant ou Mot de Passe manquant.</string>
+	<string name="login_quit">Appuyez une seconde fois pour quitter.</string>
+
+    <string name="next_susie">Ma prochaine SUSIE</string>
+    <string name="register_to_susie">Avoir une SUSIE</string>
+    <string name="next_activity">Ma prochaine Activité</string>
+    <string name="next_submissions">Mon prochain rendez-vous</string>
+    <string name="nothing_to_show">Rien à afficher !</string>
+
+    <string name="from">De</string>
+    <string name="to">à</string>
+
+    <string name="share_via">Partager par&#8230;</string>
+    <string name="share_title">Epiandroid - Je partage ma note avec toi !</string>
+    <string name="share_body">Salut ! J\'ai eu %1$s pour le projet \"%2$s\".\n - Partagé depuis EpiAndroid</string>
+
+    <string name="action_settings">Paramètres</string>
+    <string name="token_title">Validez votre Token</string>
+    <string name="token_validate">Validez</string>
+    <string name="refresh">Rafraichir</string>
+
+	<string name="prev_week">Prec</string>
+	<string name="next_week">Suiv</string>
+
+    <string name="planning_token">Token</string>
+    <string name="planning_register">S\'inscrire</string>
+    <string name="planning_unregister">Se désinscrire</string>
+    <string name="planning_nothing">Rien</string>
+    <string name="planning_present">Présent</string>
+    <string name="ok">ok</string>
+
+</resources>

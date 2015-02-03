@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -50,7 +51,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
         projectsSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[1], new ProjetsFragment());
         planningSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[2], new PlanningFragment());
         activitiesSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[3], new ActivitiesFragment());
-        marksSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[5], new NotesFragment());
+        marksSection = this.newSection(getResources().getStringArray(R.array.nav_drawer_items)[4], new NotesFragment());
         logoutSection = this.newSection("Logout", new MaterialSectionListener() {
             @Override
             public void onClick(MaterialSection section) {
@@ -71,6 +72,7 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
                 account.setTitle(infos.getLogin());
                 account.setSubTitle(infos.getFirstName() + " " + infos.getLastName().toUpperCase());
                 Picasso.with(this.getApplicationContext()).load(infos.getPicUrl()).into((ImageView) findViewById(R.id.user_photo));
+                Log.e("Debug", infos.getPicUrl());
                 this.notifyAccountDataChanged();
             }
         }
@@ -116,8 +118,8 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("☣ → [ ] ?");
-        alert.setMessage(getResources().getString(R.string.ask_quit));
+        alert.setTitle(getResources().getString(R.string.ask_quit));
+        alert.setMessage(getResources().getString(R.string.ask_sure));
 
         alert.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
