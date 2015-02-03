@@ -3,19 +3,28 @@ package epitech.epiandroid.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import epitech.epiandroid.R;
 import epitech.epiandroid.Tasks.MessagesTask;
@@ -84,15 +93,63 @@ public class ProjetsFragment extends Fragment {
 
             TextView text = (TextView) convertView.findViewById(R.id.submission_title);
             TextView start = (TextView) convertView.findViewById(R.id.start);
-            TextView end = (TextView) convertView.findViewById(R.id.end);
+            TextView difftext = (TextView) convertView.findViewById(R.id.difftext);
             TextView module = (TextView) convertView.findViewById(R.id.title_module);
+
+
+
 
             try {
                 text.setText(list.get(position).get("project").toString());
                 text.setText(list.get(position).get("project").toString());
 
-                start.setText(getActivity().getResources().getString(R.string.from) + " " + tmpboj.getString("begin_acti").substring(0, 10) );
-                end.setText(getActivity().getResources().getString(R.string.to) + " " + tmpboj.getString("end_acti").substring(0, 10) );
+
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                Date d = new Date();
+                Date d2 = new Date();
+
+                try {
+                    d = sdf.parse(tmpboj.getString("begin_acti").substring(0, 10));
+                    d2 = sdf.parse(tmpboj.getString("end_acti").substring(0, 10));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+                Date date= new java.util.Date();
+                long now = System.currentTimeMillis();
+//                long progress = (d.getTime() / 100000) * 100 / (d2.getTime() / 100000);
+
+
+                long total = d2.getTime() - d.getTime();
+                long diffnow =  now - d.getTime();
+
+                long days = TimeUnit.MILLISECONDS.toDays(diffnow);
+
+                //long progress = (d.getTime()) * 100 / ();
+                long progress = diffnow * 100 / total;
+
+
+                if (progress < 0)
+                    progress = 0;
+
+               // Log.e("PROG", String.valueOf(progress));
+                float st = (float) progress / 100;
+               // float st2 = (float) (1 - st - 0.001);
+
+                Log.e("PROG1", String.valueOf(st));
+              // Log.e("PROG2", String.valueOf(st2));
+
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.weight = st;
+                start.setLayoutParams(params);
+
+
+                difftext.setText(String.valueOf("il vous reste"));
 
                 module.setText(tmpboj.getString("title_module"));
 

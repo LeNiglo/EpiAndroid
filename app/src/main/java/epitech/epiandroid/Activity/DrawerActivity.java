@@ -151,7 +151,6 @@ public class DrawerActivity extends MaterialNavigationDrawer<Fragment> implement
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-
             return true;
         }
 
