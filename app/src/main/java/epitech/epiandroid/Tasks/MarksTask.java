@@ -115,11 +115,12 @@ public class MarksTask extends AsyncTask<Void, Void, Boolean> {
                         mark.setProjectName(tmp.getString("title"));
                         mark.setContainerColor(color);
                         mark.setModuleImage(R.drawable.module);
+                        mark.setCorrector(tmp.getString("correcteur"));
                         mark.save();
                         activity.runOnUiThread(new Runnable(){
                             @Override
                             public void run(){
-                                adapter.add(new MarksItem(mark.getNote(), mark.getModuleName(), mark.getProjectName(), mark.getContainerColor(), mark.getModuleImage()));
+                                adapter.add(new MarksItem(mark.getNote(), mark.getModuleName(), mark.getProjectName(), mark.getCorrector(), mark.getContainerColor(), mark.getModuleImage()));
                                 adapter.notifyDataSetChanged();
                             }
                         });

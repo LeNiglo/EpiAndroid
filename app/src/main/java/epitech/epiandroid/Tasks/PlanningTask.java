@@ -110,7 +110,7 @@ public class PlanningTask extends AsyncTask<Void, Void, Boolean> {
 				for (int i = 0; i < json.length(); ++i) {
 					JSONObject tmp;
 					if ((tmp = json.getJSONObject(i)) != null) {
-						if (tmp.getBoolean("module_registered")) {
+						if (tmp.has("module_registered") && tmp.getBoolean("module_registered")) {
 							userPlanning.add(new PlanningItem(tmp.getString("acti_title"),
                                     tmp.getString("start") + " " + tmp.getString("end"),
                                     tmp.getString("codemodule"),

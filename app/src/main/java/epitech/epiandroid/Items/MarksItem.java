@@ -7,26 +7,23 @@ public class MarksItem {
     private String mNote;
     private String mModuleName;
     private String mProjectName;
+    private String mCorrector;
     private int mContainerColor;
     private int mModuleImage;
 
-    public MarksItem(String note, String moduleName, String projectName, int containerColor, int moduleImage) {
+    public MarksItem(String note, String moduleName, String projectName, String corrector, int containerColor, int moduleImage) {
         mNote = note;
         mModuleName = moduleName;
         mProjectName = projectName;
         mModuleImage = moduleImage;
+        mCorrector = corrector;
         mContainerColor = containerColor;
     }
-
-    public void setNote(String note) { mNote = note; }
-    public void setModuleName(String name) { mModuleName = name; }
-    public void setProjectName(String name) { mProjectName = name; }
-    public void setmModuleImage(int d) { mModuleImage = d; }
-    public void setContainerColor(int color) { mContainerColor = color; }
 
     public String getNote() { return mNote; }
     public String getModuleName() { return mModuleName; }
     public String getProjectName() { return mProjectName; }
+    public String getCorrector() { return mCorrector; }
     public int getModuleImage() { return mModuleImage; }
     public int getContainerColor() { return mContainerColor; }
 }

@@ -44,6 +44,7 @@ public class MarksAdapter extends ArrayAdapter<MarksItem> {
         if (p != null) {
             FrameLayout container = (FrameLayout) v.findViewById(R.id.note_container);
             TextView note = (TextView) v.findViewById(R.id.project_note);
+            TextView corrector = (TextView) v.findViewById(R.id.project_corrector);
             TextView projectName = (TextView) v.findViewById(R.id.project_name);
             TextView moduleName = (TextView) v.findViewById(R.id.module_name);
             ImageView image = (ImageView) v.findViewById(R.id.module_image);
@@ -62,6 +63,9 @@ public class MarksAdapter extends ArrayAdapter<MarksItem> {
             }
             if (image != null) {
                 image.setImageDrawable(getContext().getResources().getDrawable(p.getModuleImage()));
+            }
+            if (corrector != null) {
+                corrector.setText(p.getCorrector());
             }
         }
         return v;

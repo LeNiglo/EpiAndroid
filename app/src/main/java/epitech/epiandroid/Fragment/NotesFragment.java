@@ -88,7 +88,7 @@ public class NotesFragment extends Fragment {
     }
 
     public void onMarkAdded(final Marks mark) {
-        ((MarksAdapter) customAdapter).add(new MarksItem(mark.getNote(), mark.getModuleName(), mark.getProjectName(), mark.getContainerColor(), mark.getModuleImage()));
+        ((MarksAdapter) customAdapter).add(new MarksItem(mark.getNote(), mark.getModuleName(), mark.getProjectName(), mark.getCorrector(), mark.getContainerColor(), mark.getModuleImage()));
     }
 
     public void onMarksDisplayed() {
